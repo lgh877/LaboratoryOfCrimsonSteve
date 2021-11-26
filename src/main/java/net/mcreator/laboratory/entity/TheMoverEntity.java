@@ -124,19 +124,24 @@ public class TheMoverEntity extends LaboratoryModElements.ModElement {
 		@Override
 		protected void registerGoals() {
 			super.registerGoals();
-			this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1, false));
-			/*
-			 * {
-			 * 
-			 * @Override public boolean shouldExecute() { return super.shouldExecute() &&
-			 * !CustomEntity.this.isHandActive(); }
-			 * 
-			 * @Override public void resetTask() { super.resetTask();
-			 * CustomEntity.this.setSprinting(false); }
-			 * 
-			 * @Override public void tick() { super.tick();
-			 * CustomEntity.this.setSprinting(true); } });
-			 */
+			this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1, false) {
+				@Override
+				public boolean shouldExecute() {
+					return super.shouldExecute() && !CustomEntity.this.isHandActive();
+				}
+
+				@Override
+				public void resetTask() {
+					super.resetTask();
+					CustomEntity.this.setSprinting(false);
+				}
+
+				@Override
+				public void tick() {
+					super.tick();
+					CustomEntity.this.setSprinting(true);
+				}
+			});
 			this.goalSelector.addGoal(2, new LabMoveAttackGoal<>(this, 1.5D, 50, 30));
 			this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, false, (p_234199_0_) -> {
 				return !(p_234199_0_ instanceof TheMoverEntity.CustomEntity);

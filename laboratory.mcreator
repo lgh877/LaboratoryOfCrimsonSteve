@@ -459,6 +459,40 @@
       "ids": {},
       "registry_name": "mr_block",
       "path": "~/SimpleMobs"
+    },
+    {
+      "name": "Dsa",
+      "type": "procedure",
+      "sortid": 46,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "dsa",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          },
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          },
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      },
+      "path": "~/SimpleMobs"
     }
   ],
   "variable_elements": [],
@@ -531,10 +565,10 @@
       "subtitles.stupid_idle": "",
       "item.laboratory.teleporting_tool": "Teleporting Tool",
       "item.laboratory.mr_dummy_spawning_tool": "Mr Dummy Spawning Tool",
-      "entity.laboratory.mr_block": "Mr Block",
       "item.laboratory.ghost_steve_spawn_egg": "Ghost Steve Spawn Egg",
-      "entity.laboratory.returned_spectrite_steve": "Returned Spectrite Steve",
+      "entity.laboratory.mr_block": "Mr Block",
       "item.laboratory.mr_stretch_spawn_egg": "Mr Stretch Spawn Egg",
+      "entity.laboratory.returned_spectrite_steve": "Returned Spectrite Steve",
       "subtitles.stupid_hurt": "",
       "subtitles.hitbox_hit": "",
       "entity.laboratory.mr_strange": "Mr Strange",

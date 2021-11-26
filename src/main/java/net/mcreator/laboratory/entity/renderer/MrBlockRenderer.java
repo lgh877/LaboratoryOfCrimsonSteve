@@ -46,6 +46,7 @@ public class MrBlockRenderer {
 					public void render(Entity e, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn,
 							int packedLightIn) {
 						MobEntity entityL = (MobEntity) e;
+						matrixStackIn.scale(2, 2, 2);
 						if (entityL.swingProgress > 0) {
 							if (!entityL.isLeftHanded()) {
 								((BipedModel) this.getEntityModel()).rightArmPose = BipedModel.ArmPose.BLOCK;

@@ -14,7 +14,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.World;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -27,6 +29,7 @@ import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.PathFinder;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.network.IPacket;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
@@ -39,8 +42,10 @@ import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityClassification;
@@ -51,6 +56,8 @@ import net.minecraft.block.Block;
 
 import net.mcreator.laboratory.entity.renderer.MrBlockRenderer;
 import net.mcreator.laboratory.LaboratoryModElements;
+
+import javax.annotation.Nullable;
 
 @LaboratoryModElements.ModElement.Tag
 public class MrBlockEntity extends LaboratoryModElements.ModElement {
@@ -154,6 +161,14 @@ public class MrBlockEntity extends LaboratoryModElements.ModElement {
 			}
 		}
 
+		@Nullable
+		public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason,
+				@Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+			this.recenterBoundingBox();
+			this.recalculateSize();
+			return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+		}
+
 		@Override
 		public CreatureAttribute getCreatureAttribute() {
 			return CreatureAttribute.UNDEFINED;
@@ -174,7 +189,7 @@ public class MrBlockEntity extends LaboratoryModElements.ModElement {
 			}
 
 			protected double getAttackReachSqr(LivingEntity attackTarget) {
-				float f = CustomEntity.this.getWidth() * 2;
+				float f = CustomEntity.this.getWidth() * 4;
 				return (double) (f * 2.0F * f * 2.0F + attackTarget.getWidth());
 			}
 		}
