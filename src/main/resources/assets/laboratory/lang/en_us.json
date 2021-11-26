@@ -20,7 +20,6 @@
   "item.laboratory.poop": "Poop",
   "advancements.mr_dummy_recipe_achievement.descr": "Are you boring? Then this would be good for you!",
   "subtitles.steve_hurt": "",
-  "item.laboratory.dfsa_spawn_egg": "Dfsa Spawn Egg",
   "item.laboratory.returned_spectrite_steve_spawn_egg": "Returned Spectrite Steve Spawn Egg",
   "item.laboratory.the_mover_spawn_egg": "The Mover Spawn Egg",
   "entity.laboratory.mr_dummy": "Mr Dummy",
@@ -30,6 +29,5 @@
   "item.laboratory.dirt": "Dirt",
   "item.laboratory.soul_smoke_projectile": "Soul Smoke Projectile",
   "item.laboratory.mr_dummy_spawn_egg": "Mr Dummy Spawn Egg",
-  "subtitles.stupid_death": "",
-  "entity.laboratory.dfsa": "Dfsa"
+  "subtitles.stupid_death": ""
 }

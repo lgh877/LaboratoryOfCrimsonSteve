@@ -17,6 +17,7 @@ import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.World;
 import net.minecraft.world.BossInfo;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.DamageSource;
@@ -144,9 +145,9 @@ public class AnnoyingMobEntity extends LaboratoryModElements.ModElement {
 		@Override
 		public net.minecraft.util.SoundEvent getHurtSound(DamageSource ds) {
 			if (this.getAbsorptionAmount() <= 1 && this.getAbsorptionAmount() != 0)
-				return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.zombie.break_wooden_door"));
+				return SoundEvents.ENTITY_ZOMBIE_ATTACK_WOODEN_DOOR;
 			else if (this.getAbsorptionAmount() > 0)
-				return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.zombie.attack_iron_door"));
+				return SoundEvents.ENTITY_ZOMBIE_ATTACK_IRON_DOOR;
 			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("laboratory:stupid_hurt"));
 		}
 
