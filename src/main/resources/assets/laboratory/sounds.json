@@ -1,0 +1,112 @@
+{
+  "steve_hurt": {
+    "category": "hostile",
+    "sounds": [
+      {
+        "name": "laboratory:steve_hurt",
+        "stream": false
+      }
+    ]
+  },
+  "stupid_idle": {
+    "category": "hostile",
+    "sounds": [
+      {
+        "name": "laboratory:evilcreature1",
+        "stream": false
+      },
+      {
+        "name": "laboratory:evilcreature2",
+        "stream": false
+      },
+      {
+        "name": "laboratory:evilcreature3",
+        "stream": false
+      },
+      {
+        "name": "laboratory:evilcreature4",
+        "stream": false
+      },
+      {
+        "name": "laboratory:evilcreature5",
+        "stream": false
+      },
+      {
+        "name": "laboratory:evilcreature6",
+        "stream": false
+      },
+      {
+        "name": "laboratory:evilcreature7",
+        "stream": false
+      }
+    ]
+  },
+  "stupid_death": {
+    "category": "hostile",
+    "sounds": [
+      {
+        "name": "laboratory:evilcreaturedeath1",
+        "stream": false
+      },
+      {
+        "name": "laboratory:evilcreaturedeath2",
+        "stream": false
+      }
+    ]
+  },
+  "stupid_hurt": {
+    "category": "hostile",
+    "sounds": [
+      {
+        "name": "laboratory:evilhurt1",
+        "stream": false
+      },
+      {
+        "name": "laboratory:evilhurt2",
+        "stream": false
+      },
+      {
+        "name": "laboratory:evilhurt3",
+        "stream": false
+      },
+      {
+        "name": "laboratory:evilhurt4",
+        "stream": false
+      },
+      {
+        "name": "laboratory:evilhurt5",
+        "stream": false
+      }
+    ]
+  },
+  "hitbox_hit": {
+    "category": "hostile",
+    "sounds": [
+      {
+        "name": "laboratory:hit1",
+        "stream": false
+      },
+      {
+        "name": "laboratory:hit2",
+        "stream": false
+      },
+      {
+        "name": "laboratory:hit3",
+        "stream": false
+      },
+      {
+        "name": "laboratory:hit4",
+        "stream": false
+      }
+    ]
+  },
+  "spectrite_steve_hurt": {
+    "category": "hostile",
+    "sounds": [
+      {
+        "name": "laboratory:hurt",
+        "stream": false
+      }
+    ]
+  }
+}

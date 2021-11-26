@@ -1,0 +1,38 @@
+{
+  "_fv": 24,
+  "_type": "tag",
+  "definition": {
+    "type": "Entities",
+    "items": [],
+    "blocks": [],
+    "functions": [],
+    "entities": [
+      {
+        "value": "CUSTOM:GhostSteve"
+      },
+      {
+        "value": "CUSTOM:MrStrange"
+      },
+      {
+        "value": "CUSTOM:Stevoker"
+      },
+      {
+        "value": "CUSTOM:TheMover"
+      },
+      {
+        "value": "EntityHusk"
+      },
+      {
+        "value": "EntityIllusionIllager"
+      },
+      {
+        "value": "EntityZombie"
+      },
+      {
+        "value": "EntityZombieVillager"
+      }
+    ],
+    "name": "raiders",
+    "namespace": "minecraft"
+  }
+}

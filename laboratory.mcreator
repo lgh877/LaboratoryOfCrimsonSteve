@@ -1,0 +1,644 @@
+{
+  "id_map": {},
+  "mod_elements": [
+    {
+      "name": "TeleportingToolWhileBulletFlyingTick",
+      "type": "procedure",
+      "sortid": 1,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "teleporting_tool_while_bullet_flying_tick",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          },
+          {
+            "name": "imediatesourceentity",
+            "type": "entity"
+          },
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          },
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      },
+      "path": "~/AnnoyingMob"
+    },
+    {
+      "name": "TeleportingTool",
+      "type": "rangeditem",
+      "sortid": 1,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "teleporting_tool",
+      "path": "~/AnnoyingMob"
+    },
+    {
+      "name": "AnnoyingMob",
+      "type": "livingentity",
+      "sortid": 3,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "annoying_mob",
+      "path": "~/AnnoyingMob"
+    },
+    {
+      "name": "TeleportingToolBulletHitsBlock",
+      "type": "procedure",
+      "sortid": 4,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "teleporting_tool_bullet_hits_block",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          },
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          }
+        ]
+      },
+      "path": "~/AnnoyingMob"
+    },
+    {
+      "name": "TeleportingToolBulletHitsLivingEntity",
+      "type": "procedure",
+      "sortid": 5,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "teleporting_tool_bullet_hits_living_entity",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "sourceentity",
+            "type": "entity"
+          },
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          }
+        ]
+      },
+      "path": "~/AnnoyingMob"
+    },
+    {
+      "name": "AnnoyingMobOnEntityTickUpdate",
+      "type": "procedure",
+      "sortid": 6,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "annoying_mob_on_entity_tick_update",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          },
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          },
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      },
+      "path": "~/AnnoyingMob"
+    },
+    {
+      "name": "Dirt",
+      "type": "rangeditem",
+      "sortid": 7,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "dirt",
+      "path": "~/AnnoyingMob"
+    },
+    {
+      "name": "GadsgNaturalEntitySpawningCondition",
+      "type": "procedure",
+      "sortid": 8,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "gadsg_natural_entity_spawning_condition",
+      "metadata": {
+        "return_type": "logic",
+        "dependencies": []
+      },
+      "path": "~/AnnoyingMob"
+    },
+    {
+      "name": "AnnoyingMobLootTable",
+      "type": "loottable",
+      "sortid": 9,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "annoying_mob_loot_table",
+      "path": "~/AnnoyingMob"
+    },
+    {
+      "name": "MrDummy",
+      "type": "livingentity",
+      "sortid": 10,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "mr_dummy",
+      "path": "~/DamageDummy"
+    },
+    {
+      "name": "MrDummySpawningTool",
+      "type": "item",
+      "sortid": 11,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "mr_dummy_spawning_tool",
+      "path": "~/DamageDummy"
+    },
+    {
+      "name": "MrDummyRecipe",
+      "type": "recipe",
+      "sortid": 12,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "mr_dummy_recipe",
+      "path": "~/DamageDummy"
+    },
+    {
+      "name": "MrDummyRecipeAchievement",
+      "type": "achievement",
+      "sortid": 12,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "mr_dummy_recipe_achievement",
+      "path": "~/DamageDummy"
+    },
+    {
+      "name": "DumbFace",
+      "type": "particle",
+      "sortid": 13,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "dumb_face",
+      "path": "~/AnnoyingMob"
+    },
+    {
+      "name": "DumbFaceParticleSpawn",
+      "type": "procedure",
+      "sortid": 14,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "dumb_face_particle_spawn",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          },
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      },
+      "path": "~/AnnoyingMob"
+    },
+    {
+      "name": "MrStretch",
+      "type": "livingentity",
+      "sortid": 20,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "mr_stretch",
+      "path": "~/Mr_Stretch"
+    },
+    {
+      "name": "ReturnedSpectriteSteve",
+      "type": "livingentity",
+      "sortid": 21,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "returned_spectrite_steve",
+      "path": "~/ReturnedSpectriteSteve"
+    },
+    {
+      "name": "RainbowDumbFace",
+      "type": "particle",
+      "sortid": 22,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "rainbow_dumb_face",
+      "path": "~/ReturnedSpectriteSteve"
+    },
+    {
+      "name": "ChimeraTableGUI",
+      "type": "gui",
+      "sortid": 23,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "chimera_table_gui",
+      "path": "~/chimera"
+    },
+    {
+      "name": "PoopLivingEntityIsHitWithTool",
+      "type": "procedure",
+      "sortid": 25,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "poop_living_entity_is_hit_with_tool",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Poop",
+      "type": "tool",
+      "sortid": 25,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "poop"
+    },
+    {
+      "name": "LaboratoryWatchTargetGoal",
+      "type": "code",
+      "sortid": 34,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "laboratory_watch_target_goal"
+    },
+    {
+      "name": "GhostSteve",
+      "type": "livingentity",
+      "sortid": 35,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "ghost_steve",
+      "path": "~/GhostSteve"
+    },
+    {
+      "name": "SoulSmokeParticle",
+      "type": "particle",
+      "sortid": 36,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "soul_smoke_particle",
+      "path": "~/GhostSteve"
+    },
+    {
+      "name": "SoulSmokeProjectileWhileBulletFlyingTick",
+      "type": "procedure",
+      "sortid": 37,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "soul_smoke_projectile_while_bullet_flying_tick",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          },
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SoulSmokeProjectile",
+      "type": "rangeditem",
+      "sortid": 37,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "soul_smoke_projectile",
+      "path": "~/GhostSteve"
+    },
+    {
+      "name": "MrStrange",
+      "type": "livingentity",
+      "sortid": 40,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "mr_strange",
+      "path": "~/MrStrange"
+    },
+    {
+      "name": "LabMoveAttackGoal",
+      "type": "code",
+      "sortid": 41,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "lab_move_attack_goal",
+      "path": "~/MoveAttackTestMob"
+    },
+    {
+      "name": "TheMover",
+      "type": "livingentity",
+      "sortid": 42,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "the_mover",
+      "path": "~/MoveAttackTestMob"
+    },
+    {
+      "name": "Stevoker",
+      "type": "livingentity",
+      "sortid": 43,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "stevoker",
+      "path": "~/SimpleMobs"
+    },
+    {
+      "name": "RaiderEntities",
+      "type": "tag",
+      "sortid": 44,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "raider_entities"
+    },
+    {
+      "name": "MrBlock",
+      "type": "livingentity",
+      "sortid": 45,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "mr_block",
+      "path": "~/SimpleMobs"
+    },
+    {
+      "name": "Dfsa",
+      "type": "livingentity",
+      "sortid": 46,
+      "compiles": true,
+      "locked_code": true,
+      "ids": {},
+      "registry_name": "dfsa",
+      "path": "~/SimpleMobs"
+    }
+  ],
+  "variable_elements": [],
+  "sound_elements": [
+    {
+      "name": "steve_hurt",
+      "files": [
+        "steve_hurt"
+      ],
+      "category": "hostile",
+      "subtitle": ""
+    },
+    {
+      "name": "stupid_idle",
+      "files": [
+        "evilcreature1",
+        "evilcreature2",
+        "evilcreature3",
+        "evilcreature4",
+        "evilcreature5",
+        "evilcreature6",
+        "evilcreature7"
+      ],
+      "category": "hostile",
+      "subtitle": ""
+    },
+    {
+      "name": "stupid_death",
+      "files": [
+        "evilcreaturedeath1",
+        "evilcreaturedeath2"
+      ],
+      "category": "hostile",
+      "subtitle": ""
+    },
+    {
+      "name": "stupid_hurt",
+      "files": [
+        "evilhurt1",
+        "evilhurt2",
+        "evilhurt3",
+        "evilhurt4",
+        "evilhurt5"
+      ],
+      "category": "hostile",
+      "subtitle": ""
+    },
+    {
+      "name": "hitbox_hit",
+      "files": [
+        "hit1",
+        "hit2",
+        "hit3",
+        "hit4"
+      ],
+      "category": "hostile",
+      "subtitle": ""
+    },
+    {
+      "name": "spectrite_steve_hurt",
+      "files": [
+        "hurt"
+      ],
+      "category": "hostile",
+      "subtitle": ""
+    }
+  ],
+  "language_map": {
+    "en_us": {
+      "subtitles.stupid_idle": "",
+      "item.laboratory.teleporting_tool": "Teleporting Tool",
+      "item.laboratory.mr_dummy_spawning_tool": "Mr Dummy Spawning Tool",
+      "entity.laboratory.mr_block": "Mr Block",
+      "item.laboratory.ghost_steve_spawn_egg": "Ghost Steve Spawn Egg",
+      "entity.laboratory.returned_spectrite_steve": "Returned Spectrite Steve",
+      "item.laboratory.mr_stretch_spawn_egg": "Mr Stretch Spawn Egg",
+      "subtitles.stupid_hurt": "",
+      "subtitles.hitbox_hit": "",
+      "entity.laboratory.mr_strange": "Mr Strange",
+      "entity.laboratory.ghost_steve": "Ghost Steve",
+      "item.laboratory.mr_strange_spawn_egg": "Mr Strange Spawn Egg",
+      "subtitles.spectrite_steve_hurt": "",
+      "advancements.mr_dummy_recipe_achievement.title": "Mr Dummy Recipe",
+      "entity.laboratory.stevoker": "Stevoker",
+      "item.laboratory.stevoker_spawn_egg": "Stevoker Spawn Egg",
+      "item.laboratory.annoying_mob_spawn_egg": "Annoying Mob Spawn Egg",
+      "entity.laboratory.mr_stretch": "Mr Stretch",
+      "item.laboratory.poop": "Poop",
+      "advancements.mr_dummy_recipe_achievement.descr": "Are you boring? Then this would be good for you!",
+      "subtitles.steve_hurt": "",
+      "item.laboratory.dfsa_spawn_egg": "Dfsa Spawn Egg",
+      "item.laboratory.returned_spectrite_steve_spawn_egg": "Returned Spectrite Steve Spawn Egg",
+      "item.laboratory.the_mover_spawn_egg": "The Mover Spawn Egg",
+      "entity.laboratory.mr_dummy": "Mr Dummy",
+      "item.laboratory.mr_block_spawn_egg": "Mr Block Spawn Egg",
+      "entity.laboratory.annoying_mob": "Annoying Mob",
+      "entity.laboratory.the_mover": "The Mover",
+      "item.laboratory.dirt": "Dirt",
+      "item.laboratory.soul_smoke_projectile": "Soul Smoke Projectile",
+      "item.laboratory.mr_dummy_spawn_egg": "Mr Dummy Spawn Egg",
+      "subtitles.stupid_death": "",
+      "entity.laboratory.dfsa": "Dfsa"
+    }
+  },
+  "foldersRoot": {
+    "name": "~",
+    "children": [
+      {
+        "name": "AnnoyingMob",
+        "children": []
+      },
+      {
+        "name": "DamageDummy",
+        "children": []
+      },
+      {
+        "name": "Mr_Stretch",
+        "children": []
+      },
+      {
+        "name": "ReturnedSpectriteSteve",
+        "children": []
+      },
+      {
+        "name": "chimera",
+        "children": []
+      },
+      {
+        "name": "GhostSteve",
+        "children": []
+      },
+      {
+        "name": "CreeperGolem",
+        "children": []
+      },
+      {
+        "name": "BiomeOfChaos",
+        "children": []
+      },
+      {
+        "name": "MrStrange",
+        "children": []
+      },
+      {
+        "name": "MoveAttackTestMob",
+        "children": []
+      },
+      {
+        "name": "SimpleMobs",
+        "children": []
+      }
+    ]
+  },
+  "workspaceSettings": {
+    "modid": "laboratory",
+    "modName": "Laboratory",
+    "version": "1.3.0",
+    "author": "±ÔÇõ, MCreator",
+    "websiteURL": "https://mcreator.net",
+    "license": "Academic Free License v3.0",
+    "disableForgeVersionCheck": true,
+    "serverSideOnly": false,
+    "requiredMods": [],
+    "dependencies": [],
+    "dependants": [],
+    "mcreatorDependencies": [],
+    "currentGenerator": "forge-1.16.5",
+    "credits": "Created using mod CrimsonSteve MCreator - https://mcreator.net/about",
+    "modElementsPackage": "net.mcreator.laboratory",
+    "lockBaseModFiles": false
+  },
+  "mcreatorVersion": 202100236710
+}

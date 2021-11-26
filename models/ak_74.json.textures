@@ -1,0 +1,10 @@
+{
+  "mappings": {
+    "default": {
+      "map": {
+        "1": "textura_ak_74"
+      },
+      "name": "default"
+    }
+  }
+}

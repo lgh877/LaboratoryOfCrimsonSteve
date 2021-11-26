@@ -1,0 +1,42 @@
+{
+  "group": "laboratory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "012",
+    "345",
+    "678"
+  ],
+  "key": {
+    "0": {
+      "item": "minecraft:bone"
+    },
+    "1": {
+      "item": "minecraft:carved_pumpkin"
+    },
+    "2": {
+      "item": "minecraft:bone"
+    },
+    "3": {
+      "item": "minecraft:bread"
+    },
+    "4": {
+      "item": "minecraft:hay_block"
+    },
+    "5": {
+      "item": "minecraft:bread"
+    },
+    "6": {
+      "item": "minecraft:porkchop"
+    },
+    "7": {
+      "item": "minecraft:hay_block"
+    },
+    "8": {
+      "item": "minecraft:porkchop"
+    }
+  },
+  "result": {
+    "item": "laboratory:mr_dummy_spawning_tool",
+    "count": 1
+  }
+}

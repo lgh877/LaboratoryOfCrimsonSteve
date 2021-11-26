@@ -1,0 +1,46 @@
+{
+  "_fv": 24,
+  "_type": "recipe",
+  "definition": {
+    "recipeType": "Crafting",
+    "xpReward": 0.0,
+    "cookingTime": 200,
+    "recipeRetstackSize": 1,
+    "group": "",
+    "recipeShapeless": false,
+    "recipeSlots": [
+      {
+        "value": "Items.BONE"
+      },
+      {
+        "value": "Blocks.CARVED_PUMPKIN"
+      },
+      {
+        "value": "Items.BONE"
+      },
+      {
+        "value": "Items.BREAD"
+      },
+      {
+        "value": "Blocks.HAY_BLOCK"
+      },
+      {
+        "value": "Items.BREAD"
+      },
+      {
+        "value": "Items.PORKCHOP"
+      },
+      {
+        "value": "Blocks.HAY_BLOCK"
+      },
+      {
+        "value": "Items.PORKCHOP"
+      }
+    ],
+    "recipeReturnStack": {
+      "value": "CUSTOM:MrDummySpawningTool"
+    },
+    "name": "mr_dummy_recipe",
+    "namespace": "mod"
+  }
+}

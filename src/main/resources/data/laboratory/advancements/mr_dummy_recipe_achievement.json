@@ -1,0 +1,40 @@
+{
+  "display": {
+    "background": "minecraft:textures/block/stone.png",
+    "icon": {
+      "item": "laboratory:mr_dummy_spawning_tool"
+    },
+    "title": {
+      "translate": "advancements.mr_dummy_recipe_achievement.title"
+    },
+    "description": {
+      "translate": "advancements.mr_dummy_recipe_achievement.descr"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "mr_dummy_recipe_achievement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:carved_pumpkin",
+            "count": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 1,
+    "recipes": [
+      "laboratory:mr_dummy_recipe"
+    ]
+  }
+}
