@@ -142,7 +142,7 @@ public class TheMoverEntity extends LaboratoryModElements.ModElement {
 					CustomEntity.this.setSprinting(true);
 				}
 			});
-			this.goalSelector.addGoal(2, new LabMoveAttackGoal<>(this, 1.5D, 50, 30));
+			this.goalSelector.addGoal(2, new LabMoveAttackGoal<>(this, 1.5D, 80, 10));
 			this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, false, (p_234199_0_) -> {
 				return !(p_234199_0_ instanceof TheMoverEntity.CustomEntity);
 			}));

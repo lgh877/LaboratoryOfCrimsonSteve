@@ -44,7 +44,7 @@ public class LabMoveAttackGoal<T extends MonsterEntity & IRangedAttackMob> exten
 		this.attackCooldown = attackCooldownIn;
 		this.attackRadius = maxAttackDistanceIn;
 		this.maxAttackDistance = maxAttackDistanceIn * maxAttackDistanceIn;
-		this.setMutexFlags(EnumSet.of(Goal.Flag.LOOK));
+		this.setMutexFlags(EnumSet.of(Goal.Flag.LOOK, Goal.Flag.MOVE));
 	}
 
 	public void setAttackCooldown(int attackCooldownIn) {
@@ -92,45 +92,45 @@ public class LabMoveAttackGoal<T extends MonsterEntity & IRangedAttackMob> exten
 	public void tick() {
 		LivingEntity livingentity = this.entity.getAttackTarget();
 		if (livingentity != null) {
+			double d0 = this.entity.getDistanceSq(livingentity.getPosX(), livingentity.getPosY(), livingentity.getPosZ());
+			boolean flag = this.entity.getEntitySenses().canSee(livingentity);
+			boolean flag1 = this.seeTime > 0;
+			if (flag != flag1) {
+				this.seeTime = 0;
+			}
+			if (flag) {
+				++this.seeTime;
+			} else {
+				--this.seeTime;
+			}
+			if (!(d0 > (double) this.maxAttackDistance) && this.seeTime >= 20) {
+				this.entity.getNavigator().clearPath();
+				++this.strafingTime;
+			} else {
+				this.entity.getNavigator().tryMoveToEntityLiving(livingentity, this.moveSpeedAmp);
+				this.strafingTime = -1;
+			}
+			if (this.strafingTime >= 20) {
+				if ((double) this.entity.getRNG().nextFloat() < 0.3D) {
+					this.strafingClockwise = !this.strafingClockwise;
+				}
+				if ((double) this.entity.getRNG().nextFloat() < 0.3D) {
+					this.strafingBackwards = !this.strafingBackwards;
+				}
+				this.strafingTime = 0;
+			}
+			if (this.strafingTime > -1) {
+				if (d0 > (double) (this.maxAttackDistance * 0.75F)) {
+					this.strafingBackwards = false;
+				} else if (d0 < (double) (this.maxAttackDistance * 0.25F)) {
+					this.strafingBackwards = true;
+				}
+				this.entity.getMoveHelper().strafe(this.strafingBackwards ? -0.5F : 0.5F, this.strafingClockwise ? 0.5F : -0.5F);
+				this.entity.faceEntity(livingentity, 30.0F, 30.0F);
+			} else {
+				this.entity.getLookController().setLookPositionWithEntity(livingentity, 30.0F, 30.0F);
+			}
 			if (this.entity.isHandActive()) {
-				double d0 = this.entity.getDistanceSq(livingentity.getPosX(), livingentity.getPosY(), livingentity.getPosZ());
-				boolean flag = this.entity.getEntitySenses().canSee(livingentity);
-				boolean flag1 = this.seeTime > 0;
-				if (flag != flag1) {
-					this.seeTime = 0;
-				}
-				if (flag) {
-					++this.seeTime;
-				} else {
-					--this.seeTime;
-				}
-				if (!(d0 > (double) this.maxAttackDistance) && this.seeTime >= 20) {
-					this.entity.getNavigator().clearPath();
-					++this.strafingTime;
-				} else {
-					this.entity.getNavigator().tryMoveToEntityLiving(livingentity, this.moveSpeedAmp);
-					this.strafingTime = -1;
-				}
-				if (this.strafingTime >= 20) {
-					if ((double) this.entity.getRNG().nextFloat() < 0.3D) {
-						this.strafingClockwise = !this.strafingClockwise;
-					}
-					if ((double) this.entity.getRNG().nextFloat() < 0.3D) {
-						this.strafingBackwards = !this.strafingBackwards;
-					}
-					this.strafingTime = 0;
-				}
-				if (this.strafingTime > -1) {
-					if (d0 > (double) (this.maxAttackDistance * 0.75F)) {
-						this.strafingBackwards = false;
-					} else {
-						this.strafingBackwards = true;
-					}
-					this.entity.getMoveHelper().strafe(this.strafingBackwards ? -0.8F : 0.5F, this.strafingClockwise ? 0.5F : -0.5F);
-					this.entity.faceEntity(livingentity, 180F, 180F);
-				} else {
-					this.entity.getLookController().setLookPositionWithEntity(livingentity, 180F, 180F);
-				}
 				if (!flag && this.seeTime < -60) {
 					this.entity.resetActiveHand();
 				} else if (flag) {

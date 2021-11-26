@@ -14,9 +14,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.World;
-import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -29,7 +27,6 @@ import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.PathFinder;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.network.IPacket;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
@@ -42,13 +39,14 @@ import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.Pose;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
+import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.BlockState;
@@ -56,8 +54,6 @@ import net.minecraft.block.Block;
 
 import net.mcreator.laboratory.entity.renderer.MrBlockRenderer;
 import net.mcreator.laboratory.LaboratoryModElements;
-
-import javax.annotation.Nullable;
 
 @LaboratoryModElements.ModElement.Tag
 public class MrBlockEntity extends LaboratoryModElements.ModElement {
@@ -133,8 +129,24 @@ public class MrBlockEntity extends LaboratoryModElements.ModElement {
 			this.goalSelector.addGoal(5, new SwimGoal(this));
 		}
 
+		public float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
+			return this.getHeight() * 2;
+		}
+
+		public boolean attackEntityAsMob(Entity entityIn) {
+			if (super.attackEntityAsMob(entityIn)) {
+				entityIn.setMotion(entityIn.getMotion().add(0, 0.6, 0));
+			}
+			return super.attackEntityAsMob(entityIn);
+		}
+
 		public void livingTick() {
 			super.livingTick();
+			double x = this.getPosX();
+			double y = this.getPosY();
+			double z = this.getPosZ();
+			setBoundingBox(new AxisAlignedBB(x - this.getWidth() * 2, y, z - this.getWidth() * 2, x + this.getWidth() * 2, y + getHeight() * 2,
+					z + this.getWidth() * 2));
 			if (this.swingProgress > 0) {
 				this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 			} else {
@@ -145,28 +157,19 @@ public class MrBlockEntity extends LaboratoryModElements.ModElement {
 			if (this.collidedHorizontally && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this)) {
 				boolean flag = false;
 				AxisAlignedBB axisalignedbb = this.getBoundingBox().grow(0.2D);
-				this.swing(Hand.MAIN_HAND, true);
 				for (BlockPos blockpos : BlockPos.getAllInBoxMutable(MathHelper.floor(axisalignedbb.minX), MathHelper.floor(axisalignedbb.minY),
 						MathHelper.floor(axisalignedbb.minZ), MathHelper.floor(axisalignedbb.maxX), MathHelper.floor(axisalignedbb.maxY),
 						MathHelper.floor(axisalignedbb.maxZ))) {
 					BlockState blockstate = this.world.getBlockState(blockpos);
 					Block block = blockstate.getBlock();
 					if (block instanceof LeavesBlock) {
+						this.swing(Hand.OFF_HAND, true);
 						flag = this.world.destroyBlock(blockpos, true, this) || flag;
+					} else if (!flag && this.onGround) {
+						this.jump();
 					}
 				}
-				if (!flag && this.onGround) {
-					this.jump();
-				}
 			}
-		}
-
-		@Nullable
-		public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason,
-				@Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
-			this.recenterBoundingBox();
-			this.recalculateSize();
-			return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
 		}
 
 		@Override
@@ -189,7 +192,7 @@ public class MrBlockEntity extends LaboratoryModElements.ModElement {
 			}
 
 			protected double getAttackReachSqr(LivingEntity attackTarget) {
-				float f = CustomEntity.this.getWidth() * 4;
+				float f = CustomEntity.this.getWidth() * 3;
 				return (double) (f * 2.0F * f * 2.0F + attackTarget.getWidth());
 			}
 		}

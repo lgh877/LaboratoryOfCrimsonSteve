@@ -100,7 +100,7 @@ public class MrBlockRenderer {
 			matrixStackIn.push();
 			((BipedModel) this.getEntityModel()).translateHand(hand, matrixStackIn);
 			float f = 0.4375F;
-			matrixStackIn.translate((hand == HandSide.LEFT ? 0.25D : -0.15D) + 0.21875D, height + handprogress, -0.21875D);
+			matrixStackIn.translate((hand == HandSide.LEFT ? 0.245D : -0.15D) + 0.21875D, height + handprogress, -0.21875D);
 			matrixStackIn.rotate(Vector3f.YP.rotationDegrees(180.0F));
 			matrixStackIn.scale(f * 1.2f, -f * 1.2f - (float) handprogress, -f * 1.2f);
 			Minecraft.getInstance().getBlockRendererDispatcher().renderBlock(Blocks.SOUL_CAMPFIRE.getDefaultState(), matrixStackIn, bufferIn,
