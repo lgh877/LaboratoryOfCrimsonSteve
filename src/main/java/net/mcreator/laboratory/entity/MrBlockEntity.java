@@ -48,7 +48,6 @@ import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Block;
 
@@ -121,7 +120,7 @@ public class MrBlockEntity extends LaboratoryModElements.ModElement {
 		@Override
 		protected void registerGoals() {
 			super.registerGoals();
-			this.goalSelector.addGoal(1, new CustomEntity.AttackGoal());
+			this.goalSelector.addGoal(2, new CustomEntity.AttackGoal());
 			this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 1));
 			this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 			this.targetSelector.addGoal(3, new NearestAttackableTargetGoal(this, LivingEntity.class, false, false));
@@ -156,13 +155,13 @@ public class MrBlockEntity extends LaboratoryModElements.ModElement {
 			}
 			if (this.collidedHorizontally && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this)) {
 				boolean flag = false;
-				AxisAlignedBB axisalignedbb = this.getBoundingBox().grow(0.2D);
+				AxisAlignedBB axisalignedbb = this.getBoundingBox().grow(0.2D, 0, 0.2D);
 				for (BlockPos blockpos : BlockPos.getAllInBoxMutable(MathHelper.floor(axisalignedbb.minX), MathHelper.floor(axisalignedbb.minY),
 						MathHelper.floor(axisalignedbb.minZ), MathHelper.floor(axisalignedbb.maxX), MathHelper.floor(axisalignedbb.maxY),
 						MathHelper.floor(axisalignedbb.maxZ))) {
 					BlockState blockstate = this.world.getBlockState(blockpos);
 					Block block = blockstate.getBlock();
-					if (block instanceof LeavesBlock) {
+					if (blockstate.getBlockHardness(world, blockpos) <= 2 && blockstate.getBlockHardness(world, blockpos) != -1) {
 						this.swing(Hand.OFF_HAND, true);
 						flag = this.world.destroyBlock(blockpos, true, this) || flag;
 					} else if (!flag && this.onGround) {
