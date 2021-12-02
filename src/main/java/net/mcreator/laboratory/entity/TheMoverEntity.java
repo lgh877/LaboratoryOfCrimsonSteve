@@ -188,7 +188,7 @@ public class TheMoverEntity extends LaboratoryModElements.ModElement {
 		}
 
 		public void applyEntityCollision(Entity entityIn) {
-			if (entityIn == this.getAttackTarget() && this.rush % 4 == 1) {
+			if (entityIn == this.getAttackTarget() && this.swingProgress == 0) {
 				this.attackEntityAsMob(entityIn);
 			}
 		}
