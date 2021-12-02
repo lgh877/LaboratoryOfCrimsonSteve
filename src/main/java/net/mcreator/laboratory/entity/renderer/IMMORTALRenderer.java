@@ -37,6 +37,19 @@ public class IMMORTALRenderer {
 						LivingEntity entityL = (LivingEntity) e;
 						if (Math.random() < 0.2)
 							((BipedModel) this.getEntityModel()).isSneak = !((BipedModel) this.getEntityModel()).isSneak;
+						else if (Math.random() < 0.2) {
+							boolean flag1 = ((BipedModel) this.getEntityModel()).leftArmPose == BipedModel.ArmPose.BLOCK ? true : false;
+							if (flag1)
+								((BipedModel) this.getEntityModel()).leftArmPose = BipedModel.ArmPose.THROW_SPEAR;
+							else
+								((BipedModel) this.getEntityModel()).leftArmPose = BipedModel.ArmPose.BLOCK;
+						} else if (Math.random() < 0.2) {
+							boolean flag2 = ((BipedModel) this.getEntityModel()).rightArmPose == BipedModel.ArmPose.BLOCK ? true : false;
+							if (flag2)
+								((BipedModel) this.getEntityModel()).rightArmPose = BipedModel.ArmPose.THROW_SPEAR;
+							else
+								((BipedModel) this.getEntityModel()).rightArmPose = BipedModel.ArmPose.BLOCK;
+						}
 						super.render(e, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 					}
 				};

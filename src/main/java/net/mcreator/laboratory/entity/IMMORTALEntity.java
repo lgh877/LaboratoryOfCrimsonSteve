@@ -54,7 +54,8 @@ public class IMMORTALEntity extends LaboratoryModElements.ModElement {
 	@Override
 	public void initElements() {
 		elements.entities.add(() -> entity);
-		elements.items.add(() -> new SpawnEggItem(entity, -1, -1, new Item.Properties().group(ItemGroup.MISC)).setRegistryName("immortal_spawn_egg"));
+		elements.items.add(() -> new SpawnEggItem(entity, -10737946, -12730946, new Item.Properties().group(ItemGroup.MISC))
+				.setRegistryName("immortal_spawn_egg"));
 	}
 
 	@SubscribeEvent
@@ -82,6 +83,7 @@ public class IMMORTALEntity extends LaboratoryModElements.ModElement {
 	}
 
 	public static class CustomEntity extends MonsterEntity {
+		public float deathTicks;
 		public CustomEntity(FMLPlayMessages.SpawnEntity packet, World world) {
 			this(entity, world);
 		}
@@ -98,6 +100,32 @@ public class IMMORTALEntity extends LaboratoryModElements.ModElement {
 			return NetworkHooks.getEntitySpawningPacket(this);
 		}
 
+		public void onKillCommand() {
+			if (this.world instanceof World && !((World) world).isRemote)
+				remove();
+			super.onKillCommand();
+		}
+
+		public boolean onLivingFall(float distance, float damageMultiplier) {
+			return false;
+		}
+
+		protected void onDeathUpdate() {
+			double x1 = this.getPosX();
+			double y1 = this.getPosY();
+			double z1 = this.getPosZ();
+			int level = 6;
+			this.deathTicks++;
+			this.deathTime = (int) (this.deathTicks / 20);
+			if (this.deathTicks % 2.0F == 0.0F)
+				this.playSound(this.getLaughSound(), 3.0F, 0.5F + this.deathTicks / 150.0F);
+			if (this.deathTicks > 300.0F) {
+				if (this.world instanceof World && !((World) world).isRemote)
+					((World) world).createExplosion(this, (int) x1, (int) y1, (int) z1, level, Explosion.Mode.BREAK);
+				this.remove();
+			}
+		}
+
 		@Override
 		protected void registerGoals() {
 			super.registerGoals();
@@ -111,25 +139,14 @@ public class IMMORTALEntity extends LaboratoryModElements.ModElement {
 
 		public void livingTick() {
 			super.livingTick();
-			if (rand.nextInt(200) == 0)
-				if (this.deathTime > 0){
-					deathTime--;
-					playSound(getAmbientSound(), 1, 2);
-				}
-			setHealth(1);
+			if (this.deathTime > 5) {
+				this.setSprinting(!this.isSprinting());
+			} else
+				this.setSprinting(false);
+			if (this.deathTicks < 200 && this.rand.nextInt(10) == 0)
+				setHealth(1);
 			setRotation((float) Math.random() * 360, (float) Math.random() * 360);
 			setRotationYawHead((float) Math.random() * 360);
-		}
-
-		@Override
-		public void remove() {
-			if (!this.world.isRemote) {
-				Explosion.Mode explosion$mode = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this)
-						? Explosion.Mode.DESTROY
-						: Explosion.Mode.NONE;
-				this.world.createExplosion(this, this.getPosX(), this.getPosY(), this.getPosZ(), 3, explosion$mode);
-			}
-			super.remove();
 		}
 
 		public boolean attackEntityFrom(DamageSource source, float amount) {
@@ -150,6 +167,10 @@ public class IMMORTALEntity extends LaboratoryModElements.ModElement {
 		@Override
 		public net.minecraft.util.SoundEvent getAmbientSound() {
 			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("laboratory:stupid_idle"));
+		}
+
+		public net.minecraft.util.SoundEvent getLaughSound() {
+			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("laboratory:stupid_laugh"));
 		}
 
 		@Override

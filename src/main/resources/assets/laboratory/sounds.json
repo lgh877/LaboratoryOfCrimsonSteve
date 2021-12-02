@@ -108,5 +108,18 @@
         "stream": false
       }
     ]
+  },
+  "stupid_laugh": {
+    "category": "hostile",
+    "sounds": [
+      {
+        "name": "laboratory:evilcreature6",
+        "stream": false
+      },
+      {
+        "name": "laboratory:evilcreature7",
+        "stream": false
+      }
+    ]
   }
 }
