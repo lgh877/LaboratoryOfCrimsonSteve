@@ -14,6 +14,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.World;
+import net.minecraft.world.Explosion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.DamageSource;
 import net.minecraft.network.IPacket;
@@ -70,10 +71,12 @@ public class IMMORTALEntity extends LaboratoryModElements.ModElement {
 		@SubscribeEvent
 		public void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
 			AttributeModifierMap.MutableAttribute ammma = MobEntity.func_233666_p_();
-			ammma = ammma.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.5);
+			ammma = ammma.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.7);
 			ammma = ammma.createMutableAttribute(Attributes.MAX_HEALTH, 1);
+			ammma = ammma.createMutableAttribute(Attributes.FOLLOW_RANGE, 64);
 			ammma = ammma.createMutableAttribute(Attributes.ARMOR, 0);
-			ammma = ammma.createMutableAttribute(Attributes.ATTACK_DAMAGE, 1);
+			ammma = ammma.createMutableAttribute(Attributes.ATTACK_DAMAGE, 5);
+			ammma = ammma.createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 2);
 			event.put(entity, ammma.create());
 		}
 	}
@@ -85,7 +88,7 @@ public class IMMORTALEntity extends LaboratoryModElements.ModElement {
 
 		public CustomEntity(EntityType<CustomEntity> type, World world) {
 			super(type, world);
-			experienceValue = 0;
+			stepHeight = 50;
 			setNoAI(false);
 			enablePersistence();
 		}
@@ -108,8 +111,30 @@ public class IMMORTALEntity extends LaboratoryModElements.ModElement {
 
 		public void livingTick() {
 			super.livingTick();
+			if (rand.nextInt(200) == 0)
+				if (this.deathTime > 0){
+					deathTime--;
+					playSound(getAmbientSound(), 1, 2);
+				}
 			setHealth(1);
 			setRotation((float) Math.random() * 360, (float) Math.random() * 360);
+			setRotationYawHead((float) Math.random() * 360);
+		}
+
+		@Override
+		public void remove() {
+			if (!this.world.isRemote) {
+				Explosion.Mode explosion$mode = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this)
+						? Explosion.Mode.DESTROY
+						: Explosion.Mode.NONE;
+				this.world.createExplosion(this, this.getPosX(), this.getPosY(), this.getPosZ(), 3, explosion$mode);
+			}
+			super.remove();
+		}
+
+		public boolean attackEntityFrom(DamageSource source, float amount) {
+			boolean flag = super.attackEntityFrom(source, amount);
+			return flag;
 		}
 
 		@Override
