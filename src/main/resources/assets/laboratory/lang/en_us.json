@@ -2,6 +2,7 @@
   "subtitles.stupid_idle": "",
   "item.laboratory.teleporting_tool": "Teleporting Tool",
   "item.laboratory.mr_dummy_spawning_tool": "Mr Dummy Spawning Tool",
+  "item.laboratory.true_immortal_spawn_egg": "True Immortal Spawn Egg",
   "item.laboratory.ghost_steve_spawn_egg": "Ghost Steve Spawn Egg",
   "entity.laboratory.mr_block": "Mr Block",
   "item.laboratory.mr_stretch_spawn_egg": "Mr Stretch Spawn Egg",
@@ -30,7 +31,9 @@
   "entity.laboratory.the_mover": "The Mover",
   "item.laboratory.dirt": "Dirt",
   "item.laboratory.immortal_spawn_egg": "IMMORTAL Spawn Egg",
+  "subtitles.nope": "",
   "item.laboratory.soul_smoke_projectile": "Soul Smoke Projectile",
   "item.laboratory.mr_dummy_spawn_egg": "Mr Dummy Spawn Egg",
-  "subtitles.stupid_death": ""
+  "subtitles.stupid_death": "",
+  "entity.laboratory.true_immortal": "True Immortal"
 }

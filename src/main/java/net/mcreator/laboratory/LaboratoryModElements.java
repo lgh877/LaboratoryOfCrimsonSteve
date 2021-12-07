@@ -59,6 +59,7 @@ public class LaboratoryModElements {
 				new net.minecraft.util.SoundEvent(new ResourceLocation("laboratory", "spectrite_steve_hurt")));
 		sounds.put(new ResourceLocation("laboratory", "stupid_laugh"),
 				new net.minecraft.util.SoundEvent(new ResourceLocation("laboratory", "stupid_laugh")));
+		sounds.put(new ResourceLocation("laboratory", "nope"), new net.minecraft.util.SoundEvent(new ResourceLocation("laboratory", "nope")));
 		try {
 			ModFileScanData modFileInfo = ModList.get().getModFileById("laboratory").getFile().getScanResult();
 			Set<ModFileScanData.AnnotationData> annotations = modFileInfo.getAnnotations();

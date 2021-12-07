@@ -121,5 +121,14 @@
         "stream": false
       }
     ]
+  },
+  "nope": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "laboratory:engineer_no01_online-audio-converter.com_1",
+        "stream": false
+      }
+    ]
   }
 }
