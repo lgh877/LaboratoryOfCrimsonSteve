@@ -1,13 +1,13 @@
 {
   "replace": false,
   "values": [
-    "laboratory:ghost_steve",
-    "laboratory:mr_strange",
-    "laboratory:stevoker",
-    "laboratory:the_mover",
-    "husk",
-    "illusioner",
     "zombie",
-    "zombie_villager"
+    "laboratory:ghost_steve",
+    "laboratory:the_mover",
+    "laboratory:mr_strange",
+    "illusioner",
+    "zombie_villager",
+    "laboratory:stevoker",
+    "husk"
   ]
 }

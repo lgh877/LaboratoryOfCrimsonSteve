@@ -26,6 +26,11 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
 
+            jvmArgs = [
+                    "--add-exports=java.base/sun.security.util=ALL-UNNAMED",
+                    "--add-opens=java.base/java.util.jar=ALL-UNNAMED"
+            ]
+
             mods {
                 examplemod {
                     source sourceSets.main
@@ -39,6 +44,11 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
 
+            jvmArgs = [
+                    "--add-exports=java.base/sun.security.util=ALL-UNNAMED",
+                    "--add-opens=java.base/java.util.jar=ALL-UNNAMED"
+            ]
+
             mods {
                 examplemod {
                     source sourceSets.main
@@ -48,12 +58,8 @@ minecraft {
     }
 }
 
-/*repositories {
-    maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
-}*/
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.0'
-    //implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.46')
+    minecraft 'net.minecraftforge:forge:1.16.5-36.2.20'
 }
 
 apply from: 'mcreator.gradle'

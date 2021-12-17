@@ -27,6 +27,7 @@ public class ChimeraTableGUIGuiWindow extends ContainerScreen<ChimeraTableGUIGui
 	private int x, y, z;
 	private PlayerEntity entity;
 	private final static HashMap guistate = ChimeraTableGUIGui.guistate;
+
 	public ChimeraTableGUIGuiWindow(ChimeraTableGUIGui.GuiContainerMod container, PlayerInventory inventory, ITextComponent text) {
 		super(container, inventory, text);
 		this.world = container.world;
@@ -37,7 +38,9 @@ public class ChimeraTableGUIGuiWindow extends ContainerScreen<ChimeraTableGUIGui
 		this.xSize = 176;
 		this.ySize = 166;
 	}
+
 	private static final ResourceLocation texture = new ResourceLocation("laboratory:textures/chimera_table_gui.png");
+
 	@Override
 	public void render(MatrixStack ms, int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground(ms);
@@ -54,12 +57,16 @@ public class ChimeraTableGUIGuiWindow extends ContainerScreen<ChimeraTableGUIGui
 		int k = (this.width - this.xSize) / 2;
 		int l = (this.height - this.ySize) / 2;
 		this.blit(ms, k, l, 0, 0, this.xSize, this.ySize, this.xSize, this.ySize);
+
 		Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("laboratory:textures/empty_armor_slot_helmet.png"));
 		this.blit(ms, this.guiLeft + 79, this.guiTop + 9, 0, 0, 16, 16, 16, 16);
+
 		Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("laboratory:textures/empty_armor_slot_chestplate.png"));
 		this.blit(ms, this.guiLeft + 79, this.guiTop + 35, 0, 0, 16, 16, 16, 16);
+
 		Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("laboratory:textures/empty_armor_slot_boots.png"));
 		this.blit(ms, this.guiLeft + 79, this.guiTop + 61, 0, 0, 16, 16, 16, 16);
+
 		RenderSystem.disableBlend();
 	}
 

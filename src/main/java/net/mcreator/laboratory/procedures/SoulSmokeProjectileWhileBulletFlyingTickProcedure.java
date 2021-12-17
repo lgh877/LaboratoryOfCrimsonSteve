@@ -9,7 +9,13 @@ import net.mcreator.laboratory.LaboratoryMod;
 import java.util.Map;
 
 public class SoulSmokeProjectileWhileBulletFlyingTickProcedure {
+
 	public static void executeProcedure(Map<String, Object> dependencies) {
+		if (dependencies.get("world") == null) {
+			if (!dependencies.containsKey("world"))
+				LaboratoryMod.LOGGER.warn("Failed to load dependency world for procedure SoulSmokeProjectileWhileBulletFlyingTick!");
+			return;
+		}
 		if (dependencies.get("x") == null) {
 			if (!dependencies.containsKey("x"))
 				LaboratoryMod.LOGGER.warn("Failed to load dependency x for procedure SoulSmokeProjectileWhileBulletFlyingTick!");
@@ -25,15 +31,10 @@ public class SoulSmokeProjectileWhileBulletFlyingTickProcedure {
 				LaboratoryMod.LOGGER.warn("Failed to load dependency z for procedure SoulSmokeProjectileWhileBulletFlyingTick!");
 			return;
 		}
-		if (dependencies.get("world") == null) {
-			if (!dependencies.containsKey("world"))
-				LaboratoryMod.LOGGER.warn("Failed to load dependency world for procedure SoulSmokeProjectileWhileBulletFlyingTick!");
-			return;
-		}
+		IWorld world = (IWorld) dependencies.get("world");
 		double x = dependencies.get("x") instanceof Integer ? (int) dependencies.get("x") : (double) dependencies.get("x");
 		double y = dependencies.get("y") instanceof Integer ? (int) dependencies.get("y") : (double) dependencies.get("y");
 		double z = dependencies.get("z") instanceof Integer ? (int) dependencies.get("z") : (double) dependencies.get("z");
-		IWorld world = (IWorld) dependencies.get("world");
 		if (world instanceof ServerWorld) {
 			((ServerWorld) world).spawnParticle(SoulSmokeParticleParticle.particle, x, y, z, (int) 1, 0, 0, 0, 0);
 		}

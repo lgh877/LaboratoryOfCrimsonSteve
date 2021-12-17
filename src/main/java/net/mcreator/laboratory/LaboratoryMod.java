@@ -46,6 +46,7 @@ public class LaboratoryMod {
 	public static final SimpleChannel PACKET_HANDLER = NetworkRegistry.newSimpleChannel(new ResourceLocation("laboratory", "laboratory"),
 			() -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
 	public LaboratoryModElements elements;
+
 	public LaboratoryMod() {
 		elements = new LaboratoryModElements();
 		FMLJavaModLoadingContext.get().getModEventBus().register(this);
@@ -86,8 +87,10 @@ public class LaboratoryMod {
 	public void registerSounds(RegistryEvent.Register<net.minecraft.util.SoundEvent> event) {
 		elements.registerSounds(event);
 	}
+
 	private static class LaboratoryModFMLBusEvents {
 		private final LaboratoryMod parent;
+
 		LaboratoryModFMLBusEvents(LaboratoryMod parent) {
 			this.parent = parent;
 		}

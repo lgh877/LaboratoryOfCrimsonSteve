@@ -20,35 +20,40 @@ import net.minecraft.network.IPacket;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.block.material.Material;
 
-import net.mcreator.laboratory.entity.renderer.TrueImmortalRenderer;
-import net.mcreator.laboratory.LaboratoryWatchTargetGoal;
+import net.mcreator.laboratory.procedures.OnlySpawnInOverWorldProcedure;
+import net.mcreator.laboratory.entity.renderer.SpinLoverRenderer;
 import net.mcreator.laboratory.LaboratoryModElements;
 
+import java.util.stream.Stream;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.AbstractMap;
+
 @LaboratoryModElements.ModElement.Tag
-public class TrueImmortalEntity extends LaboratoryModElements.ModElement {
+public class SpinLoverEntity extends LaboratoryModElements.ModElement {
 	public static EntityType entity = (EntityType.Builder.<CustomEntity>create(CustomEntity::new, EntityClassification.CREATURE)
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(CustomEntity::new)
-			.size(0.6f, 1.8f)).build("true_immortal").setRegistryName("true_immortal");
-	public TrueImmortalEntity(LaboratoryModElements instance) {
-		super(instance, 47);
-		FMLJavaModLoadingContext.get().getModEventBus().register(new TrueImmortalRenderer.ModelRegisterHandler());
+			.size(0.6f, 1.8f)).build("spin_lover").setRegistryName("spin_lover");
+
+	public SpinLoverEntity(LaboratoryModElements instance) {
+		super(instance, 48);
+		FMLJavaModLoadingContext.get().getModEventBus().register(new SpinLoverRenderer.ModelRegisterHandler());
 		FMLJavaModLoadingContext.get().getModEventBus().register(new EntityAttributesRegisterHandler());
 		MinecraftForge.EVENT_BUS.register(this);
 	}
@@ -56,21 +61,27 @@ public class TrueImmortalEntity extends LaboratoryModElements.ModElement {
 	@Override
 	public void initElements() {
 		elements.entities.add(() -> entity);
-		elements.items.add(() -> new SpawnEggItem(entity, -16751053, -13421824, new Item.Properties().group(ItemGroup.MISC))
-				.setRegistryName("true_immortal_spawn_egg"));
+		elements.items
+				.add(() -> new SpawnEggItem(entity, -1, -1, new Item.Properties().group(ItemGroup.MISC)).setRegistryName("spin_lover_spawn_egg"));
 	}
 
 	@SubscribeEvent
 	public void addFeatureToBiomes(BiomeLoadingEvent event) {
-		event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(entity, 1, 1, 1));
+		event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(entity, 10, 1, 1));
 	}
 
 	@Override
 	public void init(FMLCommonSetupEvent event) {
 		EntitySpawnPlacementRegistry.register(entity, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
-				(entityType, world, reason, pos,
-						random) -> (world.getBlockState(pos.down()).getMaterial() == Material.ORGANIC && world.getLightSubtracted(pos, 0) > 8));
+				(entityType, world, reason, pos, random) -> {
+					int x = pos.getX();
+					int y = pos.getY();
+					int z = pos.getZ();
+					return OnlySpawnInOverWorldProcedure.executeProcedure(Stream.of(new AbstractMap.SimpleEntry<>("world", world))
+							.collect(HashMap::new, (_m, _e) -> _m.put(_e.getKey(), _e.getValue()), Map::putAll));
+				});
 	}
+
 	private static class EntityAttributesRegisterHandler {
 		@SubscribeEvent
 		public void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
@@ -99,64 +110,20 @@ public class TrueImmortalEntity extends LaboratoryModElements.ModElement {
 			return NetworkHooks.getEntitySpawningPacket(this);
 		}
 
-		public void livingTick() {
-			this.updateArmSwingProgress();
-			if (this.deathTime > 9) {
-				this.setHealth(this.getMaxHealth());
-				this.deathTime = 0;
-				this.dead = false;
-				this.playSound(getNopeSound(), 1, 0.5f + rand.nextFloat() * 1.5f);
-			}
-			super.livingTick();
-		}
-
-		@Override
-		protected void updateArmSwingProgress() {
-			int i = 60;
-			if (this.isSwingInProgress) {
-				++this.swingProgressInt;
-				if (this.swingProgressInt >= i) {
-					this.swingProgressInt = 0;
-					this.isSwingInProgress = false;
-				}
-			} else {
-				this.swingProgressInt = 0;
-			}
-			this.swingProgress = (float) this.swingProgressInt / (float) i;
-		}
-
 		@Override
 		protected void registerGoals() {
 			super.registerGoals();
-			this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setCallsForHelp());
-			this.goalSelector.addGoal(3, new LaboratoryWatchTargetGoal(this));
-			this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2, false) {
-				@Override
-				public boolean shouldExecute() {
-					return super.shouldExecute() && !CustomEntity.this.isSwingInProgress;
-				}
-			});
+			this.targetSelector.addGoal(1, new NearestAttackableTargetGoal(this, MonsterEntity.class, false, false));
+			this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2, false));
 			this.goalSelector.addGoal(3, new RandomWalkingGoal(this, 1));
-			this.goalSelector.addGoal(4, new LookRandomlyGoal(this));
-			this.goalSelector.addGoal(5, new SwimGoal(this));
-		}
-
-		public boolean attackEntityAsMob(Entity entityIn) {
-			LivingEntity entityL = (LivingEntity) entityIn;
-			if (entityIn instanceof LivingEntity) {
-				this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getMaxHealth() + 1);
-				entityL.getAttribute(Attributes.MAX_HEALTH).setBaseValue(entityL.getMaxHealth() - 1);
-			}
-			return super.attackEntityAsMob(entityIn);
+			this.targetSelector.addGoal(4, new HurtByTargetGoal(this));
+			this.goalSelector.addGoal(5, new LookRandomlyGoal(this));
+			this.goalSelector.addGoal(6, new SwimGoal(this));
 		}
 
 		@Override
 		public CreatureAttribute getCreatureAttribute() {
 			return CreatureAttribute.UNDEFINED;
-		}
-
-		public net.minecraft.util.SoundEvent getNopeSound() {
-			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("laboratory:nope"));
 		}
 
 		@Override

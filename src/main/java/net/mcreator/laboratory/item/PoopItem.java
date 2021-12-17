@@ -15,13 +15,16 @@ import net.minecraft.entity.LivingEntity;
 import net.mcreator.laboratory.procedures.PoopLivingEntityIsHitWithToolProcedure;
 import net.mcreator.laboratory.LaboratoryModElements;
 
+import java.util.stream.Stream;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.AbstractMap;
 
 @LaboratoryModElements.ModElement.Tag
 public class PoopItem extends LaboratoryModElements.ModElement {
 	@ObjectHolder("laboratory:poop")
 	public static final Item block = null;
+
 	public PoopItem(LaboratoryModElements instance) {
 		super(instance, 25);
 	}
@@ -60,11 +63,9 @@ public class PoopItem extends LaboratoryModElements.ModElement {
 				double y = entity.getPosY();
 				double z = entity.getPosZ();
 				World world = entity.world;
-				{
-					Map<String, Object> $_dependencies = new HashMap<>();
-					$_dependencies.put("entity", entity);
-					PoopLivingEntityIsHitWithToolProcedure.executeProcedure($_dependencies);
-				}
+
+				PoopLivingEntityIsHitWithToolProcedure.executeProcedure(Stream.of(new AbstractMap.SimpleEntry<>("entity", entity))
+						.collect(HashMap::new, (_m, _e) -> _m.put(_e.getKey(), _e.getValue()), Map::putAll));
 				return retval;
 			}
 		}.setRegistryName("poop"));

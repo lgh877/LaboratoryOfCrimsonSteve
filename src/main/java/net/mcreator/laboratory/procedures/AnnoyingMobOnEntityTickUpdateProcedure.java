@@ -17,10 +17,11 @@ import java.util.List;
 import java.util.Comparator;
 
 public class AnnoyingMobOnEntityTickUpdateProcedure {
+
 	public static void executeProcedure(Map<String, Object> dependencies) {
-		if (dependencies.get("entity") == null) {
-			if (!dependencies.containsKey("entity"))
-				LaboratoryMod.LOGGER.warn("Failed to load dependency entity for procedure AnnoyingMobOnEntityTickUpdate!");
+		if (dependencies.get("world") == null) {
+			if (!dependencies.containsKey("world"))
+				LaboratoryMod.LOGGER.warn("Failed to load dependency world for procedure AnnoyingMobOnEntityTickUpdate!");
 			return;
 		}
 		if (dependencies.get("x") == null) {
@@ -38,18 +39,18 @@ public class AnnoyingMobOnEntityTickUpdateProcedure {
 				LaboratoryMod.LOGGER.warn("Failed to load dependency z for procedure AnnoyingMobOnEntityTickUpdate!");
 			return;
 		}
-		if (dependencies.get("world") == null) {
-			if (!dependencies.containsKey("world"))
-				LaboratoryMod.LOGGER.warn("Failed to load dependency world for procedure AnnoyingMobOnEntityTickUpdate!");
+		if (dependencies.get("entity") == null) {
+			if (!dependencies.containsKey("entity"))
+				LaboratoryMod.LOGGER.warn("Failed to load dependency entity for procedure AnnoyingMobOnEntityTickUpdate!");
 			return;
 		}
-		Entity entity = (Entity) dependencies.get("entity");
+		IWorld world = (IWorld) dependencies.get("world");
 		double x = dependencies.get("x") instanceof Integer ? (int) dependencies.get("x") : (double) dependencies.get("x");
 		double y = dependencies.get("y") instanceof Integer ? (int) dependencies.get("y") : (double) dependencies.get("y");
 		double z = dependencies.get("z") instanceof Integer ? (int) dependencies.get("z") : (double) dependencies.get("z");
-		IWorld world = (IWorld) dependencies.get("world");
-		if (((entity.getPersistentData().getDouble("tagName")) < 40)) {
-			entity.getPersistentData().putDouble("tagName", ((entity.getPersistentData().getDouble("tagName")) + 1));
+		Entity entity = (Entity) dependencies.get("entity");
+		if (entity.getPersistentData().getDouble("tagName") < 40) {
+			entity.getPersistentData().putDouble("tagName", (entity.getPersistentData().getDouble("tagName") + 1));
 		} else {
 			{
 				List<Entity> _entfound = world
@@ -61,8 +62,8 @@ public class AnnoyingMobOnEntityTickUpdateProcedure {
 							}
 						}.compareDistOf(x, y, z)).collect(Collectors.toList());
 				for (Entity entityiterator : _entfound) {
-					if ((entityiterator == ((entity instanceof MobEntity) ? ((MobEntity) entity).getAttackTarget() : null))) {
-						entity.rotationYaw = (float) (((120 + (120 * Math.random())) + (entity.rotationYaw)));
+					if (entityiterator == ((entity instanceof MobEntity) ? ((MobEntity) entity).getAttackTarget() : null)) {
+						entity.rotationYaw = (float) ((120 + 120 * Math.random() + entity.rotationYaw));
 						entity.setRenderYawOffset(entity.rotationYaw);
 						entity.prevRotationYaw = entity.rotationYaw;
 						if (entity instanceof LivingEntity) {
@@ -81,8 +82,8 @@ public class AnnoyingMobOnEntityTickUpdateProcedure {
 					}
 				}
 			}
-			if ((((entity.getPersistentData().getDouble("tagName")) > 0)
-					&& (((entity instanceof MobEntity) ? ((MobEntity) entity).getAttackTarget() : null) instanceof LivingEntity))) {
+			if (entity.getPersistentData().getDouble("tagName") > 0
+					&& ((entity instanceof MobEntity) ? ((MobEntity) entity).getAttackTarget() : null) instanceof LivingEntity) {
 				if (entity instanceof LivingEntity) {
 					Entity _ent = entity;
 					if (!_ent.world.isRemote()) {
