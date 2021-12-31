@@ -1,5 +1,4 @@
 {
-  "id_map": {},
   "mod_elements": [
     {
       "name": "TeleportingToolWhileBulletFlyingTick",
@@ -7,7 +6,6 @@
       "sortid": 1,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "teleporting_tool_while_bullet_flying_tick",
       "metadata": {
         "dependencies": [
@@ -45,7 +43,6 @@
       "sortid": 1,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "teleporting_tool",
       "path": "~/AnnoyingMob"
     },
@@ -55,7 +52,6 @@
       "sortid": 3,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "annoying_mob",
       "path": "~/AnnoyingMob"
     },
@@ -65,7 +61,6 @@
       "sortid": 4,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "teleporting_tool_bullet_hits_block",
       "metadata": {
         "dependencies": [
@@ -95,7 +90,6 @@
       "sortid": 5,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "teleporting_tool_bullet_hits_living_entity",
       "metadata": {
         "dependencies": [
@@ -125,7 +119,6 @@
       "sortid": 6,
       "compiles": true,
       "locked_code": false,
-      "ids": {},
       "registry_name": "annoying_mob_on_entity_tick_update",
       "metadata": {
         "dependencies": [
@@ -159,7 +152,6 @@
       "sortid": 7,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "dirt",
       "path": "~/AnnoyingMob"
     },
@@ -169,7 +161,6 @@
       "sortid": 8,
       "compiles": true,
       "locked_code": false,
-      "ids": {},
       "registry_name": "gadsg_natural_entity_spawning_condition",
       "metadata": {
         "return_type": "logic",
@@ -183,7 +174,6 @@
       "sortid": 9,
       "compiles": true,
       "locked_code": false,
-      "ids": {},
       "registry_name": "annoying_mob_loot_table",
       "path": "~/AnnoyingMob"
     },
@@ -193,7 +183,6 @@
       "sortid": 10,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "mr_dummy",
       "path": "~/DamageDummy"
     },
@@ -203,7 +192,6 @@
       "sortid": 11,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "mr_dummy_spawning_tool",
       "path": "~/DamageDummy"
     },
@@ -213,7 +201,6 @@
       "sortid": 12,
       "compiles": true,
       "locked_code": false,
-      "ids": {},
       "registry_name": "mr_dummy_recipe",
       "path": "~/DamageDummy"
     },
@@ -223,7 +210,6 @@
       "sortid": 12,
       "compiles": true,
       "locked_code": false,
-      "ids": {},
       "registry_name": "mr_dummy_recipe_achievement",
       "path": "~/DamageDummy"
     },
@@ -233,7 +219,6 @@
       "sortid": 13,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "dumb_face",
       "path": "~/AnnoyingMob"
     },
@@ -243,7 +228,6 @@
       "sortid": 14,
       "compiles": true,
       "locked_code": false,
-      "ids": {},
       "registry_name": "dumb_face_particle_spawn",
       "metadata": {
         "dependencies": [
@@ -273,7 +257,6 @@
       "sortid": 20,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "mr_stretch",
       "path": "~/Mr_Stretch"
     },
@@ -283,7 +266,6 @@
       "sortid": 21,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "returned_spectrite_steve",
       "path": "~/ReturnedSpectriteSteve"
     },
@@ -293,7 +275,6 @@
       "sortid": 22,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "rainbow_dumb_face",
       "path": "~/ReturnedSpectriteSteve"
     },
@@ -303,7 +284,6 @@
       "sortid": 23,
       "compiles": true,
       "locked_code": false,
-      "ids": {},
       "registry_name": "chimera_table_gui",
       "path": "~/chimera"
     },
@@ -313,7 +293,6 @@
       "sortid": 25,
       "compiles": true,
       "locked_code": false,
-      "ids": {},
       "registry_name": "poop_living_entity_is_hit_with_tool",
       "metadata": {
         "dependencies": [
@@ -330,7 +309,6 @@
       "sortid": 25,
       "compiles": true,
       "locked_code": false,
-      "ids": {},
       "registry_name": "poop"
     },
     {
@@ -339,7 +317,6 @@
       "sortid": 34,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "laboratory_watch_target_goal"
     },
     {
@@ -348,7 +325,6 @@
       "sortid": 35,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "ghost_steve",
       "path": "~/GhostSteve"
     },
@@ -358,7 +334,6 @@
       "sortid": 36,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "soul_smoke_particle",
       "path": "~/GhostSteve"
     },
@@ -368,7 +343,6 @@
       "sortid": 37,
       "compiles": true,
       "locked_code": false,
-      "ids": {},
       "registry_name": "soul_smoke_projectile_while_bullet_flying_tick",
       "metadata": {
         "dependencies": [
@@ -397,7 +371,6 @@
       "sortid": 37,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "soul_smoke_projectile",
       "path": "~/GhostSteve"
     },
@@ -407,7 +380,6 @@
       "sortid": 40,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "mr_strange",
       "path": "~/MrStrange"
     },
@@ -417,7 +389,6 @@
       "sortid": 41,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "lab_move_attack_goal",
       "path": "~/MoveAttackTestMob"
     },
@@ -427,7 +398,6 @@
       "sortid": 42,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "the_mover",
       "path": "~/MoveAttackTestMob"
     },
@@ -437,7 +407,6 @@
       "sortid": 43,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "stevoker",
       "path": "~/SimpleMobs"
     },
@@ -447,7 +416,6 @@
       "sortid": 44,
       "compiles": true,
       "locked_code": false,
-      "ids": {},
       "registry_name": "raider_entities"
     },
     {
@@ -456,7 +424,6 @@
       "sortid": 45,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "mr_block",
       "path": "~/SimpleMobs"
     },
@@ -466,7 +433,6 @@
       "sortid": 46,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "immortal",
       "path": "~/SimpleMobs"
     },
@@ -476,7 +442,6 @@
       "sortid": 47,
       "compiles": true,
       "locked_code": true,
-      "ids": {},
       "registry_name": "true_immortal",
       "path": "~/SimpleMobs"
     },
@@ -486,7 +451,6 @@
       "sortid": 48,
       "compiles": true,
       "locked_code": false,
-      "ids": {},
       "registry_name": "only_spawn_in_over_world",
       "metadata": {
         "return_type": "logic",
@@ -497,16 +461,6 @@
           }
         ]
       }
-    },
-    {
-      "name": "SpinLover",
-      "type": "livingentity",
-      "sortid": 48,
-      "compiles": true,
-      "locked_code": false,
-      "ids": {},
-      "registry_name": "spin_lover",
-      "path": "~/SimpleMobs"
     }
   ],
   "variable_elements": [],
@@ -597,8 +551,8 @@
       "item.laboratory.teleporting_tool": "Teleporting Tool",
       "item.laboratory.mr_dummy_spawning_tool": "Mr Dummy Spawning Tool",
       "item.laboratory.true_immortal_spawn_egg": "True Immortal Spawn Egg",
-      "item.laboratory.ghost_steve_spawn_egg": "Ghost Steve Spawn Egg",
       "entity.laboratory.mr_block": "Mr Block",
+      "item.laboratory.ghost_steve_spawn_egg": "Ghost Steve Spawn Egg",
       "item.laboratory.mr_stretch_spawn_egg": "Mr Stretch Spawn Egg",
       "entity.laboratory.returned_spectrite_steve": "Returned Spectrite Steve",
       "subtitles.stupid_hurt": "",
@@ -614,11 +568,9 @@
       "entity.laboratory.mr_stretch": "Mr Stretch",
       "subtitles.stupid_laugh": "",
       "item.laboratory.poop": "Poop",
-      "item.laboratory.spin_lover_spawn_egg": "Spin Lover Spawn Egg",
       "advancements.mr_dummy_recipe_achievement.descr": "Are you boring? Then this would be good for you!",
       "entity.laboratory.immortal": "IMMORTAL",
       "subtitles.steve_hurt": "",
-      "entity.laboratory.spin_lover": "Spin Lover",
       "item.laboratory.returned_spectrite_steve_spawn_egg": "Returned Spectrite Steve Spawn Egg",
       "item.laboratory.the_mover_spawn_egg": "The Mover Spawn Egg",
       "entity.laboratory.mr_dummy": "Mr Dummy",
@@ -680,6 +632,10 @@
       {
         "name": "SimpleMobs",
         "children": []
+      },
+      {
+        "name": "Mentipede",
+        "children": []
       }
     ]
   },
@@ -701,5 +657,5 @@
     "modElementsPackage": "net.mcreator.laboratory",
     "lockBaseModFiles": false
   },
-  "mcreatorVersion": 202100351219
+  "mcreatorVersion": 202100353117
 }
