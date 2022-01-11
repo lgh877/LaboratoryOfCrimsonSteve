@@ -18,6 +18,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.DamageSource;
@@ -30,7 +31,9 @@ import net.minecraft.network.IPacket;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
+import net.minecraft.entity.monster.VexEntity;
 import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.monster.AbstractRaiderEntity;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
@@ -59,6 +62,7 @@ public class MrBlockEntity extends LaboratoryModElements.ModElement {
 	public static EntityType entity = (EntityType.Builder.<CustomEntity>create(CustomEntity::new, EntityClassification.MONSTER)
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(CustomEntity::new)
 			.size(0.6f, 1.8f)).build("mr_block").setRegistryName("mr_block");
+
 	public MrBlockEntity(LaboratoryModElements instance) {
 		super(instance, 45);
 		FMLJavaModLoadingContext.get().getModEventBus().register(new MrBlockRenderer.ModelRegisterHandler());
@@ -75,7 +79,7 @@ public class MrBlockEntity extends LaboratoryModElements.ModElement {
 
 	@SubscribeEvent
 	public void addFeatureToBiomes(BiomeLoadingEvent event) {
-		event.getSpawns().getSpawner(EntityClassification.MONSTER).add(new MobSpawnInfo.Spawners(entity, 1, 1, 1));
+		event.getSpawns().getSpawner(EntityClassification.MONSTER).add(new MobSpawnInfo.Spawners(entity, 10, 4, 4));
 	}
 
 	@Override
@@ -83,6 +87,7 @@ public class MrBlockEntity extends LaboratoryModElements.ModElement {
 		EntitySpawnPlacementRegistry.register(entity, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 				MonsterEntity::canMonsterSpawn);
 	}
+
 	private static class EntityAttributesRegisterHandler {
 		@SubscribeEvent
 		public void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
@@ -97,7 +102,7 @@ public class MrBlockEntity extends LaboratoryModElements.ModElement {
 		}
 	}
 
-	public static class CustomEntity extends MonsterEntity {
+	public static class CustomEntity extends AbstractRaiderEntity {
 		public CustomEntity(FMLPlayMessages.SpawnEntity packet, World world) {
 			this(entity, world);
 		}
@@ -126,6 +131,20 @@ public class MrBlockEntity extends LaboratoryModElements.ModElement {
 			this.targetSelector.addGoal(3, new NearestAttackableTargetGoal(this, LivingEntity.class, false, false));
 			this.goalSelector.addGoal(4, new LookRandomlyGoal(this));
 			this.goalSelector.addGoal(5, new SwimGoal(this));
+		}
+
+		public boolean isOnSameTeam(Entity entityIn) {
+			if (entityIn == null) {
+				return false;
+			} else if (super.isOnSameTeam(entityIn)) {
+				return true;
+			} else if (entityIn instanceof VexEntity) {
+				return this.isOnSameTeam(((VexEntity) entityIn).getOwner());
+			} else if (entityIn instanceof LivingEntity && ((LivingEntity) entityIn).getCreatureAttribute() == CreatureAttribute.ILLAGER) {
+				return this.getTeam() == null && entityIn.getTeam() == null;
+			} else {
+				return false;
+			}
 		}
 
 		public float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
@@ -173,7 +192,7 @@ public class MrBlockEntity extends LaboratoryModElements.ModElement {
 
 		@Override
 		public CreatureAttribute getCreatureAttribute() {
-			return CreatureAttribute.UNDEFINED;
+			return CreatureAttribute.ILLAGER;
 		}
 
 		@Override
@@ -185,6 +204,7 @@ public class MrBlockEntity extends LaboratoryModElements.ModElement {
 		public net.minecraft.util.SoundEvent getDeathSound() {
 			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.death"));
 		}
+
 		class AttackGoal extends MeleeAttackGoal {
 			public AttackGoal() {
 				super(CustomEntity.this, 1.2D, true);
@@ -194,6 +214,13 @@ public class MrBlockEntity extends LaboratoryModElements.ModElement {
 				float f = CustomEntity.this.getWidth() * 3;
 				return (double) (f * 2.0F * f * 2.0F + attackTarget.getWidth());
 			}
+		}
+
+		public void applyWaveBonus(int wave, boolean p_213660_2_) {
+		}
+
+		public net.minecraft.util.SoundEvent getRaidLossSound() {
+			return SoundEvents.ENTITY_PILLAGER_CELEBRATE;
 		}
 
 		static class Navigator extends GroundPathNavigator {

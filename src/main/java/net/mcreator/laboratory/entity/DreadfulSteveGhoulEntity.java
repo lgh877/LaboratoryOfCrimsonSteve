@@ -10,18 +10,26 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.DungeonHooks;
 
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.World;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.DamageSource;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.IPacket;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
+import net.minecraft.entity.monster.VexEntity;
+import net.minecraft.entity.monster.AbstractRaiderEntity;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
@@ -33,22 +41,26 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.block.material.Material;
 
-import net.mcreator.laboratory.entity.renderer.TrueImmortalRenderer;
-import net.mcreator.laboratory.LaboratoryWatchTargetGoal;
+import net.mcreator.laboratory.procedures.OnlySpawnInOverWorldProcedure;
+import net.mcreator.laboratory.entity.renderer.DreadfulSteveGhoulRenderer;
 import net.mcreator.laboratory.LaboratoryModElements;
 
+import java.util.stream.Stream;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.AbstractMap;
+
 @LaboratoryModElements.ModElement.Tag
-public class TrueImmortalEntity extends LaboratoryModElements.ModElement {
+public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 	public static EntityType entity = (EntityType.Builder.<CustomEntity>create(CustomEntity::new, EntityClassification.CREATURE)
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(CustomEntity::new)
-			.size(0.6f, 1.8f)).build("true_immortal").setRegistryName("true_immortal");
-	public TrueImmortalEntity(LaboratoryModElements instance) {
-		super(instance, 47);
-		FMLJavaModLoadingContext.get().getModEventBus().register(new TrueImmortalRenderer.ModelRegisterHandler());
+			.size(0.8f, 3.5f)).build("dreadful_steve_ghoul").setRegistryName("dreadful_steve_ghoul");
+
+	public DreadfulSteveGhoulEntity(LaboratoryModElements instance) {
+		super(instance, 49);
+		FMLJavaModLoadingContext.get().getModEventBus().register(new DreadfulSteveGhoulRenderer.ModelRegisterHandler());
 		FMLJavaModLoadingContext.get().getModEventBus().register(new EntityAttributesRegisterHandler());
 		MinecraftForge.EVENT_BUS.register(this);
 	}
@@ -56,34 +68,56 @@ public class TrueImmortalEntity extends LaboratoryModElements.ModElement {
 	@Override
 	public void initElements() {
 		elements.entities.add(() -> entity);
-		elements.items.add(() -> new SpawnEggItem(entity, -16751053, -13421824, new Item.Properties().group(ItemGroup.MISC))
-				.setRegistryName("true_immortal_spawn_egg"));
+		elements.items.add(() -> new SpawnEggItem(entity, -16737997, -13369549, new Item.Properties().group(ItemGroup.MISC))
+				.setRegistryName("dreadful_steve_ghoul_spawn_egg"));
 	}
 
 	@SubscribeEvent
 	public void addFeatureToBiomes(BiomeLoadingEvent event) {
-		event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(entity, 0, 1, 1));
+		event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(entity, 1, 1, 1));
 	}
 
 	@Override
 	public void init(FMLCommonSetupEvent event) {
 		EntitySpawnPlacementRegistry.register(entity, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
-				(entityType, world, reason, pos,
-						random) -> (world.getBlockState(pos.down()).getMaterial() == Material.ORGANIC && world.getLightSubtracted(pos, 0) > 8));
+				(entityType, world, reason, pos, random) -> {
+					int x = pos.getX();
+					int y = pos.getY();
+					int z = pos.getZ();
+					return OnlySpawnInOverWorldProcedure.executeProcedure(Stream.of(new AbstractMap.SimpleEntry<>("world", world))
+							.collect(HashMap::new, (_m, _e) -> _m.put(_e.getKey(), _e.getValue()), Map::putAll));
+				});
+		DungeonHooks.addDungeonMob(entity, 180);
 	}
+
 	private static class EntityAttributesRegisterHandler {
 		@SubscribeEvent
 		public void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
 			AttributeModifierMap.MutableAttribute ammma = MobEntity.func_233666_p_();
-			ammma = ammma.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3);
-			ammma = ammma.createMutableAttribute(Attributes.MAX_HEALTH, 20);
+			ammma = ammma.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.2);
+			ammma = ammma.createMutableAttribute(Attributes.MAX_HEALTH, 60);
 			ammma = ammma.createMutableAttribute(Attributes.ARMOR, 0);
 			ammma = ammma.createMutableAttribute(Attributes.ATTACK_DAMAGE, 3);
 			event.put(entity, ammma.create());
 		}
 	}
 
-	public static class CustomEntity extends CreatureEntity {
+	public static class CustomEntity extends AbstractRaiderEntity {
+		private static final DataParameter<Integer> ATTACK_STATE = EntityDataManager.createKey(CustomEntity.class, DataSerializers.VARINT);
+
+		protected void registerData() {
+			super.registerData();
+			this.dataManager.register(ATTACK_STATE, 0);
+		}
+
+		public void setAttackState(int value) {
+			this.dataManager.set(ATTACK_STATE, value);
+		}
+
+		public int getAttackState() {
+			return this.dataManager.get(ATTACK_STATE);
+		}
+
 		public CustomEntity(FMLPlayMessages.SpawnEntity packet, World world) {
 			this(entity, world);
 		}
@@ -99,15 +133,34 @@ public class TrueImmortalEntity extends LaboratoryModElements.ModElement {
 			return NetworkHooks.getEntitySpawningPacket(this);
 		}
 
-		public void livingTick() {
-			this.updateArmSwingProgress();
-			if (this.deathTime > 9) {
-				this.setHealth(this.getMaxHealth());
-				this.deathTime = 0;
-				this.dead = false;
-				this.playSound(getNopeSound(), 1, 0.5f + rand.nextFloat() * 1.5f);
+		public boolean isOnSameTeam(Entity entityIn) {
+			if (entityIn == null) {
+				return false;
+			} else if (super.isOnSameTeam(entityIn)) {
+				return true;
+			} else if (entityIn instanceof VexEntity) {
+				return this.isOnSameTeam(((VexEntity) entityIn).getOwner());
+			} else if (entityIn instanceof LivingEntity && ((LivingEntity) entityIn).getCreatureAttribute() == CreatureAttribute.ILLAGER) {
+				return this.getTeam() == null && entityIn.getTeam() == null;
+			} else {
+				return false;
 			}
-			super.livingTick();
+		}
+
+		@Override
+		protected void registerGoals() {
+			super.registerGoals();
+			this.targetSelector.addGoal(1, new NearestAttackableTargetGoal(this, LivingEntity.class, false, false));
+			this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2, false) {
+				@Override
+				public boolean shouldExecute() {
+					return super.shouldExecute() && !CustomEntity.this.isSwingInProgress;
+				}
+			});
+			this.goalSelector.addGoal(3, new RandomWalkingGoal(this, 1));
+			this.targetSelector.addGoal(4, new HurtByTargetGoal(this));
+			this.goalSelector.addGoal(5, new LookRandomlyGoal(this));
+			this.goalSelector.addGoal(6, new SwimGoal(this));
 		}
 
 		@Override
@@ -126,37 +179,15 @@ public class TrueImmortalEntity extends LaboratoryModElements.ModElement {
 		}
 
 		@Override
-		protected void registerGoals() {
-			super.registerGoals();
-			this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setCallsForHelp());
-			this.goalSelector.addGoal(3, new LaboratoryWatchTargetGoal(this));
-			this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2, false) {
-				@Override
-				public boolean shouldExecute() {
-					return super.shouldExecute() && !CustomEntity.this.isSwingInProgress;
-				}
-			});
-			this.goalSelector.addGoal(3, new RandomWalkingGoal(this, 1));
-			this.goalSelector.addGoal(4, new LookRandomlyGoal(this));
-			this.goalSelector.addGoal(5, new SwimGoal(this));
-		}
-
-		public boolean attackEntityAsMob(Entity entityIn) {
-			LivingEntity entityL = (LivingEntity) entityIn;
-			if (entityIn instanceof LivingEntity) {
-				this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getMaxHealth() + 1);
-				entityL.getAttribute(Attributes.MAX_HEALTH).setBaseValue(entityL.getMaxHealth() - 1);
-			}
-			return super.attackEntityAsMob(entityIn);
-		}
-
-		@Override
 		public CreatureAttribute getCreatureAttribute() {
-			return CreatureAttribute.UNDEFINED;
+			return CreatureAttribute.ILLAGER;
 		}
 
-		public net.minecraft.util.SoundEvent getNopeSound() {
-			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("laboratory:nope"));
+		public void applyWaveBonus(int wave, boolean p_213660_2_) {
+		}
+
+		public net.minecraft.util.SoundEvent getRaidLossSound() {
+			return SoundEvents.ENTITY_PILLAGER_CELEBRATE;
 		}
 
 		@Override

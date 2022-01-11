@@ -21,6 +21,7 @@ import net.minecraft.network.IPacket;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
+import net.minecraft.entity.monster.VexEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
@@ -31,9 +32,11 @@ import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.CreatureAttribute;
 
 import net.mcreator.laboratory.entity.renderer.IMMORTALRenderer;
@@ -44,6 +47,7 @@ public class IMMORTALEntity extends LaboratoryModElements.ModElement {
 	public static EntityType entity = (EntityType.Builder.<CustomEntity>create(CustomEntity::new, EntityClassification.MONSTER)
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(CustomEntity::new)
 			.size(0.6f, 1.8f)).build("immortal").setRegistryName("immortal");
+
 	public IMMORTALEntity(LaboratoryModElements instance) {
 		super(instance, 46);
 		FMLJavaModLoadingContext.get().getModEventBus().register(new IMMORTALRenderer.ModelRegisterHandler());
@@ -68,6 +72,7 @@ public class IMMORTALEntity extends LaboratoryModElements.ModElement {
 		EntitySpawnPlacementRegistry.register(entity, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 				MonsterEntity::canMonsterSpawn);
 	}
+
 	private static class EntityAttributesRegisterHandler {
 		@SubscribeEvent
 		public void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
@@ -84,6 +89,7 @@ public class IMMORTALEntity extends LaboratoryModElements.ModElement {
 
 	public static class CustomEntity extends MonsterEntity {
 		public float deathTicks;
+
 		public CustomEntity(FMLPlayMessages.SpawnEntity packet, World world) {
 			this(entity, world);
 		}
@@ -98,6 +104,20 @@ public class IMMORTALEntity extends LaboratoryModElements.ModElement {
 		@Override
 		public IPacket<?> createSpawnPacket() {
 			return NetworkHooks.getEntitySpawningPacket(this);
+		}
+
+		public boolean isOnSameTeam(Entity entityIn) {
+			if (entityIn == null) {
+				return false;
+			} else if (super.isOnSameTeam(entityIn)) {
+				return true;
+			} else if (entityIn instanceof VexEntity) {
+				return this.isOnSameTeam(((VexEntity) entityIn).getOwner());
+			} else if (entityIn instanceof LivingEntity && ((LivingEntity) entityIn).getCreatureAttribute() == CreatureAttribute.ILLAGER) {
+				return this.getTeam() == null && entityIn.getTeam() == null;
+			} else {
+				return false;
+			}
 		}
 
 		public void onKillCommand() {
@@ -156,7 +176,7 @@ public class IMMORTALEntity extends LaboratoryModElements.ModElement {
 
 		@Override
 		public CreatureAttribute getCreatureAttribute() {
-			return CreatureAttribute.UNDEFINED;
+			return CreatureAttribute.ILLAGER;
 		}
 
 		@Override

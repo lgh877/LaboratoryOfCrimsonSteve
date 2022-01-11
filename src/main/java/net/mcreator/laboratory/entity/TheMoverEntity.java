@@ -18,6 +18,7 @@ import net.minecraft.world.IServerWorld;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.DamageSource;
@@ -33,6 +34,7 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.entity.monster.VexEntity;
 import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.monster.AbstractRaiderEntity;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
@@ -63,6 +65,7 @@ public class TheMoverEntity extends LaboratoryModElements.ModElement {
 	public static EntityType entity = (EntityType.Builder.<CustomEntity>create(CustomEntity::new, EntityClassification.MONSTER)
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(CustomEntity::new)
 			.size(0.6f, 1.8f)).build("the_mover").setRegistryName("the_mover");
+
 	public TheMoverEntity(LaboratoryModElements instance) {
 		super(instance, 42);
 		FMLJavaModLoadingContext.get().getModEventBus().register(new TheMoverRenderer.ModelRegisterHandler());
@@ -87,6 +90,7 @@ public class TheMoverEntity extends LaboratoryModElements.ModElement {
 		EntitySpawnPlacementRegistry.register(entity, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 				MonsterEntity::canMonsterSpawn);
 	}
+
 	private static class EntityAttributesRegisterHandler {
 		@SubscribeEvent
 		public void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
@@ -100,8 +104,9 @@ public class TheMoverEntity extends LaboratoryModElements.ModElement {
 		}
 	}
 
-	public static class CustomEntity extends MonsterEntity implements IRangedAttackMob {
+	public static class CustomEntity extends AbstractRaiderEntity implements IRangedAttackMob {
 		public int rush;
+
 		public CustomEntity(FMLPlayMessages.SpawnEntity packet, World world) {
 			this(entity, world);
 		}
@@ -159,8 +164,6 @@ public class TheMoverEntity extends LaboratoryModElements.ModElement {
 		public boolean isOnSameTeam(Entity entityIn) {
 			if (entityIn == null) {
 				return false;
-			} else if (entityIn == this) {
-				return true;
 			} else if (super.isOnSameTeam(entityIn)) {
 				return true;
 			} else if (entityIn instanceof VexEntity) {
@@ -261,6 +264,13 @@ public class TheMoverEntity extends LaboratoryModElements.ModElement {
 		@Override
 		public CreatureAttribute getCreatureAttribute() {
 			return CreatureAttribute.ILLAGER;
+		}
+
+		public void applyWaveBonus(int wave, boolean p_213660_2_) {
+		}
+
+		public net.minecraft.util.SoundEvent getRaidLossSound() {
+			return SoundEvents.ENTITY_PILLAGER_CELEBRATE;
 		}
 
 		@Override
