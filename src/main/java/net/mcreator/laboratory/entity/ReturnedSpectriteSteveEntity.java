@@ -57,6 +57,7 @@ public class ReturnedSpectriteSteveEntity extends LaboratoryModElements.ModEleme
 	public static EntityType entity = (EntityType.Builder.<CustomEntity>create(CustomEntity::new, EntityClassification.MONSTER)
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(CustomEntity::new)
 			.size(0.6f, 1.8f)).build("returned_spectrite_steve").setRegistryName("returned_spectrite_steve");
+
 	public ReturnedSpectriteSteveEntity(LaboratoryModElements instance) {
 		super(instance, 21);
 		FMLJavaModLoadingContext.get().getModEventBus().register(new ReturnedSpectriteSteveRenderer.ModelRegisterHandler());
@@ -81,6 +82,7 @@ public class ReturnedSpectriteSteveEntity extends LaboratoryModElements.ModEleme
 		EntitySpawnPlacementRegistry.register(entity, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 				MonsterEntity::canMonsterSpawn);
 	}
+
 	private static class EntityAttributesRegisterHandler {
 		@SubscribeEvent
 		public void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
@@ -100,6 +102,7 @@ public class ReturnedSpectriteSteveEntity extends LaboratoryModElements.ModEleme
 		private Entity attackedTarget;
 		private int attackCount;
 		public float deathTicks;
+
 		public CustomEntity(FMLPlayMessages.SpawnEntity packet, World world) {
 			this(entity, world);
 		}
@@ -128,6 +131,9 @@ public class ReturnedSpectriteSteveEntity extends LaboratoryModElements.ModEleme
 			double x1 = this.getPosX();
 			double y1 = this.getPosY();
 			double z1 = this.getPosZ();
+			Explosion.Mode explosion$mode = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this)
+					? Explosion.Mode.DESTROY
+					: Explosion.Mode.NONE;
 			int level = 6;
 			this.deathTicks++;
 			this.setPositionAndUpdate(x, y, z);
@@ -135,7 +141,7 @@ public class ReturnedSpectriteSteveEntity extends LaboratoryModElements.ModEleme
 				this.playSound(this.getDeathSound(), 3.0F, 0.5F + this.deathTicks / 133.0F);
 			if (this.deathTicks > 200.0F) {
 				if (this.world instanceof World && !((World) world).isRemote)
-					((World) world).createExplosion(null, (int) x1, (int) y1, (int) z1, level, Explosion.Mode.BREAK);
+					((World) world).createExplosion(null, (int) x1, (int) y1, (int) z1, level, explosion$mode);
 				this.remove();
 			}
 		}
@@ -151,6 +157,7 @@ public class ReturnedSpectriteSteveEntity extends LaboratoryModElements.ModEleme
 			this.goalSelector.addGoal(4, new LookRandomlyGoal(this));
 			this.goalSelector.addGoal(5, new SwimGoal(this));
 		}
+
 		class Teleport extends Goal {
 			public Teleport() {
 				this.setMutexFlags(EnumSet.of(Goal.Flag.LOOK));
@@ -186,6 +193,7 @@ public class ReturnedSpectriteSteveEntity extends LaboratoryModElements.ModEleme
 				super.tick();
 			}
 		}
+
 		private boolean teleportTo(double x, double y, double z) {
 			BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable(x, y, z);
 			while (blockpos$mutable.getY() > 0 && !this.world.getBlockState(blockpos$mutable).getMaterial().blocksMovement()) {

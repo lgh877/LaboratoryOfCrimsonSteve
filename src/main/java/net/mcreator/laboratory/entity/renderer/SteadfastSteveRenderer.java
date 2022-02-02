@@ -34,9 +34,9 @@ public class SteadfastSteveRenderer {
 
 					protected void applyRotations(LivingEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw,
 							float partialTicks) {
+						super.applyRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
 						matrixStackIn.rotate(Vector3f.XP.rotationDegrees(MathHelper.clamp((float) entityLiving.getMotion().y, -2, 0) * 90));
 						matrixStackIn.rotate(Vector3f.YP.rotationDegrees(ageInTicks * 70));
-						matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(entityLiving.deathTime * 9));
 					}
 				};
 				customRender.addLayer(new BipedArmorLayer(customRender, new BipedModel(0.5f), new BipedModel(1)));
