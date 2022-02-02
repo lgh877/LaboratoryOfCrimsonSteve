@@ -5,7 +5,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Entity;
 
 import net.mcreator.laboratory.LaboratoryMod;
@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Comparator;
 
 public class HomingProjectileLauncherWhileProjectileFlyingTickProcedure {
-
 	public static void executeProcedure(Map<String, Object> dependencies) {
 		if (dependencies.get("world") == null) {
 			if (!dependencies.containsKey("world"))
@@ -56,57 +55,73 @@ public class HomingProjectileLauncherWhileProjectileFlyingTickProcedure {
 		double z = dependencies.get("z") instanceof Integer ? (int) dependencies.get("z") : (double) dependencies.get("z");
 		Entity entity = (Entity) dependencies.get("entity");
 		Entity imediatesourceentity = (Entity) dependencies.get("imediatesourceentity");
+		double range = 0;
 		if (entity instanceof ServerPlayerEntity || entity instanceof PlayerEntity) {
-			if (((Entity) world
-					.getEntitiesWithinAABB(MonsterEntity.class,
-							new AxisAlignedBB(x - (10 / 2d), y - (10 / 2d), z - (10 / 2d), x + (10 / 2d), y + (10 / 2d), z + (10 / 2d)), null)
-					.stream().sorted(new Object() {
+			range = 40;
+			if (((Entity) world.getEntitiesWithinAABB(MonsterEntity.class,
+					new AxisAlignedBB(x - (range / 2d), y - (range / 2d), z - (range / 2d), x + (range / 2d), y + (range / 2d), z + (range / 2d)),
+					null).stream().sorted(new Object() {
 						Comparator<Entity> compareDistOf(double _x, double _y, double _z) {
 							return Comparator.comparing((Function<Entity, Double>) (_entcnd -> _entcnd.getDistanceSq(_x, _y, _z)));
 						}
 					}.compareDistOf(x, y, z)).findFirst().orElse(null)) != null) {
-				imediatesourceentity.setMotion((((Entity) world
-						.getEntitiesWithinAABB(MonsterEntity.class,
-								new AxisAlignedBB(x - (10 / 2d), y - (10 / 2d), z - (10 / 2d), x + (10 / 2d), y + (10 / 2d), z + (10 / 2d)), null)
-						.stream().sorted(new Object() {
-							Comparator<Entity> compareDistOf(double _x, double _y, double _z) {
-								return Comparator.comparing((Function<Entity, Double>) (_entcnd -> _entcnd.getDistanceSq(_x, _y, _z)));
-							}
-						}.compareDistOf(x, y, z)).findFirst().orElse(null)).getPosX() - imediatesourceentity.getPosX()),
-						(((Entity) world.getEntitiesWithinAABB(MonsterEntity.class,
-								new AxisAlignedBB(x - (10 / 2d), y - (10 / 2d), z - (10 / 2d), x + (10 / 2d), y + (10 / 2d), z + (10 / 2d)), null)
-								.stream().sorted(new Object() {
-									Comparator<Entity> compareDistOf(double _x, double _y, double _z) {
-										return Comparator.comparing((Function<Entity, Double>) (_entcnd -> _entcnd.getDistanceSq(_x, _y, _z)));
-									}
-								}.compareDistOf(x, y, z)).findFirst().orElse(null)).getPosY() - imediatesourceentity.getPosY()),
-						(((Entity) world.getEntitiesWithinAABB(MonsterEntity.class,
-								new AxisAlignedBB(x - (10 / 2d), y - (10 / 2d), z - (10 / 2d), x + (10 / 2d), y + (10 / 2d), z + (10 / 2d)), null)
-								.stream().sorted(new Object() {
-									Comparator<Entity> compareDistOf(double _x, double _y, double _z) {
-										return Comparator.comparing((Function<Entity, Double>) (_entcnd -> _entcnd.getDistanceSq(_x, _y, _z)));
-									}
-								}.compareDistOf(x, y, z)).findFirst().orElse(null)).getPosZ() - imediatesourceentity.getPosZ()));
+				imediatesourceentity
+						.setMotion(
+								((((Entity) world
+										.getEntitiesWithinAABB(MonsterEntity.class, new AxisAlignedBB(x - (range / 2d), y - (range / 2d),
+												z - (range / 2d), x + (range / 2d), y + (range / 2d), z + (range / 2d)), null)
+										.stream().sorted(new Object() {
+											Comparator<Entity> compareDistOf(double _x, double _y, double _z) {
+												return Comparator
+														.comparing((Function<Entity, Double>) (_entcnd -> _entcnd.getDistanceSq(_x, _y, _z)));
+											}
+										}.compareDistOf(x, y, z)).findFirst().orElse(null)).getPosX() - imediatesourceentity.getPosX()) / 10),
+								(((((Entity) world
+										.getEntitiesWithinAABB(MonsterEntity.class, new AxisAlignedBB(x - (range / 2d), y - (range / 2d),
+												z - (range / 2d), x + (range / 2d), y + (range / 2d), z + (range / 2d)), null)
+										.stream().sorted(new Object() {
+											Comparator<Entity> compareDistOf(double _x, double _y, double _z) {
+												return Comparator
+														.comparing((Function<Entity, Double>) (_entcnd -> _entcnd.getDistanceSq(_x, _y, _z)));
+											}
+										}.compareDistOf(x, y, z)).findFirst().orElse(null)).getPosY() + ((Entity) world
+												.getEntitiesWithinAABB(MonsterEntity.class, new AxisAlignedBB(x - (range / 2d), y - (range / 2d),
+														z - (range / 2d), x + (range / 2d), y + (range / 2d), z + (range / 2d)), null)
+												.stream().sorted(new Object() {
+													Comparator<Entity> compareDistOf(double _x, double _y, double _z) {
+														return Comparator
+																.comparing((Function<Entity, Double>) (_entcnd -> _entcnd.getDistanceSq(_x, _y, _z)));
+													}
+												}.compareDistOf(x, y, z)).findFirst().orElse(null)).getHeight() * 0.3)
+										- imediatesourceentity.getPosY()) / 10),
+								((((Entity) world
+										.getEntitiesWithinAABB(MonsterEntity.class, new AxisAlignedBB(x - (range / 2d), y - (range / 2d),
+												z - (range / 2d), x + (range / 2d), y + (range / 2d), z + (range / 2d)), null)
+										.stream().sorted(new Object() {
+											Comparator<Entity> compareDistOf(double _x, double _y, double _z) {
+												return Comparator
+														.comparing((Function<Entity, Double>) (_entcnd -> _entcnd.getDistanceSq(_x, _y, _z)));
+											}
+										}.compareDistOf(x, y, z)).findFirst().orElse(null)).getPosZ() - imediatesourceentity.getPosZ()) / 10));
 			}
 		} else {
 			{
 				List<Entity> _entfound = world
-						.getEntitiesWithinAABB(Entity.class,
-								new AxisAlignedBB(x - (10 / 2d), y - (10 / 2d), z - (10 / 2d), x + (10 / 2d), y + (10 / 2d), z + (10 / 2d)), null)
+						.getEntitiesWithinAABB(LivingEntity.class,
+								new AxisAlignedBB(x - (20 / 2d), y - (20 / 2d), z - (20 / 2d), x + (20 / 2d), y + (20 / 2d), z + (20 / 2d)), null)
 						.stream().sorted(new Object() {
 							Comparator<Entity> compareDistOf(double _x, double _y, double _z) {
 								return Comparator.comparing((Function<Entity, Double>) (_entcnd -> _entcnd.getDistanceSq(_x, _y, _z)));
 							}
 						}.compareDistOf(x, y, z)).collect(Collectors.toList());
 				for (Entity entityiterator : _entfound) {
-					if (((entity instanceof MobEntity) ? ((MobEntity) entity).getAttackTarget() : null) == entityiterator) {
+					//((entity instanceof MobEntity) ? ((MobEntity) entity).getAttackTarget() : null) == entityiterator
+					if (!entity.isOnSameTeam(entityiterator)) {
 						imediatesourceentity.setMotion(
-								(((entity instanceof MobEntity) ? ((MobEntity) entity).getAttackTarget() : null).getPosX()
-										- imediatesourceentity.getPosX()),
-								(((entity instanceof MobEntity) ? ((MobEntity) entity).getAttackTarget() : null).getPosY()
-										- imediatesourceentity.getPosY()),
-								(((entity instanceof MobEntity) ? ((MobEntity) entity).getAttackTarget() : null).getPosZ()
-										- imediatesourceentity.getPosZ()));
+								(imediatesourceentity.getMotion().getX() + (entityiterator.getPosX() - imediatesourceentity.getPosX()) / 50),
+								((imediatesourceentity.getMotion().getY() + entityiterator.getPosY() + entityiterator.getHeight() * 0.3
+										- imediatesourceentity.getPosY()) / 50),
+								(imediatesourceentity.getMotion().getZ() + (entityiterator.getPosZ() - imediatesourceentity.getPosZ()) / 50));
 					}
 				}
 			}

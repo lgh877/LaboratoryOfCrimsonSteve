@@ -89,7 +89,7 @@ public class HomingProjectileLauncherItem extends LaboratoryModElements.ModEleme
 				double y = entity.getPosY();
 				double z = entity.getPosZ();
 				if (true) {
-					ArrowCustomEntity entityarrow = shoot(world, entity, random, 1f, 5, 5);
+					ArrowCustomEntity entityarrow = shoot(world, entity, random, 1f, 5, 0);
 					itemstack.damageItem(1, entity, e -> e.sendBreakAnimation(entity.getActiveHand()));
 					entityarrow.pickupStatus = AbstractArrowEntity.PickupStatus.DISALLOWED;
 				}
@@ -99,6 +99,8 @@ public class HomingProjectileLauncherItem extends LaboratoryModElements.ModEleme
 
 	@OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class)
 	public static class ArrowCustomEntity extends AbstractArrowEntity implements IRendersAsItem {
+		private int lifetime;
+
 		public ArrowCustomEntity(FMLPlayMessages.SpawnEntity packet, World world) {
 			super(arrow, world);
 		}
@@ -107,8 +109,8 @@ public class HomingProjectileLauncherItem extends LaboratoryModElements.ModEleme
 			super(type, world);
 		}
 
-		public ArrowCustomEntity(EntityType<? extends ArrowCustomEntity> type, double x, double y, double z, World world) {
-			super(type, x, y, z, world);
+		protected net.minecraft.util.SoundEvent getHitEntitySound() {
+			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("laboratory:stupid_laugh"));
 		}
 
 		public ArrowCustomEntity(EntityType<? extends ArrowCustomEntity> type, LivingEntity entity, World world) {
@@ -134,19 +136,24 @@ public class HomingProjectileLauncherItem extends LaboratoryModElements.ModEleme
 		@Override
 		protected void arrowHit(LivingEntity entity) {
 			super.arrowHit(entity);
+			entity.hurtResistantTime = 0;
 			entity.setArrowCountInEntity(entity.getArrowCountInEntity() - 1);
 		}
 
 		@Override
 		public void tick() {
 			super.tick();
+			if (this.lifetime < 80)
+				this.lifetime++;
+			else
+				this.remove();
 			double x = this.getPosX();
 			double y = this.getPosY();
 			double z = this.getPosZ();
+			this.setNoGravity(true);
 			World world = this.world;
 			Entity entity = this.func_234616_v_();
 			Entity imediatesourceentity = this;
-
 			HomingProjectileLauncherWhileProjectileFlyingTickProcedure.executeProcedure(Stream
 					.of(new AbstractMap.SimpleEntry<>("world", world), new AbstractMap.SimpleEntry<>("x", x), new AbstractMap.SimpleEntry<>("y", y),
 							new AbstractMap.SimpleEntry<>("z", z), new AbstractMap.SimpleEntry<>("entity", entity),
@@ -161,7 +168,6 @@ public class HomingProjectileLauncherItem extends LaboratoryModElements.ModEleme
 	public static ArrowCustomEntity shoot(World world, LivingEntity entity, Random random, float power, double damage, int knockback) {
 		ArrowCustomEntity entityarrow = new ArrowCustomEntity(arrow, entity, world);
 		entityarrow.shoot(entity.getLookVec().x, entity.getLookVec().y, entity.getLookVec().z, power * 2, 0);
-		entityarrow.setSilent(true);
 		entityarrow.setIsCritical(false);
 		entityarrow.setDamage(damage);
 		entityarrow.setKnockbackStrength(knockback);
@@ -180,10 +186,9 @@ public class HomingProjectileLauncherItem extends LaboratoryModElements.ModEleme
 		double d0 = target.getPosY() + (double) target.getEyeHeight() - 1.1;
 		double d1 = target.getPosX() - entity.getPosX();
 		double d3 = target.getPosZ() - entity.getPosZ();
-		entityarrow.shoot(d1, d0 - entityarrow.getPosY() + (double) MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F, d3, 1f * 2, 12.0F);
-		entityarrow.setSilent(true);
+		entityarrow.shoot(d1, d0 - entityarrow.getPosY() + (double) MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F, d3, 0.4f, 100.0F);
 		entityarrow.setDamage(5);
-		entityarrow.setKnockbackStrength(5);
+		entityarrow.setKnockbackStrength(0);
 		entityarrow.setIsCritical(false);
 		entity.world.addEntity(entityarrow);
 		double x = entity.getPosX();
