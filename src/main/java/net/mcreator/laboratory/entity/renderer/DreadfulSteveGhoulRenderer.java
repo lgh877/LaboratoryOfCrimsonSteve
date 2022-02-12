@@ -8,11 +8,16 @@ import net.minecraftforge.api.distmarker.Dist;
 
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.renderer.model.ModelHelper;
 import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.IEntityRenderer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 
 import net.mcreator.laboratory.entity.DreadfulSteveGhoulEntity;
 
@@ -26,13 +31,31 @@ public class DreadfulSteveGhoulRenderer {
 		@OnlyIn(Dist.CLIENT)
 		public void registerModels(ModelRegistryEvent event) {
 			RenderingRegistry.registerEntityRenderingHandler(DreadfulSteveGhoulEntity.entity, renderManager -> {
-				return new MobRenderer(renderManager, new ModelDreadful_Soul_Ghoul(), 0.7f) {
+				return new MobRenderer(renderManager, new ModelDreadful_Soul_Ghoul(), 0.5f) {
+					{
+						this.addLayer(new GlowingLayer<>(this));
+					}
+
 					@Override
 					public ResourceLocation getEntityTexture(Entity entity) {
 						return new ResourceLocation("laboratory:textures/dreadful_soul_ghoul.png");
 					}
 				};
 			});
+		}
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	private static class GlowingLayer<T extends Entity, M extends EntityModel<T>> extends LayerRenderer<T, M> {
+		public GlowingLayer(IEntityRenderer<T, M> er) {
+			super(er);
+		}
+
+		public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing,
+				float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+			IVertexBuilder ivertexbuilder = bufferIn
+					.getBuffer(RenderType.getEyes(new ResourceLocation("laboratory:textures/dreadful_soul_ghoul_glowing.png")));
+			this.getEntityModel().render(matrixStackIn, ivertexbuilder, 15728640, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
 		}
 	}
 
@@ -117,24 +140,23 @@ public class DreadfulSteveGhoulRenderer {
 		}
 
 		public void setRotationAngles(Entity e, float f, float f1, float f2, float f3, float f4) {
-			MobEntity entityM = (MobEntity) e;
-			float customHeadYaw = f3 / (180F / (float) Math.PI);
-			float customHeadPitch = f4 / (180F / (float) Math.PI);
-			float spA1 = this.swingProgress * 2;
-			float spA2 = (this.swingProgress - 0.5f) * 2;
-			this.head.rotateAngleY = customHeadYaw * 0.5f;
-			this.head.rotateAngleX = customHeadPitch * 0.35f;
-			this.lowerBody.rotateAngleY = 0;
-			this.lowerBody.rotateAngleX = customHeadPitch * 0.3f;
-			this.upperBody.rotateAngleY = customHeadYaw * 0.5f;
-			this.upperBody.rotateAngleX = customHeadPitch * 0.35f;
-			if (entityM.isSwingInProgress) {
-			} else {
-				this.leftArm.rotateAngleX = MathHelper.cos(f * 0.3662F) * f1;
-				this.rightArm.rotateAngleX = MathHelper.cos(f * 0.3662F + (float) Math.PI) * f1;
-			}
-			this.leftLeg1.rotateAngleX = MathHelper.cos(f * 0.5F) * -1.0F * f1;
-			this.rightLeg1.rotateAngleX = MathHelper.cos(f * 0.5F) * 1.0F * f1;
+			float pi = (float) Math.PI;
+			float pitch = f4 / (180F / pi);
+			float headYaw = f3 / (180F / pi);
+			this.head.rotateAngleZ = MathHelper.clamp(MathHelper.cos(f2 * 0.04f), -0.1f, 0.1f);
+			this.head.rotateAngleY = headYaw;
+			this.head.rotateAngleX = pitch * 0.6f;
+			this.upperBody.rotateAngleZ = MathHelper.clamp(MathHelper.sin(f2 * 0.05f), -0.1f, 0.1f);
+			this.upperBody.rotateAngleX = pitch * 0.2f;
+			this.rightArm.rotateAngleX = MathHelper.cos(f * 0.6662F + pi) * f1;
+			this.rightArm.rotateAngleZ = -MathHelper.clamp(MathHelper.sin(f2 * 0.05f), 0f, 0.1f);
+			this.leftArm.rotateAngleX = MathHelper.cos(f * 0.6662F) * f1;
+			this.leftArm.rotateAngleZ = -MathHelper.clamp(MathHelper.sin(f2 * 0.05f), -0.1f, 0f);
+			this.lowerBody.rotateAngleZ = MathHelper.clamp(MathHelper.cos(f2 * 0.07f), -0.1f, 0.1f);
+			this.lowerBody.rotateAngleX = pitch * 0.2f;
+			this.leftLeg1.rotateAngleX = MathHelper.cos(f * 1.0F + pi) * f1;
+			this.rightLeg1.rotateAngleX = MathHelper.cos(f * 1.0F) * f1;
+			ModelHelper.func_239101_a_(this.rightArm, this.leftArm, f2);
 		}
 	}
 }

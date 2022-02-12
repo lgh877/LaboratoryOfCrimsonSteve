@@ -15,18 +15,13 @@ import net.minecraftforge.common.DungeonHooks;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.World;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.DamageSource;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.IPacket;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
-import net.minecraft.entity.monster.VexEntity;
-import net.minecraft.entity.monster.AbstractRaiderEntity;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
@@ -40,7 +35,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.CreatureAttribute;
 
 import net.mcreator.laboratory.procedures.OnlySpawnInOverWorldProcedure;
@@ -56,7 +50,7 @@ import java.util.AbstractMap;
 public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 	public static EntityType entity = (EntityType.Builder.<CustomEntity>create(CustomEntity::new, EntityClassification.CREATURE)
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(CustomEntity::new)
-			.size(0.8f, 3.5f)).build("dreadful_steve_ghoul").setRegistryName("dreadful_steve_ghoul");
+			.size(0.6f, 1.8f)).build("dreadful_steve_ghoul").setRegistryName("dreadful_steve_ghoul");
 
 	public DreadfulSteveGhoulEntity(LaboratoryModElements instance) {
 		super(instance, 49);
@@ -68,7 +62,7 @@ public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 	@Override
 	public void initElements() {
 		elements.entities.add(() -> entity);
-		elements.items.add(() -> new SpawnEggItem(entity, -16737997, -13369549, new Item.Properties().group(ItemGroup.MISC))
+		elements.items.add(() -> new SpawnEggItem(entity, -14804197, -14607846, new Item.Properties().group(ItemGroup.MISC))
 				.setRegistryName("dreadful_steve_ghoul_spawn_egg"));
 	}
 
@@ -102,22 +96,7 @@ public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 		}
 	}
 
-	public static class CustomEntity extends AbstractRaiderEntity {
-		private static final DataParameter<Integer> ATTACK_STATE = EntityDataManager.createKey(CustomEntity.class, DataSerializers.VARINT);
-
-		protected void registerData() {
-			super.registerData();
-			this.dataManager.register(ATTACK_STATE, 0);
-		}
-
-		public void setAttackState(int value) {
-			this.dataManager.set(ATTACK_STATE, value);
-		}
-
-		public int getAttackState() {
-			return this.dataManager.get(ATTACK_STATE);
-		}
-
+	public static class CustomEntity extends MonsterEntity {
 		public CustomEntity(FMLPlayMessages.SpawnEntity packet, World world) {
 			this(entity, world);
 		}
@@ -133,30 +112,11 @@ public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 			return NetworkHooks.getEntitySpawningPacket(this);
 		}
 
-		public boolean isOnSameTeam(Entity entityIn) {
-			if (entityIn == null) {
-				return false;
-			} else if (super.isOnSameTeam(entityIn)) {
-				return true;
-			} else if (entityIn instanceof VexEntity) {
-				return this.isOnSameTeam(((VexEntity) entityIn).getOwner());
-			} else if (entityIn instanceof LivingEntity && ((LivingEntity) entityIn).getCreatureAttribute() == CreatureAttribute.ILLAGER) {
-				return this.getTeam() == null && entityIn.getTeam() == null;
-			} else {
-				return false;
-			}
-		}
-
 		@Override
 		protected void registerGoals() {
 			super.registerGoals();
 			this.targetSelector.addGoal(1, new NearestAttackableTargetGoal(this, LivingEntity.class, false, false));
-			this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2, false) {
-				@Override
-				public boolean shouldExecute() {
-					return super.shouldExecute() && !CustomEntity.this.isSwingInProgress;
-				}
-			});
+			this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2, false));
 			this.goalSelector.addGoal(3, new RandomWalkingGoal(this, 1));
 			this.targetSelector.addGoal(4, new HurtByTargetGoal(this));
 			this.goalSelector.addGoal(5, new LookRandomlyGoal(this));
@@ -164,40 +124,23 @@ public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 		}
 
 		@Override
-		protected void updateArmSwingProgress() {
-			int i = 60;
-			if (this.isSwingInProgress) {
-				++this.swingProgressInt;
-				if (this.swingProgressInt >= i) {
-					this.swingProgressInt = 0;
-					this.isSwingInProgress = false;
-				}
-			} else {
-				this.swingProgressInt = 0;
-			}
-			this.swingProgress = (float) this.swingProgressInt / (float) i;
-		}
-
-		@Override
 		public CreatureAttribute getCreatureAttribute() {
 			return CreatureAttribute.ILLAGER;
 		}
 
-		public void applyWaveBonus(int wave, boolean p_213660_2_) {
-		}
-
-		public net.minecraft.util.SoundEvent getRaidLossSound() {
-			return SoundEvents.ENTITY_PILLAGER_CELEBRATE;
+		@Override
+		public net.minecraft.util.SoundEvent getAmbientSound() {
+			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.wither.ambient"));
 		}
 
 		@Override
 		public net.minecraft.util.SoundEvent getHurtSound(DamageSource ds) {
-			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("laboratory:steve_hurt"));
+			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.wither.hurt"));
 		}
 
 		@Override
 		public net.minecraft.util.SoundEvent getDeathSound() {
-			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("laboratory:steve_hurt"));
+			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.wither.death"));
 		}
 	}
 }

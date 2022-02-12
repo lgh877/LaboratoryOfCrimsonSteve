@@ -487,59 +487,6 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "custom_math_helper"
-    },
-    {
-      "name": "HomingProjectileLauncherWhileProjectileFlyingTick",
-      "type": "procedure",
-      "sortid": 54,
-      "compiles": true,
-      "locked_code": true,
-      "registry_name": "homing_projectile_launcher_while_projectile_flying_tick",
-      "metadata": {
-        "dependencies": [
-          {
-            "name": "entity",
-            "type": "entity"
-          },
-          {
-            "name": "imediatesourceentity",
-            "type": "entity"
-          },
-          {
-            "name": "x",
-            "type": "number"
-          },
-          {
-            "name": "y",
-            "type": "number"
-          },
-          {
-            "name": "z",
-            "type": "number"
-          },
-          {
-            "name": "world",
-            "type": "world"
-          }
-        ]
-      }
-    },
-    {
-      "name": "HomingProjectileLauncher",
-      "type": "rangeditem",
-      "sortid": 54,
-      "compiles": true,
-      "locked_code": true,
-      "registry_name": "homing_projectile_launcher"
-    },
-    {
-      "name": "HomingProjectileUser",
-      "type": "livingentity",
-      "sortid": 55,
-      "compiles": true,
-      "locked_code": true,
-      "registry_name": "homing_projectile_user",
-      "path": "~/HomingProjectileUser"
     }
   ],
   "variable_elements": [],
@@ -639,7 +586,6 @@
       "subtitles.stupid_hurt": "",
       "subtitles.hitbox_hit": "",
       "entity.laboratory.mr_strange": "Mr Strange",
-      "entity.laboratory.homing_projectile_user": "Homing Projectile User",
       "entity.laboratory.steadfast_steve": "Steadfast Steve",
       "entity.laboratory.ghost_steve": "Ghost Steve",
       "item.laboratory.mr_strange_spawn_egg": "Mr Strange Spawn Egg",
@@ -649,7 +595,6 @@
       "item.laboratory.stevoker_spawn_egg": "Stevoker Spawn Egg",
       "item.laboratory.annoying_mob_spawn_egg": "Annoying Mob Spawn Egg",
       "entity.laboratory.mr_stretch": "Mr Stretch",
-      "item.laboratory.homing_projectile_launcher": "Homing Projectile Launcher",
       "subtitles.stupid_laugh": "",
       "item.laboratory.poop": "Poop",
       "advancements.mr_dummy_recipe_achievement.descr": "Are you boring? Then this would be good for you!",
@@ -658,7 +603,6 @@
       "entity.laboratory.dreadful_steve_ghoul": "Dreadful Steve Ghoul",
       "item.laboratory.returned_spectrite_steve_spawn_egg": "Returned Spectrite Steve Spawn Egg",
       "item.laboratory.the_mover_spawn_egg": "The Mover Spawn Egg",
-      "item.laboratory.homing_projectile_user_spawn_egg": "Homing Projectile User Spawn Egg",
       "entity.laboratory.mr_dummy": "Mr Dummy",
       "item.laboratory.mr_block_spawn_egg": "Mr Block Spawn Egg",
       "entity.laboratory.annoying_mob": "Annoying Mob",
@@ -726,10 +670,6 @@
       {
         "name": "dreadful_steve_ghoul",
         "children": []
-      },
-      {
-        "name": "HomingProjectileUser",
-        "children": []
       }
     ]
   },
@@ -751,5 +691,5 @@
     "modElementsPackage": "net.mcreator.laboratory",
     "lockBaseModFiles": false
   },
-  "mcreatorVersion": 202100353117
+  "mcreatorVersion": 202100354000
 }

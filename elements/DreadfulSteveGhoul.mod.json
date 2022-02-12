@@ -6,18 +6,18 @@
     "mobLabel": "",
     "mobModelName": "ModelDreadful_Soul_Ghoul",
     "mobModelTexture": "dreadful_soul_ghoul.png",
-    "mobModelGlowTexture": "",
+    "mobModelGlowTexture": "dreadful_soul_ghoul_glowing.png",
     "modelWidth": 0.6,
     "modelHeight": 1.8,
     "modelShadowSize": 0.5,
     "mountedYOffset": 0.0,
     "hasSpawnEgg": true,
     "spawnEggBaseColor": {
-      "value": -16737997,
+      "value": -14804197,
       "falpha": 0.0
     },
     "spawnEggDotColor": {
-      "value": -13369549,
+      "value": -14607846,
       "falpha": 0.0
     },
     "creativeTab": {
@@ -80,13 +80,13 @@
       "value": ""
     },
     "livingSound": {
-      "value": ""
+      "value": "entity.wither.ambient"
     },
     "hurtSound": {
-      "value": "CUSTOM:steve_hurt"
+      "value": "entity.wither.hurt"
     },
     "deathSound": {
-      "value": "CUSTOM:steve_hurt"
+      "value": "entity.wither.death"
     },
     "stepSound": {
       "value": ""
@@ -106,7 +106,7 @@
     "breedTriggerItems": [],
     "ranged": false,
     "rangedAttackItem": {
-      "value": ""
+      "value": "Blocks.PISTON"
     },
     "rangedItemType": "Default item",
     "spawnThisMob": true,
