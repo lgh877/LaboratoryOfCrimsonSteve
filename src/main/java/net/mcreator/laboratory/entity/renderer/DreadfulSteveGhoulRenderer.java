@@ -31,7 +31,7 @@ public class DreadfulSteveGhoulRenderer {
 		@OnlyIn(Dist.CLIENT)
 		public void registerModels(ModelRegistryEvent event) {
 			RenderingRegistry.registerEntityRenderingHandler(DreadfulSteveGhoulEntity.entity, renderManager -> {
-				return new MobRenderer(renderManager, new ModelDreadful_Soul_Ghoul(), 0.5f) {
+				return new MobRenderer(renderManager, new ModelDreadful_Soul_Ghoul(), 1.2f) {
 					{
 						this.addLayer(new GlowingLayer<>(this));
 					}
@@ -63,6 +63,7 @@ public class DreadfulSteveGhoulRenderer {
 	// Exported for Minecraft version 1.15 - 1.16 with MCP mappings
 	// Paste this class into your mod and generate all required imports
 	public static class ModelDreadful_Soul_Ghoul extends EntityModel<Entity> {
+		private final ModelRenderer whole;
 		private final ModelRenderer lowerBody;
 		private final ModelRenderer upperBody;
 		private final ModelRenderer head;
@@ -78,8 +79,11 @@ public class DreadfulSteveGhoulRenderer {
 		public ModelDreadful_Soul_Ghoul() {
 			textureWidth = 128;
 			textureHeight = 128;
+			whole = new ModelRenderer(this);
+			whole.setRotationPoint(0.0F, 24.0F, 0.0F);
 			lowerBody = new ModelRenderer(this);
-			lowerBody.setRotationPoint(0.0F, -6.0F, 0.0F);
+			lowerBody.setRotationPoint(0.0F, -30.0F, 0.0F);
+			whole.addChild(lowerBody);
 			lowerBody.setTextureOffset(64, 0).addBox(-6.0F, -13.0F, -4.0F, 12.0F, 13.0F, 8.0F, 0.0F, false);
 			upperBody = new ModelRenderer(this);
 			upperBody.setRotationPoint(0.0F, -13.0F, 0.0F);
@@ -102,7 +106,8 @@ public class DreadfulSteveGhoulRenderer {
 			leftArm.setTextureOffset(0, 86).addBox(-3.0F, 3.0F, -3.0F, 6.0F, 10.0F, 6.0F, 0.0F, false);
 			leftArm.setTextureOffset(0, 25).addBox(-5.0F, 13.0F, -5.0F, 10.0F, 35.0F, 10.0F, 0.0F, false);
 			rightLeg1 = new ModelRenderer(this);
-			rightLeg1.setRotationPoint(-5.0F, -6.0F, 0.0F);
+			rightLeg1.setRotationPoint(-5.0F, -30.0F, 0.0F);
+			whole.addChild(rightLeg1);
 			rightLeg1.setTextureOffset(85, 57).addBox(-3.0F, -1.0F, -3.0F, 6.0F, 12.0F, 6.0F, 0.0F, false);
 			rightLeg2 = new ModelRenderer(this);
 			rightLeg2.setRotationPoint(0.0F, 11.0F, 0.0F);
@@ -113,7 +118,8 @@ public class DreadfulSteveGhoulRenderer {
 			rightLeg2.addChild(rightLeg3);
 			rightLeg3.setTextureOffset(84, 81).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 12.0F, 6.0F, 0.0F, false);
 			leftLeg1 = new ModelRenderer(this);
-			leftLeg1.setRotationPoint(5.0F, -6.0F, 0.0F);
+			leftLeg1.setRotationPoint(5.0F, -30.0F, 0.0F);
+			whole.addChild(leftLeg1);
 			leftLeg1.setTextureOffset(80, 39).addBox(-3.0F, -1.0F, -3.0F, 6.0F, 12.0F, 6.0F, 0.0F, false);
 			leftLeg2 = new ModelRenderer(this);
 			leftLeg2.setRotationPoint(0.0F, 11.0F, 0.0F);
@@ -128,9 +134,7 @@ public class DreadfulSteveGhoulRenderer {
 		@Override
 		public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue,
 				float alpha) {
-			lowerBody.render(matrixStack, buffer, packedLight, packedOverlay);
-			rightLeg1.render(matrixStack, buffer, packedLight, packedOverlay);
-			leftLeg1.render(matrixStack, buffer, packedLight, packedOverlay);
+			whole.render(matrixStack, buffer, packedLight, packedOverlay);
 		}
 
 		public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
@@ -140,22 +144,50 @@ public class DreadfulSteveGhoulRenderer {
 		}
 
 		public void setRotationAngles(Entity e, float f, float f1, float f2, float f3, float f4) {
+			DreadfulSteveGhoulEntity.CustomEntity entityM = (DreadfulSteveGhoulEntity.CustomEntity) e;
 			float pi = (float) Math.PI;
 			float pitch = f4 / (180F / pi);
 			float headYaw = f3 / (180F / pi);
+			float idle = (MathHelper.sin(f2 * 0.05f) + 1) * 0.5f * (1 - f1) + f1;
+			float a1 = f2 - (float) entityM.ticksExisted;
+			float a2 = entityM.getAnimationScale(a1, 1) / entityM.getAttackProgressEnd();
+			float a3 = entityM.getAnimationScale(a1, 0) / 6;
+			float meleeAttack = a2 * a2 * a2;
+			{
+				rightArm.setRotationPoint(-13.0F, -7.0F, 0.0F);
+				lowerBody.setRotationPoint(0.0F, -30.0F, 0.0F);
+				upperBody.setRotationPoint(0.0F, -13.0F, 0.0F);
+			}
+			if (entityM.moveForward > 0)
+				this.whole.rotateAngleX = (MathHelper.sin(f * 1.2f) + 1) * f1 * 0.1f;
+			else
+				this.whole.rotateAngleX = (MathHelper.sin(f * 1.2f) - 0.5f) * f1 * 0.1f;
 			this.head.rotateAngleZ = MathHelper.clamp(MathHelper.cos(f2 * 0.04f), -0.1f, 0.1f);
-			this.head.rotateAngleY = headYaw;
-			this.head.rotateAngleX = pitch * 0.6f;
-			this.upperBody.rotateAngleZ = MathHelper.clamp(MathHelper.sin(f2 * 0.05f), -0.1f, 0.1f);
-			this.upperBody.rotateAngleX = pitch * 0.2f;
-			this.rightArm.rotateAngleX = MathHelper.cos(f * 0.6662F + pi) * f1;
-			this.rightArm.rotateAngleZ = -MathHelper.clamp(MathHelper.sin(f2 * 0.05f), 0f, 0.1f);
-			this.leftArm.rotateAngleX = MathHelper.cos(f * 0.6662F) * f1;
-			this.leftArm.rotateAngleZ = -MathHelper.clamp(MathHelper.sin(f2 * 0.05f), -0.1f, 0f);
-			this.lowerBody.rotateAngleZ = MathHelper.clamp(MathHelper.cos(f2 * 0.07f), -0.1f, 0.1f);
-			this.lowerBody.rotateAngleX = pitch * 0.2f;
-			this.leftLeg1.rotateAngleX = MathHelper.cos(f * 1.0F + pi) * f1;
-			this.rightLeg1.rotateAngleX = MathHelper.cos(f * 1.0F) * f1;
+			this.head.rotateAngleY = headYaw * 0.6f - meleeAttack;
+			this.head.rotateAngleX = pitch * 0.6f - idle * 0.3f;
+			this.upperBody.rotateAngleX = pitch * 0.2f + idle * 0.15f;
+			this.upperBody.rotateAngleY = headYaw * 0.2f + meleeAttack * 0.5f;
+			this.leftArm.rotateAngleX = MathHelper.cos(f * 0.6f) * f1 * 0.4f - idle * 0.3f - meleeAttack * 3;
+			this.leftArm.rotateAngleZ = 0;
+			this.rightArm.rotateAngleX = (MathHelper.cos(f * 0.6f + pi) * f1 * 0.4f - idle * 0.3f) * (1 - a3) + (-pi / 2 + pitch * 0.6f) * a3;
+			this.rightArm.rotateAngleY = -meleeAttack + (headYaw * 0.6f) * a3;
+			this.rightArm.rotateAngleZ = 0;
+			if (entityM.isSwingInProgress) {
+				float s1 = 1 - this.swingProgress;
+				s1 = (float) Math.pow((double) s1, 3);
+				this.rightArm.rotateAngleX += -MathHelper.sin(s1 * pi) * 0.2f;
+				this.rightArm.rotationPointZ += MathHelper.sin(s1 * pi) * 10;
+				this.lowerBody.rotationPointZ += MathHelper.sin(s1 * pi) * 5;
+				this.upperBody.rotationPointZ += MathHelper.sin(s1 * pi) * 5;
+			}
+			this.lowerBody.rotateAngleX = pitch * 0.2f + idle * 0.15f;
+			this.lowerBody.rotateAngleY = headYaw * 0.2f + meleeAttack * 0.5f;
+			this.leftLeg1.rotateAngleX = (MathHelper.cos(f * 0.6f + pi) - 0.3f) * f1 * 0.3f;
+			this.leftLeg2.rotateAngleX = (MathHelper.cos(f * 0.6f + pi * 0.6f) + 1) * f1 * 0.15f;
+			this.leftLeg3.rotateAngleX = (MathHelper.cos(f * 0.6f + pi * 0.6f) + 1) * f1 * 0.15f;
+			this.rightLeg1.rotateAngleX = (MathHelper.cos(f * 0.6F) - 0.3f) * f1 * 0.3f;
+			this.rightLeg2.rotateAngleX = (MathHelper.cos(f * 0.6F - pi * 0.4f) + 1) * f1 * 0.15f;
+			this.rightLeg3.rotateAngleX = (MathHelper.cos(f * 0.6F - pi * 0.4f) + 1) * f1 * 0.15f;
 			ModelHelper.func_239101_a_(this.rightArm, this.leftArm, f2);
 		}
 	}
