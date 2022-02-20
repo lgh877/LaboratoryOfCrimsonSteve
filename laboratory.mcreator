@@ -487,6 +487,15 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "custom_math_helper"
+    },
+    {
+      "name": "SoulEnergyLauncher",
+      "type": "rangeditem",
+      "sortid": 54,
+      "compiles": true,
+      "locked_code": true,
+      "registry_name": "soul_energy_launcher",
+      "path": "~/dreadful_steve_ghoul"
     }
   ],
   "variable_elements": [],
@@ -595,6 +604,7 @@
       "item.laboratory.stevoker_spawn_egg": "Stevoker Spawn Egg",
       "item.laboratory.annoying_mob_spawn_egg": "Annoying Mob Spawn Egg",
       "entity.laboratory.mr_stretch": "Mr Stretch",
+      "item.laboratory.soul_energy_launcher": "Soul Energy Launcher",
       "subtitles.stupid_laugh": "",
       "item.laboratory.poop": "Poop",
       "advancements.mr_dummy_recipe_achievement.descr": "Are you boring? Then this would be good for you!",
