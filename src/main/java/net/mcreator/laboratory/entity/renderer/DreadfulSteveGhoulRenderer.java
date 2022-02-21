@@ -152,6 +152,7 @@ public class DreadfulSteveGhoulRenderer {
 			float a1 = f2 - (float) entityM.ticksExisted;
 			float a2 = entityM.getAnimationScale(a1, 1) / entityM.getAttackProgressEnd();
 			float a3 = entityM.getAnimationScale(a1, 0) / 6;
+			float a4 = entityM.getHurtAnimationScale(a1) / entityM.maxHurtTime;
 			float meleeAttack = a2 * a2 * a2;
 			{
 				rightArm.setRotationPoint(-13.0F, -7.0F, 0.0F);
@@ -189,6 +190,12 @@ public class DreadfulSteveGhoulRenderer {
 			this.rightLeg2.rotateAngleX = (MathHelper.cos(f * 0.6F - pi * 0.4f) + 1) * f1 * 0.15f;
 			this.rightLeg3.rotateAngleX = (MathHelper.cos(f * 0.6F - pi * 0.4f) + 1) * f1 * 0.15f;
 			ModelHelper.func_239101_a_(this.rightArm, this.leftArm, f2);
+			if (entityM.prevHurtTime > 0) {
+				a4 = a4 * a4 * a4;
+				this.head.rotateAngleX += -MathHelper.sin(a4 * pi) * 0.3f;
+				this.upperBody.rotateAngleX += -MathHelper.sin(a4 * pi) * 0.3f;
+				this.lowerBody.rotateAngleX += -MathHelper.sin(a4 * pi) * 0.3f;
+			}
 		}
 	}
 }

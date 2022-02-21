@@ -32,7 +32,7 @@ import net.minecraft.network.IPacket;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
-import net.minecraft.entity.projectile.ArrowEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
@@ -52,21 +52,17 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.CreatureAttribute;
 
-import net.mcreator.laboratory.procedures.OnlySpawnInOverWorldProcedure;
+import net.mcreator.laboratory.item.SoulEnergyLauncherItem;
 import net.mcreator.laboratory.entity.renderer.DreadfulSteveGhoulRenderer;
 import net.mcreator.laboratory.LaboratoryModElements;
 
-import java.util.stream.Stream;
 import java.util.function.Predicate;
 import java.util.Random;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.EnumSet;
-import java.util.AbstractMap;
 
 @LaboratoryModElements.ModElement.Tag
 public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
-	public static EntityType entity = (EntityType.Builder.<CustomEntity>create(CustomEntity::new, EntityClassification.CREATURE)
+	public static EntityType entity = (EntityType.Builder.<CustomEntity>create(CustomEntity::new, EntityClassification.MONSTER).immuneToFire()
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(CustomEntity::new).size(2f, 3.5f))
 					.build("dreadful_steve_ghoul").setRegistryName("dreadful_steve_ghoul");
 
@@ -86,20 +82,19 @@ public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 
 	@SubscribeEvent
 	public void addFeatureToBiomes(BiomeLoadingEvent event) {
-		event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(entity, 1, 1, 1));
+		boolean biomeCriteria = false;
+		if (new ResourceLocation("soul_sand_valley").equals(event.getName()))
+			biomeCriteria = true;
+		if (!biomeCriteria)
+			return;
+		event.getSpawns().getSpawner(EntityClassification.MONSTER).add(new MobSpawnInfo.Spawners(entity, 200, 1, 1));
 	}
 
 	@Override
 	public void init(FMLCommonSetupEvent event) {
 		EntitySpawnPlacementRegistry.register(entity, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
-				(entityType, world, reason, pos, random) -> {
-					int x = pos.getX();
-					int y = pos.getY();
-					int z = pos.getZ();
-					return OnlySpawnInOverWorldProcedure.executeProcedure(Stream.of(new AbstractMap.SimpleEntry<>("world", world))
-							.collect(HashMap::new, (_m, _e) -> _m.put(_e.getKey(), _e.getValue()), Map::putAll));
-				});
-		DungeonHooks.addDungeonMob(entity, 180);
+				MonsterEntity::canMonsterSpawn);
+		DungeonHooks.addDungeonMob(entity, 50);
 	}
 
 	private static class EntityAttributesRegisterHandler {
@@ -120,7 +115,10 @@ public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 		private static final DataParameter<Boolean> ATTACK_STATE = EntityDataManager.createKey(CustomEntity.class, DataSerializers.BOOLEAN);
 		private static final DataParameter<Boolean> SHOOT_STATE = EntityDataManager.createKey(CustomEntity.class, DataSerializers.BOOLEAN);
 		private static final DataParameter<Boolean> SUMMON_STATE = EntityDataManager.createKey(CustomEntity.class, DataSerializers.BOOLEAN);
+		//private static final DataParameter<Integer> DEATH_TICKS = EntityDataManager.createKey(CustomEntity.class, DataSerializers.VARINT);
+		public int prevHurtTime;
 		public int attackProgress;
+		//public int prevDeathTicks;
 		public boolean shootActive;
 		public boolean canAttack;
 		private float[] clientSideStandAnimation0 = new float[3];
@@ -129,6 +127,41 @@ public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 			return p_213797_0_.getCreatureAttribute() != CreatureAttribute.UNDEAD && p_213797_0_.attackable();
 		};
 
+		public boolean isOnSameTeam(Entity entityIn) {
+			if (this.getTeam() != null)
+				return super.isOnSameTeam(entityIn);
+			else if (entityIn instanceof DreadfulSteveGhoulEntity.CustomEntity)
+				return true;
+			else
+				return false;
+		}
+
+		/*protected void onDeathUpdate() {
+			this.prevDeathTicks = this.getDeathTicks();
+			this.setDeathTicks(this.getDeathTicks() + 1);
+			if (this.getDeathTicks() > 200)
+				this.remove();
+		}
+		
+		@OnlyIn(Dist.CLIENT)
+		public float getDeathAnimationScale(float p_189795_1_) {
+			return MathHelper.lerp(p_189795_1_, this.prevDeathTicks, this.getDeathTicks());
+		}
+		public void readAdditional(CompoundNBT compound) {
+			super.readAdditional(compound);
+			this.dataManager.set(DEATH_TICKS, compound.getInt("deathTicks"));
+		}
+		public void writeAdditional(CompoundNBT compound) {
+			super.writeAdditional(compound);
+			compound.putInt("deathTicks", this.getDeathTicks());
+		}
+		public void setDeathTicks(int value) {
+			this.dataManager.set(DEATH_TICKS, value);
+		}
+		public int getDeathTicks() {
+			return this.dataManager.get(DEATH_TICKS);
+		}
+		*/
 		public void setAttackState(boolean value) {
 			this.dataManager.set(ATTACK_STATE, value);
 		}
@@ -158,6 +191,7 @@ public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 			this.dataManager.register(ATTACK_STATE, false);
 			this.dataManager.register(SHOOT_STATE, false);
 			this.dataManager.register(SUMMON_STATE, false);
+			//this.dataManager.register(DEATH_TICKS, 0);
 		}
 
 		protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
@@ -183,7 +217,7 @@ public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 		protected void registerGoals() {
 			super.registerGoals();
 			this.goalSelector.addGoal(1, new CustomEntity.ShootGoal(this));
-			this.goalSelector.addGoal(1, new CustomEntity.MoveAttackGoal(this, 1.2, 0, 32));
+			this.goalSelector.addGoal(1, new CustomEntity.MoveAttackGoal(this, 1.2, 0, 48));
 			this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 0, false, false, NOT_UNDEAD));
 			this.goalSelector.addGoal(3, new RandomWalkingGoal(this, 1));
 			this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
@@ -385,21 +419,26 @@ public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 							entityIn.swingArm(Hand.MAIN_HAND);
 							entityIn.playSound(SoundEvents.ENTITY_BLAZE_SHOOT, 2, 0.5f);
 							if (world instanceof ServerWorld) {
-								double x = entityIn.getPosX();
-								double y = entityIn.getPosY() + 3.3;
-								double z = entityIn.getPosZ();
-								ArrowEntity entityToSpawn = new ArrowEntity(entityIn.world, entityIn);
+								float f = (entityIn.renderYawOffset + (float) (180 * 1)) * ((float) Math.PI / 180F);
+								float f1 = MathHelper.cos(f);
+								float f2 = MathHelper.sin(f);
+								double x = entityIn.getPosX() + f1;
+								double y = entityIn.getPosY() + 2.5;
+								double z = entityIn.getPosZ() + f2;
+								AbstractArrowEntity entityToSpawn = new SoulEnergyLauncherItem.ArrowCustomEntity(SoulEnergyLauncherItem.arrow,
+										entityIn, (World) world);
 								entityToSpawn.setLocationAndAngles(x, y, z, 0, 0);
-								entityToSpawn.setDamage(2);
+								entityToSpawn.setDamage(4);
 								entityToSpawn.setKnockbackStrength(1);
 								if (this.entityIn.getAttackTarget() == null)
-									entityIn.shoot(entityIn.getLookVec().x, entityIn.getLookVec().y, entityIn.getLookVec().z, 5, 4, entityToSpawn);
+									entityIn.shoot(entityIn.getLookVec().x - f1 * 0.3f, entityIn.getLookVec().y, entityIn.getLookVec().z - f2 * 0.3f,
+											3, 8, entityToSpawn);
 								else {
 									LivingEntity targetIn = this.entityIn.getAttackTarget();
 									Vector3d posVector = new Vector3d(targetIn.getPosX() - entityIn.getPosX(),
-											targetIn.getPosY() + targetIn.getEyeHeight() - entityIn.getPosY() - 3.3,
+											targetIn.getPosY() + targetIn.getEyeHeight() - entityIn.getPosY() - 2.5,
 											targetIn.getPosZ() - entityIn.getPosZ());
-									entityIn.shoot(posVector.x, posVector.y, posVector.z, 5, 4, entityToSpawn);
+									entityIn.shoot(posVector.x - f1, posVector.y, posVector.z - f2, 3, 8, entityToSpawn);
 								}
 								world.addEntity(entityToSpawn);
 							}
@@ -460,9 +499,25 @@ public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 			}
 		}
 
+		public void baseTick() {
+			this.prevHurtTime = this.hurtTime;
+			super.baseTick();
+		}
+
+		public boolean attackEntityFrom(DamageSource source, float amount) {
+			if (source == DamageSource.WITHER || (source.getTrueSource() instanceof LivingEntity && this.isOnSameTeam(source.getTrueSource())))
+				return false;
+			return super.attackEntityFrom(source, amount);
+		}
+
 		@OnlyIn(Dist.CLIENT)
 		public float getAnimationScale(float p_189795_1_, int i) {
 			return MathHelper.lerp(p_189795_1_, this.clientSideStandAnimation0[i], this.clientSideStandAnimation[i]);
+		}
+
+		@OnlyIn(Dist.CLIENT)
+		public float getHurtAnimationScale(float p_189795_1_) {
+			return MathHelper.lerp(p_189795_1_, this.prevHurtTime, this.hurtTime);
 		}
 
 		@Override

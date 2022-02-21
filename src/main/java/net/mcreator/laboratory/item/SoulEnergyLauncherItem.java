@@ -10,7 +10,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.api.distmarker.Dist;
 
 import net.minecraft.world.World;
-import net.minecraft.world.Explosion;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.ResourceLocation;
@@ -90,7 +89,7 @@ public class SoulEnergyLauncherItem extends LaboratoryModElements.ModElement {
 				double y = entity.getPosY();
 				double z = entity.getPosZ();
 				if (true) {
-					ArrowCustomEntity entityarrow = shoot(world, entity, random, 0.4f, 2, 0);
+					ArrowCustomEntity entityarrow = shoot(world, entity, random, 1.5f, 5, 0);
 					itemstack.damageItem(1, entity, e -> e.sendBreakAnimation(entity.getActiveHand()));
 					entityarrow.pickupStatus = AbstractArrowEntity.PickupStatus.DISALLOWED;
 				}
@@ -146,17 +145,26 @@ public class SoulEnergyLauncherItem extends LaboratoryModElements.ModElement {
 
 		@Override
 		protected void arrowHit(LivingEntity entity) {
-			entity.hurtResistantTime = 0;
-			super.arrowHit(entity);
-			entity.setArrowCountInEntity(entity.getArrowCountInEntity() - 1);
+			if (this.func_234616_v_() != null) {
+				if (!this.func_234616_v_().isOnSameTeam(entity)) {
+					entity.hurtResistantTime = 0;
+					super.arrowHit(entity);
+					entity.setArrowCountInEntity(entity.getArrowCountInEntity() - 1);
+				}
+			} else {
+				entity.hurtResistantTime = 0;
+				super.arrowHit(entity);
+				entity.setArrowCountInEntity(entity.getArrowCountInEntity() - 1);
+			}
 		}
 
 		public void remove() {
 			if (!this.world.isRemote) {
-				Explosion.Mode explosion$mode = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this)
+				/*Explosion.Mode explosion$mode = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this)
 						? Explosion.Mode.DESTROY
 						: Explosion.Mode.NONE;
-				this.world.createExplosion(this, this.getPosX(), this.getPosY(), this.getPosZ(), 1, explosion$mode);
+				this.world.createExplosion(this.func_234616_v_(), this.getPosX(), this.getPosY(), this.getPosZ(), 1, explosion$mode);
+				*/
 				this.spawnLingeringCloud();
 			}
 			super.remove();
@@ -177,10 +185,11 @@ public class SoulEnergyLauncherItem extends LaboratoryModElements.ModElement {
 		@Override
 		public void tick() {
 			super.tick();
-			this.setNoGravity(true);
 			this.lifeTime++;
-			if (lifeTime > 200)
-				this.remove();
+			if (lifeTime > 40)
+				this.setNoGravity(false);
+			else
+				this.setNoGravity(true);
 			double x = this.getPosX();
 			double y = this.getPosY();
 			double z = this.getPosZ();
