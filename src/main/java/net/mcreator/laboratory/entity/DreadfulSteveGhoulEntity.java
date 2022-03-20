@@ -326,7 +326,9 @@ public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 						} else if (d0 < (double) (this.maxAttackDistance * 0.25F)) {
 							this.strafingBackwards = true;
 						}
-						this.entity.getMoveHelper().strafe(this.strafingBackwards ? -0.5F : 0.5F, this.strafingClockwise ? 0.5F : -0.5F);
+						//this.entity.getMoveHelper().strafe(this.strafingBackwards ? -0.5F : 0.5F, this.strafingClockwise ? 0.5F : -0.5F);
+						this.entity.setMoveForward(this.strafingBackwards ? -1F : 1F);
+						this.entity.setMoveStrafing(this.strafingClockwise ? 0.5F : -0.5F);
 						this.entity.faceEntity(livingentity, 30.0F, 30.0F);
 					} else {
 						this.entity.getLookController().setLookPositionWithEntity(livingentity, 30.0F, 30.0F);
@@ -432,13 +434,13 @@ public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 								entityToSpawn.setKnockbackStrength(1);
 								if (this.entityIn.getAttackTarget() == null)
 									entityIn.shoot(entityIn.getLookVec().x - f1 * 0.3f, entityIn.getLookVec().y, entityIn.getLookVec().z - f2 * 0.3f,
-											3, 8, entityToSpawn);
+											3, 4, entityToSpawn);
 								else {
 									LivingEntity targetIn = this.entityIn.getAttackTarget();
 									Vector3d posVector = new Vector3d(targetIn.getPosX() - entityIn.getPosX(),
 											targetIn.getPosY() + targetIn.getEyeHeight() - entityIn.getPosY() - 2.5,
 											targetIn.getPosZ() - entityIn.getPosZ());
-									entityIn.shoot(posVector.x - f1, posVector.y, posVector.z - f2, 3, 8, entityToSpawn);
+									entityIn.shoot(posVector.x - f1, posVector.y, posVector.z - f2, 3, 4, entityToSpawn);
 								}
 								world.addEntity(entityToSpawn);
 							}

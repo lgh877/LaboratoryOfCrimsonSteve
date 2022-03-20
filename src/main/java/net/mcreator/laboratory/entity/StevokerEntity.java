@@ -24,6 +24,7 @@ import net.minecraft.entity.monster.VexEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.monster.EvokerEntity;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.Pose;
@@ -43,6 +44,7 @@ public class StevokerEntity extends LaboratoryModElements.ModElement {
 	public static EntityType entity = (EntityType.Builder.<CustomEntity>create(CustomEntity::new, EntityClassification.MONSTER)
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(CustomEntity::new)
 			.size(0.6f, 1.8f)).build("stevoker").setRegistryName("stevoker");
+
 	public StevokerEntity(LaboratoryModElements instance) {
 		super(instance, 43);
 		FMLJavaModLoadingContext.get().getModEventBus().register(new StevokerRenderer.ModelRegisterHandler());
@@ -66,12 +68,14 @@ public class StevokerEntity extends LaboratoryModElements.ModElement {
 		EntitySpawnPlacementRegistry.register(entity, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 				MonsterEntity::canMonsterSpawn);
 	}
+
 	private static class EntityAttributesRegisterHandler {
 		@SubscribeEvent
 		public void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
 			AttributeModifierMap.MutableAttribute ammma = MobEntity.func_233666_p_();
 			ammma = ammma.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3);
 			ammma = ammma.createMutableAttribute(Attributes.MAX_HEALTH, 120);
+			ammma = ammma.createMutableAttribute(Attributes.FOLLOW_RANGE, 64);
 			ammma = ammma.createMutableAttribute(Attributes.ARMOR, 0);
 			ammma = ammma.createMutableAttribute(Attributes.ATTACK_DAMAGE, 3);
 			event.put(entity, ammma.create());
@@ -80,6 +84,7 @@ public class StevokerEntity extends LaboratoryModElements.ModElement {
 
 	public static class CustomEntity extends EvokerEntity {
 		public int celebrateTime;
+
 		public CustomEntity(FMLPlayMessages.SpawnEntity packet, World world) {
 			this(entity, world);
 		}
@@ -114,6 +119,7 @@ public class StevokerEntity extends LaboratoryModElements.ModElement {
 		@Override
 		protected void registerGoals() {
 			super.registerGoals();
+			this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.5, false));
 			this.targetSelector.addGoal(3, new NearestAttackableTargetGoal(this, LivingEntity.class, false, false));
 		}
 

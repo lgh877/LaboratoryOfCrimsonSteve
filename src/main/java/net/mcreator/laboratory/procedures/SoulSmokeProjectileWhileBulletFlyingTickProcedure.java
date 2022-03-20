@@ -4,31 +4,21 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.IWorld;
 
 import net.mcreator.laboratory.particle.SoulSmokeParticleParticle;
-import net.mcreator.laboratory.LaboratoryMod;
 
 import java.util.Map;
 
 public class SoulSmokeProjectileWhileBulletFlyingTickProcedure {
-
 	public static void executeProcedure(Map<String, Object> dependencies) {
 		if (dependencies.get("world") == null) {
-			if (!dependencies.containsKey("world"))
-				LaboratoryMod.LOGGER.warn("Failed to load dependency world for procedure SoulSmokeProjectileWhileBulletFlyingTick!");
 			return;
 		}
 		if (dependencies.get("x") == null) {
-			if (!dependencies.containsKey("x"))
-				LaboratoryMod.LOGGER.warn("Failed to load dependency x for procedure SoulSmokeProjectileWhileBulletFlyingTick!");
 			return;
 		}
 		if (dependencies.get("y") == null) {
-			if (!dependencies.containsKey("y"))
-				LaboratoryMod.LOGGER.warn("Failed to load dependency y for procedure SoulSmokeProjectileWhileBulletFlyingTick!");
 			return;
 		}
 		if (dependencies.get("z") == null) {
-			if (!dependencies.containsKey("z"))
-				LaboratoryMod.LOGGER.warn("Failed to load dependency z for procedure SoulSmokeProjectileWhileBulletFlyingTick!");
 			return;
 		}
 		IWorld world = (IWorld) dependencies.get("world");

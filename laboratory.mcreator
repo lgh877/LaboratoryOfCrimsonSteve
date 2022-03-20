@@ -35,7 +35,7 @@
           }
         ]
       },
-      "path": "~/AnnoyingMob"
+      "path": "~/Mobs/AnnoyingMob"
     },
     {
       "name": "TeleportingTool",
@@ -44,7 +44,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "teleporting_tool",
-      "path": "~/AnnoyingMob"
+      "path": "~/Mobs/AnnoyingMob"
     },
     {
       "name": "AnnoyingMob",
@@ -53,7 +53,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "annoying_mob",
-      "path": "~/AnnoyingMob"
+      "path": "~/Mobs/AnnoyingMob"
     },
     {
       "name": "TeleportingToolBulletHitsBlock",
@@ -82,7 +82,7 @@
           }
         ]
       },
-      "path": "~/AnnoyingMob"
+      "path": "~/Mobs/AnnoyingMob"
     },
     {
       "name": "TeleportingToolBulletHitsLivingEntity",
@@ -111,7 +111,7 @@
           }
         ]
       },
-      "path": "~/AnnoyingMob"
+      "path": "~/Mobs/AnnoyingMob"
     },
     {
       "name": "AnnoyingMobOnEntityTickUpdate",
@@ -144,7 +144,7 @@
           }
         ]
       },
-      "path": "~/AnnoyingMob"
+      "path": "~/Mobs/AnnoyingMob"
     },
     {
       "name": "Dirt",
@@ -153,7 +153,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "dirt",
-      "path": "~/AnnoyingMob"
+      "path": "~/Mobs/AnnoyingMob"
     },
     {
       "name": "GadsgNaturalEntitySpawningCondition",
@@ -166,7 +166,7 @@
         "return_type": "logic",
         "dependencies": []
       },
-      "path": "~/AnnoyingMob"
+      "path": "~/Mobs/AnnoyingMob"
     },
     {
       "name": "AnnoyingMobLootTable",
@@ -175,7 +175,7 @@
       "compiles": true,
       "locked_code": false,
       "registry_name": "annoying_mob_loot_table",
-      "path": "~/AnnoyingMob"
+      "path": "~/Mobs/AnnoyingMob"
     },
     {
       "name": "MrDummy",
@@ -184,7 +184,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "mr_dummy",
-      "path": "~/DamageDummy"
+      "path": "~/Mobs/DamageDummy"
     },
     {
       "name": "MrDummySpawningTool",
@@ -193,7 +193,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "mr_dummy_spawning_tool",
-      "path": "~/DamageDummy"
+      "path": "~/Mobs/DamageDummy"
     },
     {
       "name": "MrDummyRecipe",
@@ -202,7 +202,7 @@
       "compiles": true,
       "locked_code": false,
       "registry_name": "mr_dummy_recipe",
-      "path": "~/DamageDummy"
+      "path": "~/Mobs/DamageDummy"
     },
     {
       "name": "MrDummyRecipeAchievement",
@@ -211,7 +211,7 @@
       "compiles": true,
       "locked_code": false,
       "registry_name": "mr_dummy_recipe_achievement",
-      "path": "~/DamageDummy"
+      "path": "~/Mobs/DamageDummy"
     },
     {
       "name": "DumbFace",
@@ -220,7 +220,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "dumb_face",
-      "path": "~/AnnoyingMob"
+      "path": "~/Mobs/AnnoyingMob"
     },
     {
       "name": "DumbFaceParticleSpawn",
@@ -249,7 +249,7 @@
           }
         ]
       },
-      "path": "~/AnnoyingMob"
+      "path": "~/Mobs/AnnoyingMob"
     },
     {
       "name": "MrStretch",
@@ -258,7 +258,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "mr_stretch",
-      "path": "~/Mr_Stretch"
+      "path": "~/Mobs/Mr_Stretch"
     },
     {
       "name": "ReturnedSpectriteSteve",
@@ -267,7 +267,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "returned_spectrite_steve",
-      "path": "~/ReturnedSpectriteSteve"
+      "path": "~/Mobs/ReturnedSpectriteSteve"
     },
     {
       "name": "RainbowDumbFace",
@@ -276,7 +276,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "rainbow_dumb_face",
-      "path": "~/ReturnedSpectriteSteve"
+      "path": "~/Mobs/ReturnedSpectriteSteve"
     },
     {
       "name": "ChimeraTableGUI",
@@ -326,7 +326,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "ghost_steve",
-      "path": "~/GhostSteve"
+      "path": "~/Mobs/GhostSteve"
     },
     {
       "name": "SoulSmokeParticle",
@@ -335,14 +335,14 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "soul_smoke_particle",
-      "path": "~/GhostSteve"
+      "path": "~/Mobs/GhostSteve"
     },
     {
       "name": "SoulSmokeProjectileWhileBulletFlyingTick",
       "type": "procedure",
       "sortid": 37,
       "compiles": true,
-      "locked_code": false,
+      "locked_code": true,
       "registry_name": "soul_smoke_projectile_while_bullet_flying_tick",
       "metadata": {
         "dependencies": [
@@ -372,7 +372,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "soul_smoke_projectile",
-      "path": "~/GhostSteve"
+      "path": "~/Mobs/GhostSteve"
     },
     {
       "name": "MrStrange",
@@ -381,7 +381,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "mr_strange",
-      "path": "~/MrStrange"
+      "path": "~/Mobs/MrStrange"
     },
     {
       "name": "LabMoveAttackGoal",
@@ -390,7 +390,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "lab_move_attack_goal",
-      "path": "~/MoveAttackTestMob"
+      "path": "~/Mobs/MoveAttackTestMob"
     },
     {
       "name": "TheMover",
@@ -399,7 +399,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "the_mover",
-      "path": "~/MoveAttackTestMob"
+      "path": "~/Mobs/MoveAttackTestMob"
     },
     {
       "name": "Stevoker",
@@ -408,7 +408,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "stevoker",
-      "path": "~/SimpleMobs"
+      "path": "~/Mobs/SimpleMobs"
     },
     {
       "name": "RaiderEntities",
@@ -425,7 +425,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "mr_block",
-      "path": "~/SimpleMobs"
+      "path": "~/Mobs/SimpleMobs"
     },
     {
       "name": "IMMORTAL",
@@ -434,7 +434,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "immortal",
-      "path": "~/SimpleMobs"
+      "path": "~/Mobs/SimpleMobs"
     },
     {
       "name": "TrueImmortal",
@@ -443,7 +443,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "true_immortal",
-      "path": "~/SimpleMobs"
+      "path": "~/Mobs/SimpleMobs"
     },
     {
       "name": "OnlySpawnInOverWorld",
@@ -469,7 +469,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "dreadful_steve_ghoul",
-      "path": "~/dreadful_steve_ghoul"
+      "path": "~/Mobs/dreadful_steve_ghoul"
     },
     {
       "name": "SteadfastSteve",
@@ -478,7 +478,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "steadfast_steve",
-      "path": "~/SimpleMobs"
+      "path": "~/Mobs/SimpleMobs"
     },
     {
       "name": "CustomMathHelper",
@@ -495,7 +495,85 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "soul_energy_launcher",
-      "path": "~/dreadful_steve_ghoul"
+      "path": "~/Mobs/dreadful_steve_ghoul"
+    },
+    {
+      "name": "Bateve",
+      "type": "livingentity",
+      "sortid": 55,
+      "compiles": true,
+      "locked_code": true,
+      "registry_name": "bateve",
+      "path": "~/Mobs/SimpleMobs"
+    },
+    {
+      "name": "PuchLaserBeamLauncher",
+      "type": "tool",
+      "sortid": 56,
+      "compiles": true,
+      "locked_code": true,
+      "registry_name": "puch_laser_beam_launcher",
+      "path": "~/Items/PunchLaserBeam"
+    },
+    {
+      "name": "Magician",
+      "type": "livingentity",
+      "sortid": 57,
+      "compiles": true,
+      "locked_code": true,
+      "registry_name": "magician",
+      "path": "~/Mobs/Magician"
+    },
+    {
+      "name": "MagicianOnEntityTickUpdate",
+      "type": "procedure",
+      "sortid": 58,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "magician_on_entity_tick_update",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          },
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          },
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      },
+      "path": "~/Mobs/Magician"
+    },
+    {
+      "name": "ElectricExplosion",
+      "type": "livingentity",
+      "sortid": 59,
+      "compiles": true,
+      "locked_code": true,
+      "registry_name": "electric_explosion",
+      "path": "~/Items/PunchLaserBeam"
+    },
+    {
+      "name": "MrThick",
+      "type": "livingentity",
+      "sortid": 60,
+      "compiles": true,
+      "locked_code": true,
+      "registry_name": "mr_thick",
+      "path": "~/Mobs/MrThick"
     }
   ],
   "variable_elements": [],
@@ -582,75 +660,64 @@
   ],
   "language_map": {
     "en_us": {
+      "item.laboratory.dreadful_steve_ghoul_spawn_egg": "Dreadful Steve Ghoul Spawn Egg",
+      "item.laboratory.ghost_steve_spawn_egg": "Ghost Steve Spawn Egg",
+      "item.laboratory.mr_stretch_spawn_egg": "Mr Stretch Spawn Egg",
+      "subtitles.stupid_hurt": "",
+      "subtitles.hitbox_hit": "",
+      "entity.laboratory.mr_strange": "Mr Strange",
+      "entity.laboratory.ghost_steve": "Ghost Steve",
+      "advancements.mr_dummy_recipe_achievement.title": "Mr Dummy Recipe",
+      "entity.laboratory.magician": "Magician",
+      "entity.laboratory.mr_stretch": "Mr Stretch",
+      "item.laboratory.poop": "Poop",
+      "item.laboratory.puch_laser_beam_launcher": "Puch Laser Beam Launcher",
+      "entity.laboratory.immortal": "IMMORTAL",
+      "entity.laboratory.dreadful_steve_ghoul": "Dreadful Steve Ghoul",
+      "item.laboratory.the_mover_spawn_egg": "The Mover Spawn Egg",
+      "item.laboratory.bateve_spawn_egg": "Bateve Spawn Egg",
+      "subtitles.nope": "",
+      "item.laboratory.soul_smoke_projectile": "Soul Smoke Projectile",
+      "item.laboratory.magician_spawn_egg": "Magician Spawn Egg",
+      "item.laboratory.mr_dummy_spawn_egg": "Mr Dummy Spawn Egg",
       "item.laboratory.steadfast_steve_spawn_egg": "Steadfast Steve Spawn Egg",
       "subtitles.stupid_idle": "",
-      "item.laboratory.dreadful_steve_ghoul_spawn_egg": "Dreadful Steve Ghoul Spawn Egg",
       "item.laboratory.teleporting_tool": "Teleporting Tool",
       "item.laboratory.mr_dummy_spawning_tool": "Mr Dummy Spawning Tool",
       "item.laboratory.true_immortal_spawn_egg": "True Immortal Spawn Egg",
       "entity.laboratory.mr_block": "Mr Block",
-      "item.laboratory.ghost_steve_spawn_egg": "Ghost Steve Spawn Egg",
-      "item.laboratory.mr_stretch_spawn_egg": "Mr Stretch Spawn Egg",
       "entity.laboratory.returned_spectrite_steve": "Returned Spectrite Steve",
-      "subtitles.stupid_hurt": "",
-      "subtitles.hitbox_hit": "",
-      "entity.laboratory.mr_strange": "Mr Strange",
       "entity.laboratory.steadfast_steve": "Steadfast Steve",
-      "entity.laboratory.ghost_steve": "Ghost Steve",
+      "entity.laboratory.mr_thick": "Mr Thick",
       "item.laboratory.mr_strange_spawn_egg": "Mr Strange Spawn Egg",
       "subtitles.spectrite_steve_hurt": "",
-      "advancements.mr_dummy_recipe_achievement.title": "Mr Dummy Recipe",
       "entity.laboratory.stevoker": "Stevoker",
       "item.laboratory.stevoker_spawn_egg": "Stevoker Spawn Egg",
       "item.laboratory.annoying_mob_spawn_egg": "Annoying Mob Spawn Egg",
-      "entity.laboratory.mr_stretch": "Mr Stretch",
       "item.laboratory.soul_energy_launcher": "Soul Energy Launcher",
+      "item.laboratory.mr_thick_spawn_egg": "Mr Thick Spawn Egg",
       "subtitles.stupid_laugh": "",
-      "item.laboratory.poop": "Poop",
       "advancements.mr_dummy_recipe_achievement.descr": "Are you boring? Then this would be good for you!",
-      "entity.laboratory.immortal": "IMMORTAL",
       "subtitles.steve_hurt": "",
-      "entity.laboratory.dreadful_steve_ghoul": "Dreadful Steve Ghoul",
       "item.laboratory.returned_spectrite_steve_spawn_egg": "Returned Spectrite Steve Spawn Egg",
-      "item.laboratory.the_mover_spawn_egg": "The Mover Spawn Egg",
+      "item.laboratory.electric_explosion_spawn_egg": "Electric Explosion Spawn Egg",
+      "entity.laboratory.bateve": "Bateve",
       "entity.laboratory.mr_dummy": "Mr Dummy",
       "item.laboratory.mr_block_spawn_egg": "Mr Block Spawn Egg",
       "entity.laboratory.annoying_mob": "Annoying Mob",
       "entity.laboratory.the_mover": "The Mover",
       "item.laboratory.dirt": "Dirt",
       "item.laboratory.immortal_spawn_egg": "IMMORTAL Spawn Egg",
-      "subtitles.nope": "",
-      "item.laboratory.soul_smoke_projectile": "Soul Smoke Projectile",
-      "item.laboratory.mr_dummy_spawn_egg": "Mr Dummy Spawn Egg",
+      "entity.laboratory.true_immortal": "True Immortal",
       "subtitles.stupid_death": "",
-      "entity.laboratory.true_immortal": "True Immortal"
+      "entity.laboratory.electric_explosion": "Electric Explosion"
     }
   },
   "foldersRoot": {
     "name": "~",
     "children": [
       {
-        "name": "AnnoyingMob",
-        "children": []
-      },
-      {
-        "name": "DamageDummy",
-        "children": []
-      },
-      {
-        "name": "Mr_Stretch",
-        "children": []
-      },
-      {
-        "name": "ReturnedSpectriteSteve",
-        "children": []
-      },
-      {
         "name": "chimera",
-        "children": []
-      },
-      {
-        "name": "GhostSteve",
         "children": []
       },
       {
@@ -662,24 +729,66 @@
         "children": []
       },
       {
-        "name": "MrStrange",
-        "children": []
+        "name": "Mobs",
+        "children": [
+          {
+            "name": "dreadful_steve_ghoul",
+            "children": []
+          },
+          {
+            "name": "Mentipede",
+            "children": []
+          },
+          {
+            "name": "SimpleMobs",
+            "children": []
+          },
+          {
+            "name": "MoveAttackTestMob",
+            "children": []
+          },
+          {
+            "name": "MrStrange",
+            "children": []
+          },
+          {
+            "name": "GhostSteve",
+            "children": []
+          },
+          {
+            "name": "ReturnedSpectriteSteve",
+            "children": []
+          },
+          {
+            "name": "Mr_Stretch",
+            "children": []
+          },
+          {
+            "name": "DamageDummy",
+            "children": []
+          },
+          {
+            "name": "AnnoyingMob",
+            "children": []
+          },
+          {
+            "name": "Magician",
+            "children": []
+          },
+          {
+            "name": "MrThick",
+            "children": []
+          }
+        ]
       },
       {
-        "name": "MoveAttackTestMob",
-        "children": []
-      },
-      {
-        "name": "SimpleMobs",
-        "children": []
-      },
-      {
-        "name": "Mentipede",
-        "children": []
-      },
-      {
-        "name": "dreadful_steve_ghoul",
-        "children": []
+        "name": "Items",
+        "children": [
+          {
+            "name": "PunchLaserBeam",
+            "children": []
+          }
+        ]
       }
     ]
   },

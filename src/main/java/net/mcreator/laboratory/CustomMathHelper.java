@@ -51,4 +51,11 @@ public class CustomMathHelper {
 				z + (sizeZ / 2d));
 		return attackRange;
 	}
+
+	public static AxisAlignedBB makeAttackRange(double x, double y, double z, double height, double sizeX, double sizeY, double sizeZ) {
+		y += height;
+		AxisAlignedBB attackRange = new AxisAlignedBB(x - (sizeX / 2d), y - (sizeY / 2), z - (sizeZ / 2d), x + (sizeX / 2d), y + (sizeY / 2),
+				z + (sizeZ / 2d));
+		return attackRange;
+	}
 }
