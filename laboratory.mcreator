@@ -574,6 +574,33 @@
       "locked_code": true,
       "registry_name": "mr_thick",
       "path": "~/Mobs/MrThick"
+    },
+    {
+      "name": "Bloonteve",
+      "type": "livingentity",
+      "sortid": 61,
+      "compiles": true,
+      "locked_code": true,
+      "registry_name": "bloonteve",
+      "path": "~/Mobs/Bloonteve"
+    },
+    {
+      "name": "VacuousBoy",
+      "type": "livingentity",
+      "sortid": 62,
+      "compiles": true,
+      "locked_code": true,
+      "registry_name": "vacuous_boy",
+      "path": "~/Mobs/Bloonteve"
+    },
+    {
+      "name": "HomingProjectile",
+      "type": "rangeditem",
+      "sortid": 63,
+      "compiles": true,
+      "locked_code": true,
+      "registry_name": "homing_projectile",
+      "path": "~/Mobs/Bloonteve"
     }
   ],
   "variable_elements": [],
@@ -660,6 +687,7 @@
   ],
   "language_map": {
     "en_us": {
+      "item.laboratory.vacuous_boy_spawn_egg": "Vacuous Boy Spawn Egg",
       "item.laboratory.dreadful_steve_ghoul_spawn_egg": "Dreadful Steve Ghoul Spawn Egg",
       "item.laboratory.ghost_steve_spawn_egg": "Ghost Steve Spawn Egg",
       "item.laboratory.mr_stretch_spawn_egg": "Mr Stretch Spawn Egg",
@@ -668,6 +696,7 @@
       "entity.laboratory.mr_strange": "Mr Strange",
       "entity.laboratory.ghost_steve": "Ghost Steve",
       "advancements.mr_dummy_recipe_achievement.title": "Mr Dummy Recipe",
+      "item.laboratory.homing_projectile": "Homing Projectile",
       "entity.laboratory.magician": "Magician",
       "entity.laboratory.mr_stretch": "Mr Stretch",
       "item.laboratory.poop": "Poop",
@@ -675,6 +704,8 @@
       "entity.laboratory.immortal": "IMMORTAL",
       "entity.laboratory.dreadful_steve_ghoul": "Dreadful Steve Ghoul",
       "item.laboratory.the_mover_spawn_egg": "The Mover Spawn Egg",
+      "item.laboratory.bloonteve_spawn_egg": "Bloonteve Spawn Egg",
+      "entity.laboratory.vacuous_boy": "Vacuous Boy",
       "item.laboratory.bateve_spawn_egg": "Bateve Spawn Egg",
       "subtitles.nope": "",
       "item.laboratory.soul_smoke_projectile": "Soul Smoke Projectile",
@@ -701,6 +732,7 @@
       "subtitles.steve_hurt": "",
       "item.laboratory.returned_spectrite_steve_spawn_egg": "Returned Spectrite Steve Spawn Egg",
       "item.laboratory.electric_explosion_spawn_egg": "Electric Explosion Spawn Egg",
+      "entity.laboratory.bloonteve": "Bloonteve",
       "entity.laboratory.bateve": "Bateve",
       "entity.laboratory.mr_dummy": "Mr Dummy",
       "item.laboratory.mr_block_spawn_egg": "Mr Block Spawn Egg",
@@ -777,6 +809,10 @@
           },
           {
             "name": "MrThick",
+            "children": []
+          },
+          {
+            "name": "Bloonteve",
             "children": []
           }
         ]
