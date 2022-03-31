@@ -582,7 +582,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "bloonteve",
-      "path": "~/Mobs/Bloonteve"
+      "path": "~/Mobs/partEntity/Bloonteve"
     },
     {
       "name": "VacuousBoy",
@@ -591,7 +591,7 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "vacuous_boy",
-      "path": "~/Mobs/Bloonteve"
+      "path": "~/Mobs/partEntity/Bloonteve"
     },
     {
       "name": "HomingProjectile",
@@ -600,7 +600,16 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "homing_projectile",
-      "path": "~/Mobs/Bloonteve"
+      "path": "~/Mobs/partEntity/Bloonteve"
+    },
+    {
+      "name": "Steves",
+      "type": "livingentity",
+      "sortid": 64,
+      "compiles": true,
+      "locked_code": true,
+      "registry_name": "steves",
+      "path": "~/Mobs/partEntity/Steves"
     }
   ],
   "variable_elements": [],
@@ -707,6 +716,7 @@
       "item.laboratory.bloonteve_spawn_egg": "Bloonteve Spawn Egg",
       "entity.laboratory.vacuous_boy": "Vacuous Boy",
       "item.laboratory.bateve_spawn_egg": "Bateve Spawn Egg",
+      "item.laboratory.steves_spawn_egg": "Steves Spawn Egg",
       "subtitles.nope": "",
       "item.laboratory.soul_smoke_projectile": "Soul Smoke Projectile",
       "item.laboratory.magician_spawn_egg": "Magician Spawn Egg",
@@ -736,6 +746,7 @@
       "entity.laboratory.bateve": "Bateve",
       "entity.laboratory.mr_dummy": "Mr Dummy",
       "item.laboratory.mr_block_spawn_egg": "Mr Block Spawn Egg",
+      "entity.laboratory.steves": "Steves",
       "entity.laboratory.annoying_mob": "Annoying Mob",
       "entity.laboratory.the_mover": "The Mover",
       "item.laboratory.dirt": "Dirt",
@@ -812,8 +823,17 @@
             "children": []
           },
           {
-            "name": "Bloonteve",
-            "children": []
+            "name": "partEntity",
+            "children": [
+              {
+                "name": "Bloonteve",
+                "children": []
+              },
+              {
+                "name": "Steves",
+                "children": []
+              }
+            ]
           }
         ]
       },
@@ -831,7 +851,7 @@
   "workspaceSettings": {
     "modid": "laboratory",
     "modName": "Laboratory",
-    "version": "1.5.0",
+    "version": "1.6.0",
     "author": "±ÔÇõ, MCreator",
     "websiteURL": "https://mcreator.net",
     "license": "Academic Free License v3.0",

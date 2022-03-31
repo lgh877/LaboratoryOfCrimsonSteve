@@ -128,8 +128,13 @@ public class BloonteveEntity extends LaboratoryModElements.ModElement {
 				if (this.getDistanceSq(this.getCaster()) < 64 || this.getPosY() < this.getCaster().getPosY())
 					this.setMotion(this.getMotion().add((Math.random() - 0.5) * 0.03, 0, (Math.random() - 0.5) * 0.03));
 				else {
-					this.setMotion(this.getMotion().add((double) MathHelper.cos(f) * 0.1, -0.2, (double) MathHelper.sin(f) * 0.1));
-					this.getCaster().setMotion(this.getCaster().getMotion().add(0, 0.065, 0));
+					this.setMotion(this.getMotion().add((double) MathHelper.cos(f) * this.getDistanceSq(this.getCaster()) * 0.003,
+							-0.003 * this.getDistanceSq(this.getCaster()),
+							(double) MathHelper.sin(f) * this.getDistanceSq(this.getCaster()) * 0.003));
+					this.getCaster()
+							.setMotion(this.getCaster().getMotion().add(-(double) MathHelper.cos(f) * this.getDistanceSq(this.getCaster()) * 0.0008,
+									0.0018 * Math.random() * this.getDistanceSq(this.getCaster()),
+									-(double) MathHelper.sin(f) * this.getDistanceSq(this.getCaster()) * 0.0008));
 					if (this.getCaster().fallDistance > 0)
 						this.getCaster().fallDistance--;
 				}

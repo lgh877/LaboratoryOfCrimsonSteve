@@ -101,7 +101,7 @@ public class VacuousBoyEntity extends LaboratoryModElements.ModElement {
 			super(type, world);
 			experienceValue = 0;
 			setNoAI(false);
-			jumpMovementFactor = 0.1f;
+			jumpMovementFactor = 0.25f;
 		}
 
 		@Override
@@ -132,8 +132,6 @@ public class VacuousBoyEntity extends LaboratoryModElements.ModElement {
 						entityToSpawn.setTarget(this.getAttackTarget());
 						world.addEntity(entityToSpawn);
 					}
-				} else if (this.rand.nextInt(80) == 0) {
-					this.setMotion(this.getMotion().add(0, 0.5, 0));
 				}
 			}
 		}
