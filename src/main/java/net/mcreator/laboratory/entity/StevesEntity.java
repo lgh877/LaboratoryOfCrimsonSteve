@@ -17,6 +17,8 @@ import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.World;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.DamageSource;
@@ -102,11 +104,19 @@ public class StevesEntity extends LaboratoryModElements.ModElement {
 		private LivingEntity caster;
 		private UUID casterUuid;
 
+		/*
+		protected float radius;
+		protected float angleYaw;
+		protected float offsetY;
+		private float parentYaw = 0;
+		*/
 		public void readAdditional(CompoundNBT compound) {
 			super.readAdditional(compound);
 			if (compound.hasUniqueId("Owner")) {
 				this.casterUuid = compound.getUniqueId("Owner");
 			}
+			//this.angleYaw = compound.getFloat("PartAngle");
+			//this.radius = compound.getFloat("PartRadius");
 		}
 
 		public void writeAdditional(CompoundNBT compound) {
@@ -114,6 +124,8 @@ public class StevesEntity extends LaboratoryModElements.ModElement {
 			if (this.casterUuid != null) {
 				compound.putUniqueId("Owner", this.casterUuid);
 			}
+			//compound.putFloat("PartAngle", angleYaw);
+			//compound.putFloat("PartRadius", radius);
 		}
 
 		public void setCaster(@Nullable LivingEntity p_190549_1_) {
@@ -132,19 +144,18 @@ public class StevesEntity extends LaboratoryModElements.ModElement {
 			return this.caster;
 		}
 
-		public void applyEntityCollision(Entity entityIn) {
-		}
-
 		protected void collideWithEntity(Entity entityIn) {
 			if (entityIn instanceof LivingEntity && !this.isOnSameTeam(entityIn) && !this.isSwingInProgress) {
 				this.swingArm(Hand.MAIN_HAND);
 				this.attackEntityAsMob(entityIn);
 			}
+			super.collideWithEntity(entityIn);
 		}
 
-		protected void collideWithNearbyEntities() {
-		}
-
+		/*
+				protected void collideWithNearbyEntities() {
+				}
+		*/
 		public boolean isOnSameTeam(Entity entityIn) {
 			if (this.getTeam() != null)
 				return super.isOnSameTeam(entityIn);
@@ -164,9 +175,11 @@ public class StevesEntity extends LaboratoryModElements.ModElement {
 
 		public CustomEntity(EntityType<CustomEntity> type, World world) {
 			super(type, world);
-			experienceValue = 2;
 			setNoAI(false);
-			this.stepHeight = 10;
+		}
+
+		protected float getJumpFactor() {
+			return 4;
 		}
 
 		@Override
@@ -179,10 +192,14 @@ public class StevesEntity extends LaboratoryModElements.ModElement {
 			super.registerGoals();
 			this.targetSelector.addGoal(1, new NearestAttackableTargetGoal(this, LivingEntity.class, false, false));
 			this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2, false));
-			this.goalSelector.addGoal(3, new RandomWalkingGoal(this, 1, 1));
+			this.goalSelector.addGoal(3, new RandomWalkingGoal(this, 1));
 			this.targetSelector.addGoal(4, new HurtByTargetGoal(this));
 			this.goalSelector.addGoal(5, new LookRandomlyGoal(this));
 			this.goalSelector.addGoal(6, new SwimGoal(this));
+		}
+
+		public boolean isInvulnerableTo(DamageSource source) {
+			return source == DamageSource.CRAMMING;
 		}
 
 		protected void updateMovementGoalFlags() {
@@ -197,23 +214,88 @@ public class StevesEntity extends LaboratoryModElements.ModElement {
 		public void livingTick() {
 			super.livingTick();
 			LivingEntity owner = this.getCaster();
-			if (owner != null && owner.isAlive()) {
+			//recalculateSize();
+			if (owner != null && owner.isAlive() && !this.world.isRemote()) {
 				LivingEntity ownerTarget = ((MobEntity) owner).getAttackTarget();
-				if (!this.world.isRemote()) {
-					this.setPositionAndUpdate(owner.prevPosX, owner.prevPosY, owner.prevPosZ);
-					this.rotationYawHead = owner.prevRotationYawHead;
-					this.rotationYaw = owner.prevRotationYaw;
-					this.rotationPitch = owner.prevRotationPitch;
-				}
+				/*
+				double x = (owner.prevPosX + this.prevPosX * 10) / 11;
+				double y = (owner.prevPosY + this.prevPosY * 10) / 11;
+				double z = (owner.prevPosZ + this.prevPosZ * 10) / 11;
+				this.moveForced(x, y, z);
+				*/
+				double x = owner.prevPosX;
+				double y = owner.prevPosY;
+				double z = owner.prevPosZ;
+				Vector3d posVector = new Vector3d(x - this.getPosX(), y - this.getPosY(), z - this.getPosZ());
+				this.setMotion(posVector.scale(0.4 * MathHelper.clamp((this.getDistanceSq(owner) - 1) * 0.33f, 0, 1)));
+				//this.markVelocityChanged();
+				this.rotationYawHead = owner.prevRotationYawHead;
+				this.rotationYaw = owner.prevRotationYaw;
+				this.rotationPitch = owner.prevRotationPitch;
 				if (ownerTarget != null)
 					this.setAttackTarget(ownerTarget);
 			}
+			/*
+			super.tick();
+			Entity parent = getCaster();
+			recalculateSize();
+			if (parent != null && !world.isRemote && parent.isAlive()) {
+				float f = this.getDistance(parent);
+				this.setNoGravity(true);
+				this.faceEntity(parent, 1, 1);
+				this.parentYaw = this.limitAngle(this.parentYaw, parent.prevRotationYaw, 5.0F);
+				double yD1 = (parent.getPosY() - this.getPosY()) / (double) f;
+				double ySet = parent.prevPosY;
+				if (!world.getBlockState(new BlockPos(this.getPosX(), ySet - 0.1, this.getPosZ())).isSolid()) {
+					ySet = parent.prevPosY - 0.2F;
+				}
+				if (this.isEntityInsideOpaqueBlock() || world.getBlockState(new BlockPos(this.getPosX(), ySet, this.getPosZ())).isSolid()) {
+					ySet = parent.prevPosY + 0.2F;
+				}
+				double yaw = parentYaw;
+				double x = parent.prevPosX + this.radius * Math.cos(yaw * (Math.PI / 180.0F) + this.angleYaw);
+				double z = parent.prevPosZ + this.radius * Math.sin(yaw * (Math.PI / 180.0F) + this.angleYaw);
+				this.moveForced(x, ySet, z);
+				//this.setPosition(x, ySet, z);
+				double d0 = parent.getPosX() - this.getPosX();
+				double d1 = parent.getPosY() - this.getPosY();
+				double d2 = parent.getPosZ() - this.getPosZ();
+				double d3 = d0 * d0 + d1 * d1 + d2 * d2;
+				float f2 = -((float) (MathHelper.atan2(d1, MathHelper.sqrt(d0 * d0 + d2 * d2)) * (double) (180F / (float) Math.PI)));
+				this.rotationPitch = this.limitAngle(this.rotationPitch, f2, 5.0F);
+				this.markVelocityChanged();
+				this.rotationYaw = parentYaw;
+				this.rotationYawHead = this.rotationYaw;
+				this.renderYawOffset = this.prevRotationYaw;
+				
+			} else {
+				this.setNoGravity(false);
+			}
+			*/
 		}
 
+		/*
+				protected float limitAngle(float sourceAngle, float targetAngle, float maximumChange) {
+					float f = MathHelper.wrapDegrees(targetAngle - sourceAngle);
+					if (f > maximumChange) {
+						f = maximumChange;
+					}
+					if (f < -maximumChange) {
+						f = -maximumChange;
+					}
+					float f1 = sourceAngle + f;
+					if (f1 < 0.0F) {
+						f1 += 360.0F;
+					} else if (f1 > 360.0F) {
+						f1 -= 360.0F;
+					}
+					return f1;
+				}
+		*/
 		public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason,
 				@Nullable ILivingEntityData livingdata, @Nullable CompoundNBT tag) {
 			ILivingEntityData retval = super.onInitialSpawn(world, difficulty, reason, livingdata, tag);
-			if (this.rand.nextInt(6) > 0 && world instanceof ServerWorld) {
+			if (this.rand.nextInt(20) > 0 && world instanceof ServerWorld) {
 				StevesEntity.CustomEntity entityToSpawn = new StevesEntity.CustomEntity(StevesEntity.entity, (World) world);
 				entityToSpawn.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), (float) 0, (float) 0);
 				entityToSpawn.setCaster(this);
