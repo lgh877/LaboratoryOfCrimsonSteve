@@ -211,11 +211,11 @@ public class StevesEntity extends LaboratoryModElements.ModElement {
 			this.goalSelector.setFlag(Goal.Flag.TARGET, flag);
 		}
 
-		public void livingTick() {
-			super.livingTick();
+		public void tick() {
+			super.tick();
 			LivingEntity owner = this.getCaster();
 			//recalculateSize();
-			if (owner != null && owner.isAlive() && !this.world.isRemote()) {
+			if (owner != null && owner.isAlive()) {
 				LivingEntity ownerTarget = ((MobEntity) owner).getAttackTarget();
 				/*
 				double x = (owner.prevPosX + this.prevPosX * 10) / 11;
@@ -223,11 +223,16 @@ public class StevesEntity extends LaboratoryModElements.ModElement {
 				double z = (owner.prevPosZ + this.prevPosZ * 10) / 11;
 				this.moveForced(x, y, z);
 				*/
+				/*
 				double x = owner.prevPosX;
 				double y = owner.prevPosY;
 				double z = owner.prevPosZ;
+				*/
+				double x = owner.getPosX();
+				double y = owner.getPosY();
+				double z = owner.getPosZ();
 				Vector3d posVector = new Vector3d(x - this.getPosX(), y - this.getPosY(), z - this.getPosZ());
-				this.setMotion(posVector.scale(0.4 * MathHelper.clamp((this.getDistanceSq(owner) - 1) * 0.33f, 0, 1)));
+				this.setMotion(posVector.scale(0.4 * MathHelper.clamp((this.getDistanceSq(owner)) * 0.3f - 1, 0, 1)));
 				//this.markVelocityChanged();
 				this.rotationYawHead = owner.prevRotationYawHead;
 				this.rotationYaw = owner.prevRotationYaw;
@@ -255,8 +260,8 @@ public class StevesEntity extends LaboratoryModElements.ModElement {
 				double yaw = parentYaw;
 				double x = parent.prevPosX + this.radius * Math.cos(yaw * (Math.PI / 180.0F) + this.angleYaw);
 				double z = parent.prevPosZ + this.radius * Math.sin(yaw * (Math.PI / 180.0F) + this.angleYaw);
-				this.moveForced(x, ySet, z);
-				//this.setPosition(x, ySet, z);
+				//this.moveForced(x, ySet, z);
+				this.setPosition(x, ySet, z);
 				double d0 = parent.getPosX() - this.getPosX();
 				double d1 = parent.getPosY() - this.getPosY();
 				double d2 = parent.getPosZ() - this.getPosZ();
@@ -267,7 +272,6 @@ public class StevesEntity extends LaboratoryModElements.ModElement {
 				this.rotationYaw = parentYaw;
 				this.rotationYawHead = this.rotationYaw;
 				this.renderYawOffset = this.prevRotationYaw;
-				
 			} else {
 				this.setNoGravity(false);
 			}
