@@ -38,7 +38,7 @@ public class DreadfulSteveGhoulRenderer {
 
 					@Override
 					public ResourceLocation getEntityTexture(Entity entity) {
-						return new ResourceLocation("laboratory:textures/dreadful_soul_ghoul.png");
+						return new ResourceLocation("laboratory:textures/dreadful_steve_ghoul.png");
 					}
 				};
 			});

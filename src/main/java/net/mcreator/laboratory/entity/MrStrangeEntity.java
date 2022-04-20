@@ -23,7 +23,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.DamageSource;
 import net.minecraft.network.IPacket;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.entity.monster.VexEntity;
 import net.minecraft.entity.monster.SlimeEntity;
@@ -44,6 +43,7 @@ import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Block;
 
+import net.mcreator.laboratory.itemgroup.MobsOfLaboratoryItemGroup;
 import net.mcreator.laboratory.entity.renderer.MrStrangeRenderer;
 import net.mcreator.laboratory.LaboratoryModElements;
 
@@ -52,6 +52,7 @@ public class MrStrangeEntity extends LaboratoryModElements.ModElement {
 	public static EntityType entity = (EntityType.Builder.<CustomEntity>create(CustomEntity::new, EntityClassification.MONSTER)
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(CustomEntity::new)
 			.size(0.6f, 1.8f)).build("mr_strange").setRegistryName("mr_strange");
+
 	public MrStrangeEntity(LaboratoryModElements instance) {
 		super(instance, 40);
 		FMLJavaModLoadingContext.get().getModEventBus().register(new MrStrangeRenderer.ModelRegisterHandler());
@@ -62,8 +63,8 @@ public class MrStrangeEntity extends LaboratoryModElements.ModElement {
 	@Override
 	public void initElements() {
 		elements.entities.add(() -> entity);
-		elements.items.add(
-				() -> new SpawnEggItem(entity, -1, -13421773, new Item.Properties().group(ItemGroup.MISC)).setRegistryName("mr_strange_spawn_egg"));
+		elements.items.add(() -> new SpawnEggItem(entity, -1, -13421773, new Item.Properties().group(MobsOfLaboratoryItemGroup.tab))
+				.setRegistryName("mr_strange_spawn_egg"));
 	}
 
 	@SubscribeEvent
@@ -76,6 +77,7 @@ public class MrStrangeEntity extends LaboratoryModElements.ModElement {
 		EntitySpawnPlacementRegistry.register(entity, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 				MonsterEntity::canMonsterSpawn);
 	}
+
 	private static class EntityAttributesRegisterHandler {
 		@SubscribeEvent
 		public void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
@@ -92,6 +94,7 @@ public class MrStrangeEntity extends LaboratoryModElements.ModElement {
 
 	public static class CustomEntity extends SlimeEntity {
 		private boolean wasOnGroundCustom;
+
 		public CustomEntity(FMLPlayMessages.SpawnEntity packet, World world) {
 			this(entity, world);
 		}

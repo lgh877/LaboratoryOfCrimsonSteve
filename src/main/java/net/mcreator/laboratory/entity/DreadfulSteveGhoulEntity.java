@@ -30,7 +30,6 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.IPacket;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.entity.monster.MonsterEntity;
@@ -52,6 +51,7 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.CreatureAttribute;
 
+import net.mcreator.laboratory.itemgroup.MobsOfLaboratoryItemGroup;
 import net.mcreator.laboratory.item.SoulEnergyLauncherItem;
 import net.mcreator.laboratory.entity.renderer.DreadfulSteveGhoulRenderer;
 import net.mcreator.laboratory.LaboratoryModElements;
@@ -64,7 +64,7 @@ import java.util.EnumSet;
 public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 	public static EntityType entity = (EntityType.Builder.<CustomEntity>create(CustomEntity::new, EntityClassification.MONSTER).immuneToFire()
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(CustomEntity::new).size(2f, 3.5f))
-					.build("dreadful_steve_ghoul").setRegistryName("dreadful_steve_ghoul");
+			.build("dreadful_steve_ghoul").setRegistryName("dreadful_steve_ghoul");
 
 	public DreadfulSteveGhoulEntity(LaboratoryModElements instance) {
 		super(instance, 49);
@@ -76,7 +76,7 @@ public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 	@Override
 	public void initElements() {
 		elements.entities.add(() -> entity);
-		elements.items.add(() -> new SpawnEggItem(entity, -14804197, -14607846, new Item.Properties().group(ItemGroup.MISC))
+		elements.items.add(() -> new SpawnEggItem(entity, -14804197, -14607846, new Item.Properties().group(MobsOfLaboratoryItemGroup.tab))
 				.setRegistryName("dreadful_steve_ghoul_spawn_egg"));
 	}
 
@@ -87,7 +87,7 @@ public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 			biomeCriteria = true;
 		if (!biomeCriteria)
 			return;
-		event.getSpawns().getSpawner(EntityClassification.MONSTER).add(new MobSpawnInfo.Spawners(entity, 200, 1, 1));
+		event.getSpawns().getSpawner(EntityClassification.MONSTER).add(new MobSpawnInfo.Spawners(entity, 20, 1, 1));
 	}
 
 	@Override
@@ -529,17 +529,17 @@ public class DreadfulSteveGhoulEntity extends LaboratoryModElements.ModElement {
 
 		@Override
 		public net.minecraft.util.SoundEvent getAmbientSound() {
-			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.wither.ambient"));
+			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("laboratory:stupid_idle"));
 		}
 
 		@Override
 		public net.minecraft.util.SoundEvent getHurtSound(DamageSource ds) {
-			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.wither.hurt"));
+			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("laboratory:stupid_hurt"));
 		}
 
 		@Override
 		public net.minecraft.util.SoundEvent getDeathSound() {
-			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.wither.death"));
+			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("laboratory:stupid_death"));
 		}
 	}
 }

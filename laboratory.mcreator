@@ -664,6 +664,14 @@
       "compiles": true,
       "locked_code": true,
       "registry_name": "dsaasf"
+    },
+    {
+      "name": "MobsOfLaboratory",
+      "type": "tab",
+      "sortid": 69,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "mobs_of_laboratory"
     }
   ],
   "variable_elements": [],
@@ -786,6 +794,7 @@
       "item.laboratory.true_immortal_spawn_egg": "True Immortal Spawn Egg",
       "entity.laboratory.mr_block": "Mr Block",
       "entity.laboratory.returned_spectrite_steve": "Returned Spectrite Steve",
+      "itemGroup.tabmobs_of_laboratory": "Mobs Of Laboratory",
       "entity.laboratory.steadfast_steve": "Steadfast Steve",
       "entity.laboratory.mr_thick": "Mr Thick",
       "item.laboratory.illager_animation_mob_spawn_egg": "Illager Animation Mob Spawn Egg",

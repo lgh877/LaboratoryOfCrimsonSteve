@@ -19,7 +19,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.DamageSource;
 import net.minecraft.network.IPacket;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.ai.goal.SwimGoal;
@@ -37,6 +36,7 @@ import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.CreatureAttribute;
 
+import net.mcreator.laboratory.itemgroup.MobsOfLaboratoryItemGroup;
 import net.mcreator.laboratory.entity.renderer.MrStretchRenderer;
 import net.mcreator.laboratory.LaboratoryModElements;
 
@@ -45,6 +45,7 @@ public class MrStretchEntity extends LaboratoryModElements.ModElement {
 	public static EntityType entity = (EntityType.Builder.<CustomEntity>create(CustomEntity::new, EntityClassification.MONSTER)
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(CustomEntity::new)
 			.size(0.6f, 1.8f)).build("mr_stretch").setRegistryName("mr_stretch");
+
 	public MrStretchEntity(LaboratoryModElements instance) {
 		super(instance, 20);
 		FMLJavaModLoadingContext.get().getModEventBus().register(new MrStretchRenderer.ModelRegisterHandler());
@@ -55,7 +56,7 @@ public class MrStretchEntity extends LaboratoryModElements.ModElement {
 	@Override
 	public void initElements() {
 		elements.entities.add(() -> entity);
-		elements.items.add(() -> new SpawnEggItem(entity, -16711936, -3342490, new Item.Properties().group(ItemGroup.MISC))
+		elements.items.add(() -> new SpawnEggItem(entity, -16711936, -3342490, new Item.Properties().group(MobsOfLaboratoryItemGroup.tab))
 				.setRegistryName("mr_stretch_spawn_egg"));
 	}
 
@@ -69,6 +70,7 @@ public class MrStretchEntity extends LaboratoryModElements.ModElement {
 		EntitySpawnPlacementRegistry.register(entity, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 				MonsterEntity::canMonsterSpawn);
 	}
+
 	private static class EntityAttributesRegisterHandler {
 		@SubscribeEvent
 		public void onEntityAttributeCreation(EntityAttributeCreationEvent event) {

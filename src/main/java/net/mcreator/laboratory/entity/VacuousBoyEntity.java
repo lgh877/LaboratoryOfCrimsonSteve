@@ -22,7 +22,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.network.IPacket;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.monster.MonsterEntity;
@@ -42,6 +41,7 @@ import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.CreatureAttribute;
 
+import net.mcreator.laboratory.itemgroup.MobsOfLaboratoryItemGroup;
 import net.mcreator.laboratory.item.HomingProjectileItem;
 import net.mcreator.laboratory.entity.renderer.VacuousBoyRenderer;
 import net.mcreator.laboratory.LaboratoryModElements;
@@ -64,8 +64,8 @@ public class VacuousBoyEntity extends LaboratoryModElements.ModElement {
 	@Override
 	public void initElements() {
 		elements.entities.add(() -> entity);
-		elements.items
-				.add(() -> new SpawnEggItem(entity, -1, -1, new Item.Properties().group(ItemGroup.MISC)).setRegistryName("vacuous_boy_spawn_egg"));
+		elements.items.add(() -> new SpawnEggItem(entity, -1, -1, new Item.Properties().group(MobsOfLaboratoryItemGroup.tab))
+				.setRegistryName("vacuous_boy_spawn_egg"));
 	}
 
 	@SubscribeEvent

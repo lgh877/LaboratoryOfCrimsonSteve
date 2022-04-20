@@ -24,7 +24,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.network.IPacket;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
@@ -41,6 +40,7 @@ import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.CreatureAttribute;
 
+import net.mcreator.laboratory.itemgroup.MobsOfLaboratoryItemGroup;
 import net.mcreator.laboratory.item.SoulSmokeProjectileItem;
 import net.mcreator.laboratory.entity.renderer.GhostSteveRenderer;
 import net.mcreator.laboratory.LaboratoryWatchTargetGoal;
@@ -54,6 +54,7 @@ public class GhostSteveEntity extends LaboratoryModElements.ModElement {
 	public static EntityType entity = (EntityType.Builder.<CustomEntity>create(CustomEntity::new, EntityClassification.MONSTER).immuneToFire()
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(100).setUpdateInterval(3).setCustomClientFactory(CustomEntity::new)
 			.size(0.6f, 1.8f)).build("ghost_steve").setRegistryName("ghost_steve");
+
 	public GhostSteveEntity(LaboratoryModElements instance) {
 		super(instance, 35);
 		FMLJavaModLoadingContext.get().getModEventBus().register(new GhostSteveRenderer.ModelRegisterHandler());
@@ -64,8 +65,8 @@ public class GhostSteveEntity extends LaboratoryModElements.ModElement {
 	@Override
 	public void initElements() {
 		elements.entities.add(() -> entity);
-		elements.items
-				.add(() -> new SpawnEggItem(entity, -1, -1, new Item.Properties().group(ItemGroup.MISC)).setRegistryName("ghost_steve_spawn_egg"));
+		elements.items.add(() -> new SpawnEggItem(entity, -1, -1, new Item.Properties().group(MobsOfLaboratoryItemGroup.tab))
+				.setRegistryName("ghost_steve_spawn_egg"));
 	}
 
 	@SubscribeEvent
@@ -78,6 +79,7 @@ public class GhostSteveEntity extends LaboratoryModElements.ModElement {
 		EntitySpawnPlacementRegistry.register(entity, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
 				MonsterEntity::canMonsterSpawn);
 	}
+
 	private static class EntityAttributesRegisterHandler {
 		@SubscribeEvent
 		public void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
@@ -120,9 +122,11 @@ public class GhostSteveEntity extends LaboratoryModElements.ModElement {
 			this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
 			this.goalSelector.addGoal(5, new CustomEntity.LookAroundGoal(this));
 		}
+
 		private static class MoveHelperController extends MovementController {
 			private final GhostSteveEntity.CustomEntity parentEntity;
 			private int courseChangeCooldown;
+
 			public MoveHelperController(GhostSteveEntity.CustomEntity ghast) {
 				super(ghast);
 				this.parentEntity = ghast;
@@ -160,6 +164,7 @@ public class GhostSteveEntity extends LaboratoryModElements.ModElement {
 
 		private static class RandomFlyGoal extends Goal {
 			private final GhostSteveEntity.CustomEntity parentEntity;
+
 			public RandomFlyGoal(GhostSteveEntity.CustomEntity ghast) {
 				this.parentEntity = ghast;
 				this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE));
@@ -203,6 +208,7 @@ public class GhostSteveEntity extends LaboratoryModElements.ModElement {
 
 		private static class LookAroundGoal extends Goal {
 			private final GhostSteveEntity.CustomEntity parentEntity;
+
 			public LookAroundGoal(GhostSteveEntity.CustomEntity ghast) {
 				this.parentEntity = ghast;
 				this.setMutexFlags(EnumSet.of(Goal.Flag.LOOK));
@@ -239,6 +245,7 @@ public class GhostSteveEntity extends LaboratoryModElements.ModElement {
 				}
 			}
 		}
+
 		public boolean attackEntityFrom(DamageSource source, float amount) {
 			if (source == DamageSource.FALL || source == DamageSource.DROWN || source.getTrueSource() instanceof GhostSteveEntity.CustomEntity)
 				return false;

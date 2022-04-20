@@ -1,0 +1,11 @@
+{
+  "_fv": 27,
+  "_type": "tab",
+  "definition": {
+    "name": "Mobs Of Laboratory",
+    "icon": {
+      "value": "CUSTOM:MrDummySpawningTool"
+    },
+    "showSearch": false
+  }
+}

@@ -16,7 +16,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.DamageSource;
 import net.minecraft.network.IPacket;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.ai.goal.SwimGoal;
@@ -35,6 +34,7 @@ import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.CreatureAttribute;
 
+import net.mcreator.laboratory.itemgroup.MobsOfLaboratoryItemGroup;
 import net.mcreator.laboratory.entity.renderer.MrThickRenderer;
 import net.mcreator.laboratory.LaboratoryModElements;
 import net.mcreator.laboratory.CustomMathHelper;
@@ -54,7 +54,7 @@ public class MrThickEntity extends LaboratoryModElements.ModElement {
 	@Override
 	public void initElements() {
 		elements.entities.add(() -> entity);
-		elements.items.add(() -> new SpawnEggItem(entity, -16777165, -16777114, new Item.Properties().group(ItemGroup.MISC))
+		elements.items.add(() -> new SpawnEggItem(entity, -16777165, -16777114, new Item.Properties().group(MobsOfLaboratoryItemGroup.tab))
 				.setRegistryName("mr_thick_spawn_egg"));
 	}
 

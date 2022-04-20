@@ -20,7 +20,6 @@ import net.minecraft.network.IPacket;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.monster.MonsterEntity;
@@ -33,6 +32,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.CreatureAttribute;
 
+import net.mcreator.laboratory.itemgroup.MobsOfLaboratoryItemGroup;
 import net.mcreator.laboratory.item.MrDummySpawningToolItem;
 import net.mcreator.laboratory.entity.renderer.MrDummyRenderer;
 import net.mcreator.laboratory.LaboratoryModElements;
@@ -42,6 +42,7 @@ public class MrDummyEntity extends LaboratoryModElements.ModElement {
 	public static EntityType entity = (EntityType.Builder.<CustomEntity>create(CustomEntity::new, EntityClassification.MONSTER)
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(CustomEntity::new)
 			.size(0.6f, 1.8f)).build("mr_dummy").setRegistryName("mr_dummy");
+
 	public MrDummyEntity(LaboratoryModElements instance) {
 		super(instance, 10);
 		FMLJavaModLoadingContext.get().getModEventBus().register(new MrDummyRenderer.ModelRegisterHandler());
@@ -51,13 +52,14 @@ public class MrDummyEntity extends LaboratoryModElements.ModElement {
 	@Override
 	public void initElements() {
 		elements.entities.add(() -> entity);
-		elements.items.add(
-				() -> new SpawnEggItem(entity, -16724788, -52480, new Item.Properties().group(ItemGroup.MISC)).setRegistryName("mr_dummy_spawn_egg"));
+		elements.items.add(() -> new SpawnEggItem(entity, -16724788, -52480, new Item.Properties().group(MobsOfLaboratoryItemGroup.tab))
+				.setRegistryName("mr_dummy_spawn_egg"));
 	}
 
 	@Override
 	public void init(FMLCommonSetupEvent event) {
 	}
+
 	private static class EntityAttributesRegisterHandler {
 		@SubscribeEvent
 		public void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
@@ -111,9 +113,11 @@ public class MrDummyEntity extends LaboratoryModElements.ModElement {
 		public net.minecraft.util.SoundEvent getDeathSound() {
 			return (net.minecraft.util.SoundEvent) ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("laboratory:steve_hurt"));
 		}
-		//This trigger is for remove dummy mob.
+
+		//This trigger is for remove dummy mob.
 		public ActionResultType func_230254_b_(PlayerEntity sourceentity, Hand hand) {
-			if (sourceentity.isSneaking()) {//Indicates whether you are sneaking
+			if (sourceentity.isSneaking()) {
+				//Indicates whether you are sneaking
 				this.remove();
 				ItemStack _setstack = new ItemStack(MrDummySpawningToolItem.block);
 				_setstack.setCount((int) 1);

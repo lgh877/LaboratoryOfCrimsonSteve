@@ -18,7 +18,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.DamageSource;
 import net.minecraft.network.IPacket;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
@@ -37,6 +36,7 @@ import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.block.material.Material;
 
+import net.mcreator.laboratory.itemgroup.MobsOfLaboratoryItemGroup;
 import net.mcreator.laboratory.entity.renderer.TrueImmortalRenderer;
 import net.mcreator.laboratory.LaboratoryWatchTargetGoal;
 import net.mcreator.laboratory.LaboratoryModElements;
@@ -46,6 +46,7 @@ public class TrueImmortalEntity extends LaboratoryModElements.ModElement {
 	public static EntityType entity = (EntityType.Builder.<CustomEntity>create(CustomEntity::new, EntityClassification.CREATURE)
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(CustomEntity::new)
 			.size(0.6f, 1.8f)).build("true_immortal").setRegistryName("true_immortal");
+
 	public TrueImmortalEntity(LaboratoryModElements instance) {
 		super(instance, 47);
 		FMLJavaModLoadingContext.get().getModEventBus().register(new TrueImmortalRenderer.ModelRegisterHandler());
@@ -56,7 +57,7 @@ public class TrueImmortalEntity extends LaboratoryModElements.ModElement {
 	@Override
 	public void initElements() {
 		elements.entities.add(() -> entity);
-		elements.items.add(() -> new SpawnEggItem(entity, -16751053, -13421824, new Item.Properties().group(ItemGroup.MISC))
+		elements.items.add(() -> new SpawnEggItem(entity, -16751053, -13421824, new Item.Properties().group(MobsOfLaboratoryItemGroup.tab))
 				.setRegistryName("true_immortal_spawn_egg"));
 	}
 
@@ -71,6 +72,7 @@ public class TrueImmortalEntity extends LaboratoryModElements.ModElement {
 				(entityType, world, reason, pos,
 						random) -> (world.getBlockState(pos.down()).getMaterial() == Material.ORGANIC && world.getLightSubtracted(pos, 0) > 8));
 	}
+
 	private static class EntityAttributesRegisterHandler {
 		@SubscribeEvent
 		public void onEntityAttributeCreation(EntityAttributeCreationEvent event) {

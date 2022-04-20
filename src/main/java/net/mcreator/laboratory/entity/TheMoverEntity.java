@@ -28,7 +28,6 @@ import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.ShieldItem;
 import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
@@ -54,6 +53,7 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.CreatureAttribute;
 
+import net.mcreator.laboratory.itemgroup.MobsOfLaboratoryItemGroup;
 import net.mcreator.laboratory.entity.renderer.TheMoverRenderer;
 import net.mcreator.laboratory.LaboratoryModElements;
 import net.mcreator.laboratory.LabMoveAttackGoal;
@@ -76,8 +76,8 @@ public class TheMoverEntity extends LaboratoryModElements.ModElement {
 	@Override
 	public void initElements() {
 		elements.entities.add(() -> entity);
-		elements.items
-				.add(() -> new SpawnEggItem(entity, -1, -1, new Item.Properties().group(ItemGroup.MISC)).setRegistryName("the_mover_spawn_egg"));
+		elements.items.add(() -> new SpawnEggItem(entity, -1, -1, new Item.Properties().group(MobsOfLaboratoryItemGroup.tab))
+				.setRegistryName("the_mover_spawn_egg"));
 	}
 
 	@SubscribeEvent

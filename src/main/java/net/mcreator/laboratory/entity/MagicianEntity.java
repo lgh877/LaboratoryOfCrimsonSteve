@@ -20,7 +20,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.network.IPacket;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.entity.monster.MonsterEntity;
@@ -41,6 +40,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.CreatureAttribute;
 
 import net.mcreator.laboratory.procedures.MagicianOnEntityTickUpdateProcedure;
+import net.mcreator.laboratory.itemgroup.MobsOfLaboratoryItemGroup;
 import net.mcreator.laboratory.item.PuchLaserBeamLauncherItem;
 import net.mcreator.laboratory.entity.renderer.MagicianRenderer;
 import net.mcreator.laboratory.LaboratoryModElements;
@@ -68,7 +68,7 @@ public class MagicianEntity extends LaboratoryModElements.ModElement {
 	@Override
 	public void initElements() {
 		elements.entities.add(() -> entity);
-		elements.items.add(() -> new SpawnEggItem(entity, -10079488, -10092340, new Item.Properties().group(ItemGroup.MISC))
+		elements.items.add(() -> new SpawnEggItem(entity, -10079488, -10092340, new Item.Properties().group(MobsOfLaboratoryItemGroup.tab))
 				.setRegistryName("magician_spawn_egg"));
 	}
 

@@ -16,14 +16,12 @@ import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.World;
 import net.minecraft.world.BossInfo;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.DamageSource;
 import net.minecraft.network.IPacket;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.monster.MonsterEntity;
@@ -47,6 +45,7 @@ import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.block.material.Material;
 
 import net.mcreator.laboratory.procedures.AnnoyingMobOnEntityTickUpdateProcedure;
+import net.mcreator.laboratory.itemgroup.MobsOfLaboratoryItemGroup;
 import net.mcreator.laboratory.item.DirtItem;
 import net.mcreator.laboratory.entity.renderer.AnnoyingMobRenderer;
 import net.mcreator.laboratory.LaboratoryModElements;
@@ -59,6 +58,7 @@ public class AnnoyingMobEntity extends LaboratoryModElements.ModElement {
 	public static EntityType entity = (EntityType.Builder.<CustomEntity>create(CustomEntity::new, EntityClassification.MONSTER)
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(100).setUpdateInterval(3).setCustomClientFactory(CustomEntity::new)
 			.size(0.6f, 2f)).build("annoying_mob").setRegistryName("annoying_mob");
+
 	public AnnoyingMobEntity(LaboratoryModElements instance) {
 		super(instance, 3);
 		FMLJavaModLoadingContext.get().getModEventBus().register(new AnnoyingMobRenderer.ModelRegisterHandler());
@@ -69,7 +69,7 @@ public class AnnoyingMobEntity extends LaboratoryModElements.ModElement {
 	@Override
 	public void initElements() {
 		elements.entities.add(() -> entity);
-		elements.items.add(() -> new SpawnEggItem(entity, -3407668, -13434829, new Item.Properties().group(ItemGroup.MISC))
+		elements.items.add(() -> new SpawnEggItem(entity, -3407668, -13434829, new Item.Properties().group(MobsOfLaboratoryItemGroup.tab))
 				.setRegistryName("annoying_mob_spawn_egg"));
 	}
 
@@ -84,6 +84,7 @@ public class AnnoyingMobEntity extends LaboratoryModElements.ModElement {
 				(entityType, world, reason, pos,
 						random) -> (world.getBlockState(pos.down()).getMaterial() == Material.ORGANIC && world.getLightSubtracted(pos, 0) > 8));
 	}
+
 	private static class EntityAttributesRegisterHandler {
 		@SubscribeEvent
 		public void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
@@ -218,28 +219,31 @@ public class AnnoyingMobEntity extends LaboratoryModElements.ModElement {
 		public boolean isNonBoss() {
 			return false;
 		}
+
 		private final ServerBossInfo bossInfo = new ServerBossInfo(this.getDisplayName(), BossInfo.Color.PINK, BossInfo.Overlay.PROGRESS);
-		private final ServerBossInfo shieldInfo = new ServerBossInfo(new StringTextComponent("Shield"), BossInfo.Color.YELLOW,
-				BossInfo.Overlay.PROGRESS);
+
 		@Override
 		public void addTrackingPlayer(ServerPlayerEntity player) {
 			super.addTrackingPlayer(player);
 			this.bossInfo.addPlayer(player);
-			this.shieldInfo.addPlayer(player);
 		}
 
 		@Override
 		public void removeTrackingPlayer(ServerPlayerEntity player) {
 			super.removeTrackingPlayer(player);
 			this.bossInfo.removePlayer(player);
-			this.shieldInfo.removePlayer(player);
 		}
 
 		@Override
 		public void updateAITasks() {
 			super.updateAITasks();
-			this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
-			this.shieldInfo.setPercent(this.getAbsorptionAmount() / 10);
+			if (this.getAbsorptionAmount() > 0) {
+				bossInfo.setColor(BossInfo.Color.YELLOW);
+				this.bossInfo.setPercent(this.getAbsorptionAmount() / 10);
+			} else {
+				bossInfo.setColor(BossInfo.Color.PINK);
+				this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
+			}
 		}
 	}
 }
