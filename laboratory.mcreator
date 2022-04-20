@@ -925,7 +925,7 @@
     "modid": "laboratory",
     "modName": "Laboratory",
     "version": "1.6.0",
-    "author": "±ÔÇõ, MCreator",
+    "author": "ï¿½ï¿½ï¿½ï¿½, MCreator",
     "websiteURL": "https://mcreator.net",
     "license": "Academic Free License v3.0",
     "disableForgeVersionCheck": true,
@@ -939,5 +939,5 @@
     "modElementsPackage": "net.mcreator.laboratory",
     "lockBaseModFiles": false
   },
-  "mcreatorVersion": 202100354000
+  "mcreatorVersion": 202200115515
 }

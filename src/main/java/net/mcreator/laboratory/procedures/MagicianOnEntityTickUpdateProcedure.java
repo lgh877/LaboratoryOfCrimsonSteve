@@ -84,9 +84,9 @@ public class MagicianOnEntityTickUpdateProcedure {
 								entity.getPersistentData().putDouble("FangAttackX", (x + entity.getPersistentData().getDouble("FangAttackTicks")));
 								entity.getPersistentData().putDouble("FangAttackY", y);
 								entity.getPersistentData().putDouble("FangAttackZ", z);
-								while (world.getBlockState(new BlockPos((int) (entity.getPersistentData().getDouble("FangAttackX")),
-										(int) (entity.getPersistentData().getDouble("FangAttackY")),
-										(int) (entity.getPersistentData().getDouble("FangAttackZ")))).isSolid()) {
+								while (world.getBlockState(new BlockPos(entity.getPersistentData().getDouble("FangAttackX"),
+										entity.getPersistentData().getDouble("FangAttackY"), entity.getPersistentData().getDouble("FangAttackZ")))
+										.isSolid()) {
 									entity.getPersistentData().putDouble("FangAttackY", (entity.getPersistentData().getDouble("FangAttackY") + 1));
 								}
 								if (world instanceof ServerWorld) {
@@ -132,9 +132,9 @@ public class MagicianOnEntityTickUpdateProcedure {
 								entity.getPersistentData().putDouble("FangAttackX", (x - entity.getPersistentData().getDouble("FangAttackTicks")));
 								entity.getPersistentData().putDouble("FangAttackY", y);
 								entity.getPersistentData().putDouble("FangAttackZ", z);
-								while (world.getBlockState(new BlockPos((int) (entity.getPersistentData().getDouble("FangAttackX")),
-										(int) (entity.getPersistentData().getDouble("FangAttackY")),
-										(int) (entity.getPersistentData().getDouble("FangAttackZ")))).isSolid()) {
+								while (world.getBlockState(new BlockPos(entity.getPersistentData().getDouble("FangAttackX"),
+										entity.getPersistentData().getDouble("FangAttackY"), entity.getPersistentData().getDouble("FangAttackZ")))
+										.isSolid()) {
 									entity.getPersistentData().putDouble("FangAttackY", (entity.getPersistentData().getDouble("FangAttackY") + 1));
 								}
 								if (world instanceof ServerWorld) {
@@ -180,9 +180,9 @@ public class MagicianOnEntityTickUpdateProcedure {
 								entity.getPersistentData().putDouble("FangAttackX", x);
 								entity.getPersistentData().putDouble("FangAttackY", y);
 								entity.getPersistentData().putDouble("FangAttackZ", (z + entity.getPersistentData().getDouble("FangAttackTicks")));
-								while (world.getBlockState(new BlockPos((int) (entity.getPersistentData().getDouble("FangAttackX")),
-										(int) (entity.getPersistentData().getDouble("FangAttackY")),
-										(int) (entity.getPersistentData().getDouble("FangAttackZ")))).isSolid()) {
+								while (world.getBlockState(new BlockPos(entity.getPersistentData().getDouble("FangAttackX"),
+										entity.getPersistentData().getDouble("FangAttackY"), entity.getPersistentData().getDouble("FangAttackZ")))
+										.isSolid()) {
 									entity.getPersistentData().putDouble("FangAttackY", (entity.getPersistentData().getDouble("FangAttackY") + 1));
 								}
 								if (world instanceof ServerWorld) {
@@ -228,9 +228,9 @@ public class MagicianOnEntityTickUpdateProcedure {
 								entity.getPersistentData().putDouble("FangAttackX", x);
 								entity.getPersistentData().putDouble("FangAttackY", y);
 								entity.getPersistentData().putDouble("FangAttackZ", (z - entity.getPersistentData().getDouble("FangAttackTicks")));
-								while (world.getBlockState(new BlockPos((int) (entity.getPersistentData().getDouble("FangAttackX")),
-										(int) (entity.getPersistentData().getDouble("FangAttackY")),
-										(int) (entity.getPersistentData().getDouble("FangAttackZ")))).isSolid()) {
+								while (world.getBlockState(new BlockPos(entity.getPersistentData().getDouble("FangAttackX"),
+										entity.getPersistentData().getDouble("FangAttackY"), entity.getPersistentData().getDouble("FangAttackZ")))
+										.isSolid()) {
 									entity.getPersistentData().putDouble("FangAttackY", (entity.getPersistentData().getDouble("FangAttackY") + 1));
 								}
 								if (world instanceof ServerWorld) {

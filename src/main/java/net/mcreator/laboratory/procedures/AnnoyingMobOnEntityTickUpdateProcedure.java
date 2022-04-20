@@ -73,9 +73,9 @@ public class AnnoyingMobOnEntityTickUpdateProcedure {
 						}
 						entity.rotationPitch = (float) ((entity.rotationPitch));
 						if (entity instanceof LivingEntity) {
-							Entity _ent = entity;
+							LivingEntity _ent = (LivingEntity) entity;
 							if (!_ent.world.isRemote()) {
-								TeleportingToolItem.shoot(_ent.world, (LivingEntity) entity, new Random(), (float) 1, (float) 0, (int) 0);
+								TeleportingToolItem.shoot(_ent.world, _ent, new Random(), 1, 0, 0);
 							}
 						}
 						entity.getPersistentData().putDouble("tagName", 0);
@@ -85,9 +85,9 @@ public class AnnoyingMobOnEntityTickUpdateProcedure {
 			if (entity.getPersistentData().getDouble("tagName") > 0
 					&& ((entity instanceof MobEntity) ? ((MobEntity) entity).getAttackTarget() : null) instanceof LivingEntity) {
 				if (entity instanceof LivingEntity) {
-					Entity _ent = entity;
+					LivingEntity _ent = (LivingEntity) entity;
 					if (!_ent.world.isRemote()) {
-						TeleportingToolItem.shoot(_ent.world, (LivingEntity) entity, new Random(), (float) 1, (float) 0, (int) 0);
+						TeleportingToolItem.shoot(_ent.world, _ent, new Random(), 1, 0, 0);
 					}
 				}
 				entity.getPersistentData().putDouble("tagName", 0);

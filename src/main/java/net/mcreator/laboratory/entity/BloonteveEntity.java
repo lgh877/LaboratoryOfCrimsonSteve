@@ -19,10 +19,10 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.Entity;
@@ -35,6 +35,7 @@ import net.mcreator.laboratory.LaboratoryModElements;
 import javax.annotation.Nullable;
 
 import java.util.UUID;
+import java.util.EnumSet;
 
 @LaboratoryModElements.ModElement.Tag
 public class BloonteveEntity extends LaboratoryModElements.ModElement {
@@ -72,7 +73,7 @@ public class BloonteveEntity extends LaboratoryModElements.ModElement {
 	}
 
 	public static class CustomEntity extends CreatureEntity {
-		private LivingEntity caster;
+		private MobEntity caster;
 		private UUID casterUuid;
 
 		public void readAdditional(CompoundNBT compound) {
@@ -89,20 +90,49 @@ public class BloonteveEntity extends LaboratoryModElements.ModElement {
 			}
 		}
 
-		public void setCaster(@Nullable LivingEntity p_190549_1_) {
+		public void setCaster(@Nullable MobEntity p_190549_1_) {
 			this.caster = p_190549_1_;
 			this.casterUuid = p_190549_1_ == null ? null : p_190549_1_.getUniqueID();
 		}
 
 		@Nullable
-		public LivingEntity getCaster() {
+		public MobEntity getCaster() {
 			if (this.caster == null && this.casterUuid != null && this.world instanceof ServerWorld) {
 				Entity entity = ((ServerWorld) this.world).getEntityByUuid(this.casterUuid);
-				if (entity instanceof LivingEntity) {
-					this.caster = (LivingEntity) entity;
+				if (entity instanceof MobEntity) {
+					this.caster = (MobEntity) entity;
 				}
 			}
 			return this.caster;
+		}
+
+		class setAttackTargetSameAsSummoner extends Goal {
+			private MobEntity summoner;
+			private final CustomEntity mob;
+
+			public setAttackTargetSameAsSummoner(CustomEntity mobIn) {
+				this.mob = mobIn;
+				this.setMutexFlags(EnumSet.of(Goal.Flag.TARGET));
+			}
+
+			public boolean shouldExecute() {
+				if (this.mob.getCaster() != null && this.mob.getCaster().isAlive()) {
+					return this.summoner.getAttackTarget() != null;
+				}
+				return false;
+			}
+
+			public void startExecuting() {
+				this.summoner = this.mob.getCaster();
+			}
+
+			public boolean shouldContinueExecuting() {
+				return this.mob.getAttackTarget() != this.summoner;
+			}
+
+			public void tick() {
+				this.mob.setAttackTarget(summoner.getAttackTarget());
+			}
 		}
 
 		public CustomEntity(FMLPlayMessages.SpawnEntity packet, World world) {
