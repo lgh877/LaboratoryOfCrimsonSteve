@@ -63,7 +63,7 @@ public class TrueImmortalEntity extends LaboratoryModElements.ModElement {
 
 	@SubscribeEvent
 	public void addFeatureToBiomes(BiomeLoadingEvent event) {
-		event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(entity, 0, 1, 1));
+		event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new MobSpawnInfo.Spawners(entity, 2, 1, 1));
 	}
 
 	@Override
@@ -79,6 +79,7 @@ public class TrueImmortalEntity extends LaboratoryModElements.ModElement {
 			AttributeModifierMap.MutableAttribute ammma = MobEntity.func_233666_p_();
 			ammma = ammma.createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3);
 			ammma = ammma.createMutableAttribute(Attributes.MAX_HEALTH, 20);
+			ammma = ammma.createMutableAttribute(Attributes.FOLLOW_RANGE, 80);
 			ammma = ammma.createMutableAttribute(Attributes.ARMOR, 0);
 			ammma = ammma.createMutableAttribute(Attributes.ATTACK_DAMAGE, 3);
 			event.put(entity, ammma.create());
