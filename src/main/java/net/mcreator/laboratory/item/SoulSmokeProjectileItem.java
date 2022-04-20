@@ -32,6 +32,7 @@ import net.minecraft.entity.Entity;
 
 import net.mcreator.laboratory.procedures.SoulSmokeProjectileWhileBulletFlyingTickProcedure;
 import net.mcreator.laboratory.particle.SoulSmokeParticleParticle;
+import net.mcreator.laboratory.itemgroup.ItemsOfLaboratoryItemGroup;
 import net.mcreator.laboratory.entity.renderer.SoulSmokeProjectileRenderer;
 import net.mcreator.laboratory.LaboratoryModElements;
 
@@ -46,6 +47,7 @@ public class SoulSmokeProjectileItem extends LaboratoryModElements.ModElement {
 	public static final EntityType arrow = (EntityType.Builder.<ArrowCustomEntity>create(ArrowCustomEntity::new, EntityClassification.MISC)
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).setCustomClientFactory(ArrowCustomEntity::new)
 			.size(0.5f, 0.5f)).build("entitybulletsoul_smoke_projectile").setRegistryName("entitybulletsoul_smoke_projectile");
+
 	public SoulSmokeProjectileItem(LaboratoryModElements instance) {
 		super(instance, 37);
 		FMLJavaModLoadingContext.get().getModEventBus().register(new SoulSmokeProjectileRenderer.ModelRegisterHandler());
@@ -56,9 +58,10 @@ public class SoulSmokeProjectileItem extends LaboratoryModElements.ModElement {
 		elements.items.add(() -> new ItemRanged());
 		elements.entities.add(() -> arrow);
 	}
+
 	public static class ItemRanged extends Item {
 		public ItemRanged() {
-			super(new Item.Properties().group(null).maxDamage(100));
+			super(new Item.Properties().group(ItemsOfLaboratoryItemGroup.tab).maxDamage(100));
 			setRegistryName("soul_smoke_projectile");
 		}
 
@@ -97,6 +100,7 @@ public class SoulSmokeProjectileItem extends LaboratoryModElements.ModElement {
 	@OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class)
 	public static class ArrowCustomEntity extends AbstractArrowEntity implements IRendersAsItem {
 		private int lifeTime;
+
 		public ArrowCustomEntity(FMLPlayMessages.SpawnEntity packet, World world) {
 			super(arrow, world);
 		}
@@ -174,6 +178,7 @@ public class SoulSmokeProjectileItem extends LaboratoryModElements.ModElement {
 			}
 		}
 	}
+
 	public static ArrowCustomEntity shoot(World world, LivingEntity entity, Random random, float power, double damage, int knockback) {
 		ArrowCustomEntity entityarrow = new ArrowCustomEntity(arrow, entity, world);
 		entityarrow.shoot(entity.getLookVec().x, entity.getLookVec().y, entity.getLookVec().z, power * 2, 0);

@@ -672,6 +672,14 @@
       "compiles": true,
       "locked_code": false,
       "registry_name": "mobs_of_laboratory"
+    },
+    {
+      "name": "ItemsOfLaboratory",
+      "type": "tab",
+      "sortid": 70,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "items_of_laboratory"
     }
   ],
   "variable_elements": [],
@@ -812,6 +820,7 @@
       "item.laboratory.electric_explosion_spawn_egg": "Electric Explosion Spawn Egg",
       "entity.laboratory.bloonteve": "Bloonteve",
       "entity.laboratory.bateve": "Bateve",
+      "itemGroup.tabitems_of_laboratory": "Items Of Laboratory",
       "entity.laboratory.mr_dummy": "Mr Dummy",
       "item.laboratory.mr_block_spawn_egg": "Mr Block Spawn Egg",
       "entity.laboratory.steves": "Steves",

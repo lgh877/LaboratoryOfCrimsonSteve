@@ -113,6 +113,10 @@ public class TrueImmortalEntity extends LaboratoryModElements.ModElement {
 			super.livingTick();
 		}
 
+		public void onKillCommand() {
+			this.remove();
+		}
+
 		@Override
 		protected void updateArmSwingProgress() {
 			int i = 60;

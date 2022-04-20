@@ -20,7 +20,6 @@ import net.minecraft.network.IPacket;
 import net.minecraft.item.UseAction;
 import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -48,6 +47,7 @@ public class TeleportingToolItem extends LaboratoryModElements.ModElement {
 	public static final EntityType arrow = (EntityType.Builder.<ArrowCustomEntity>create(ArrowCustomEntity::new, EntityClassification.MISC)
 			.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).setCustomClientFactory(ArrowCustomEntity::new)
 			.size(0.5f, 0.5f)).build("entitybulletteleporting_tool").setRegistryName("entitybulletteleporting_tool");
+
 	public TeleportingToolItem(LaboratoryModElements instance) {
 		super(instance, 1);
 		FMLJavaModLoadingContext.get().getModEventBus().register(new TeleportingToolRenderer.ModelRegisterHandler());
@@ -58,9 +58,10 @@ public class TeleportingToolItem extends LaboratoryModElements.ModElement {
 		elements.items.add(() -> new ItemRanged());
 		elements.entities.add(() -> arrow);
 	}
+
 	public static class ItemRanged extends Item {
 		public ItemRanged() {
-			super(new Item.Properties().maxDamage(100));
+			super(new Item.Properties().group(null).maxDamage(100));
 			setRegistryName("teleporting_tool");
 		}
 
@@ -99,6 +100,7 @@ public class TeleportingToolItem extends LaboratoryModElements.ModElement {
 	@OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class)
 	public static class ArrowCustomEntity extends AbstractArrowEntity implements IRendersAsItem {
 		private int lifeTime;
+
 		public ArrowCustomEntity(FMLPlayMessages.SpawnEntity packet, World world) {
 			super(arrow, world);
 		}
@@ -184,6 +186,7 @@ public class TeleportingToolItem extends LaboratoryModElements.ModElement {
 			}
 		}
 	}
+
 	public static ArrowCustomEntity shoot(World world, LivingEntity entity, Random random, float power, double damage, int knockback) {
 		ArrowCustomEntity entityarrow = new ArrowCustomEntity(arrow, entity, world);
 		entityarrow.shoot(entity.getLookVec().x, entity.getLookVec().y, entity.getLookVec().z, power * 2, 0);

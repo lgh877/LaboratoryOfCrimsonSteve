@@ -13,7 +13,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.item.Rarity;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.SpawnReason;
@@ -25,6 +24,7 @@ import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.BlockState;
 
+import net.mcreator.laboratory.itemgroup.ItemsOfLaboratoryItemGroup;
 import net.mcreator.laboratory.entity.MrDummyEntity;
 import net.mcreator.laboratory.LaboratoryModElements;
 
@@ -32,6 +32,7 @@ import net.mcreator.laboratory.LaboratoryModElements;
 public class MrDummySpawningToolItem extends LaboratoryModElements.ModElement {
 	@ObjectHolder("laboratory:mr_dummy_spawning_tool")
 	public static final Item block = null;
+
 	public MrDummySpawningToolItem(LaboratoryModElements instance) {
 		super(instance, 11);
 	}
@@ -69,9 +70,10 @@ public class MrDummySpawningToolItem extends LaboratoryModElements.ModElement {
 			}
 		});
 	}
+
 	public static class ItemCustom extends Item {
 		public ItemCustom() {
-			super(new Item.Properties().group(ItemGroup.MISC).maxStackSize(64).rarity(Rarity.COMMON));
+			super(new Item.Properties().group(ItemsOfLaboratoryItemGroup.tab).maxStackSize(64).rarity(Rarity.COMMON));
 			setRegistryName("mr_dummy_spawning_tool");
 		}
 

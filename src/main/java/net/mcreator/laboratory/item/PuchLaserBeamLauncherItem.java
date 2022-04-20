@@ -9,12 +9,12 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.AxeItem;
 import net.minecraft.entity.LivingEntity;
 
+import net.mcreator.laboratory.itemgroup.ItemsOfLaboratoryItemGroup;
 import net.mcreator.laboratory.entity.ElectricExplosionEntity;
 import net.mcreator.laboratory.LaboratoryModElements;
 
@@ -53,7 +53,7 @@ public class PuchLaserBeamLauncherItem extends LaboratoryModElements.ModElement 
 			public Ingredient getRepairMaterial() {
 				return Ingredient.EMPTY;
 			}
-		}, 1, -3f, new Item.Properties().group(ItemGroup.TOOLS)) {
+		}, 1, -3f, new Item.Properties().group(ItemsOfLaboratoryItemGroup.tab)) {
 			@Override
 			public boolean onEntitySwing(ItemStack itemstack, LivingEntity entity) {
 				boolean retval = super.onEntitySwing(itemstack, entity);
