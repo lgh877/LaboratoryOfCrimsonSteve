@@ -507,66 +507,6 @@
       "path": "~/Mobs/SimpleMobs"
     },
     {
-      "name": "PuchLaserBeamLauncher",
-      "type": "tool",
-      "sortid": 56,
-      "compiles": true,
-      "locked_code": true,
-      "registry_name": "puch_laser_beam_launcher",
-      "path": "~/Items/PunchLaserBeam"
-    },
-    {
-      "name": "Magician",
-      "type": "livingentity",
-      "sortid": 57,
-      "compiles": true,
-      "locked_code": true,
-      "registry_name": "magician",
-      "path": "~/Mobs/Magician"
-    },
-    {
-      "name": "MagicianOnEntityTickUpdate",
-      "type": "procedure",
-      "sortid": 58,
-      "compiles": true,
-      "locked_code": false,
-      "registry_name": "magician_on_entity_tick_update",
-      "metadata": {
-        "dependencies": [
-          {
-            "name": "entity",
-            "type": "entity"
-          },
-          {
-            "name": "x",
-            "type": "number"
-          },
-          {
-            "name": "y",
-            "type": "number"
-          },
-          {
-            "name": "z",
-            "type": "number"
-          },
-          {
-            "name": "world",
-            "type": "world"
-          }
-        ]
-      },
-      "path": "~/Mobs/Magician"
-    },
-    {
-      "name": "ElectricExplosion",
-      "type": "livingentity",
-      "sortid": 59,
-      "compiles": true,
-      "locked_code": true,
-      "registry_name": "electric_explosion",
-      "path": "~/Items/PunchLaserBeam"
-    },
-    {
       "name": "MrThick",
       "type": "livingentity",
       "sortid": 60,
@@ -680,6 +620,24 @@
       "compiles": true,
       "locked_code": false,
       "registry_name": "items_of_laboratory"
+    },
+    {
+      "name": "BigGuy",
+      "type": "livingentity",
+      "sortid": 72,
+      "compiles": true,
+      "locked_code": true,
+      "registry_name": "big_guy",
+      "path": "~/Mobs/CustomModelWithArmorTest"
+    },
+    {
+      "name": "BigGuyArmorLayer",
+      "type": "code",
+      "sortid": 73,
+      "compiles": true,
+      "locked_code": true,
+      "registry_name": "big_guy_armor_layer",
+      "path": "~/Mobs/CustomModelWithArmorTest"
     }
   ],
   "variable_elements": [],
@@ -767,6 +725,7 @@
   "language_map": {
     "en_us": {
       "item.laboratory.vacuous_boy_spawn_egg": "Vacuous Boy Spawn Egg",
+      "item.laboratory.big_guy_spawn_egg": "Big Guy Spawn Egg",
       "item.laboratory.dreadful_steve_ghoul_spawn_egg": "Dreadful Steve Ghoul Spawn Egg",
       "item.laboratory.ghost_steve_spawn_egg": "Ghost Steve Spawn Egg",
       "item.laboratory.mr_stretch_spawn_egg": "Mr Stretch Spawn Egg",
@@ -776,12 +735,11 @@
       "entity.laboratory.ghost_steve": "Ghost Steve",
       "advancements.mr_dummy_recipe_achievement.title": "Mr Dummy Recipe",
       "item.laboratory.homing_projectile": "Homing Projectile",
-      "entity.laboratory.magician": "Magician",
       "entity.laboratory.mr_stretch": "Mr Stretch",
       "entity.laboratory.stevot": "Stevot",
       "item.laboratory.poop": "Poop",
-      "item.laboratory.puch_laser_beam_launcher": "Puch Laser Beam Launcher",
       "entity.laboratory.immortal": "IMMORTAL",
+      "entity.laboratory.big_guy": "Big Guy",
       "entity.laboratory.dreadful_steve_ghoul": "Dreadful Steve Ghoul",
       "item.laboratory.the_mover_spawn_egg": "The Mover Spawn Egg",
       "entity.laboratory.dsaasf": "Dsaasf",
@@ -792,7 +750,6 @@
       "item.laboratory.steves_spawn_egg": "Steves Spawn Egg",
       "subtitles.nope": "",
       "item.laboratory.soul_smoke_projectile": "Soul Smoke Projectile",
-      "item.laboratory.magician_spawn_egg": "Magician Spawn Egg",
       "item.laboratory.mr_dummy_spawn_egg": "Mr Dummy Spawn Egg",
       "item.laboratory.steadfast_steve_spawn_egg": "Steadfast Steve Spawn Egg",
       "subtitles.stupid_idle": "",
@@ -817,7 +774,6 @@
       "advancements.mr_dummy_recipe_achievement.descr": "Are you boring? Then this would be good for you!",
       "subtitles.steve_hurt": "",
       "item.laboratory.returned_spectrite_steve_spawn_egg": "Returned Spectrite Steve Spawn Egg",
-      "item.laboratory.electric_explosion_spawn_egg": "Electric Explosion Spawn Egg",
       "entity.laboratory.bloonteve": "Bloonteve",
       "entity.laboratory.bateve": "Bateve",
       "itemGroup.tabitems_of_laboratory": "Items Of Laboratory",
@@ -830,8 +786,7 @@
       "item.laboratory.dirt": "Dirt",
       "item.laboratory.immortal_spawn_egg": "IMMORTAL Spawn Egg",
       "entity.laboratory.true_immortal": "True Immortal",
-      "subtitles.stupid_death": "",
-      "entity.laboratory.electric_explosion": "Electric Explosion"
+      "subtitles.stupid_death": ""
     }
   },
   "foldersRoot": {
@@ -925,17 +880,20 @@
                 "children": []
               }
             ]
+          },
+          {
+            "name": "CustomModelWithArmorTest",
+            "children": []
           }
         ]
       },
       {
         "name": "Items",
-        "children": [
-          {
-            "name": "PunchLaserBeam",
-            "children": []
-          }
-        ]
+        "children": []
+      },
+      {
+        "name": "mixins",
+        "children": []
       }
     ]
   },
@@ -957,5 +915,5 @@
     "modElementsPackage": "net.mcreator.laboratory",
     "lockBaseModFiles": false
   },
-  "mcreatorVersion": 202200115515
+  "mcreatorVersion": 202200118711
 }

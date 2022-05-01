@@ -7,7 +7,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemGroup;
 
-import net.mcreator.laboratory.item.PuchLaserBeamLauncherItem;
+import net.mcreator.laboratory.item.SoulSmokeProjectileItem;
 import net.mcreator.laboratory.LaboratoryModElements;
 
 @LaboratoryModElements.ModElement.Tag
@@ -22,7 +22,7 @@ public class ItemsOfLaboratoryItemGroup extends LaboratoryModElements.ModElement
 			@OnlyIn(Dist.CLIENT)
 			@Override
 			public ItemStack createIcon() {
-				return new ItemStack(PuchLaserBeamLauncherItem.block);
+				return new ItemStack(SoulSmokeProjectileItem.block);
 			}
 
 			@OnlyIn(Dist.CLIENT)
