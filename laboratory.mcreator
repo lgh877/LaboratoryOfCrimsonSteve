@@ -638,6 +638,33 @@
       "locked_code": true,
       "registry_name": "big_guy_armor_layer",
       "path": "~/Mobs/CustomModelWithArmorTest"
+    },
+    {
+      "name": "AdditionalWeapons",
+      "type": "villagertrade",
+      "sortid": 74,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "additional_weapons",
+      "path": "~/Trades"
+    },
+    {
+      "name": "Creeeeeeeeper",
+      "type": "livingentity",
+      "sortid": 75,
+      "compiles": true,
+      "locked_code": true,
+      "registry_name": "creeeeeeeeper",
+      "path": "~/Mobs/ChainAnimationTest"
+    },
+    {
+      "name": "Beings",
+      "type": "livingentity",
+      "sortid": 76,
+      "compiles": true,
+      "locked_code": true,
+      "registry_name": "beings",
+      "path": "~/Mobs/Model changer"
     }
   ],
   "variable_elements": [],
@@ -732,6 +759,7 @@
       "subtitles.stupid_hurt": "",
       "subtitles.hitbox_hit": "",
       "entity.laboratory.mr_strange": "Mr Strange",
+      "item.laboratory.creeeeeeeeper_spawn_egg": "Creeeeeeeeper Spawn Egg",
       "entity.laboratory.ghost_steve": "Ghost Steve",
       "advancements.mr_dummy_recipe_achievement.title": "Mr Dummy Recipe",
       "item.laboratory.homing_projectile": "Homing Projectile",
@@ -746,6 +774,7 @@
       "item.laboratory.dsaasf_spawn_egg": "Dsaasf Spawn Egg",
       "item.laboratory.bloonteve_spawn_egg": "Bloonteve Spawn Egg",
       "entity.laboratory.vacuous_boy": "Vacuous Boy",
+      "entity.laboratory.beings": "Beings",
       "item.laboratory.bateve_spawn_egg": "Bateve Spawn Egg",
       "item.laboratory.steves_spawn_egg": "Steves Spawn Egg",
       "subtitles.nope": "",
@@ -758,6 +787,7 @@
       "item.laboratory.mr_dummy_spawning_tool": "Mr Dummy Spawning Tool",
       "item.laboratory.true_immortal_spawn_egg": "True Immortal Spawn Egg",
       "entity.laboratory.mr_block": "Mr Block",
+      "entity.laboratory.creeeeeeeeper": "Creeeeeeeeper",
       "entity.laboratory.returned_spectrite_steve": "Returned Spectrite Steve",
       "itemGroup.tabmobs_of_laboratory": "Mobs Of Laboratory",
       "entity.laboratory.steadfast_steve": "Steadfast Steve",
@@ -772,6 +802,7 @@
       "item.laboratory.mr_thick_spawn_egg": "Mr Thick Spawn Egg",
       "subtitles.stupid_laugh": "",
       "advancements.mr_dummy_recipe_achievement.descr": "Are you boring? Then this would be good for you!",
+      "item.laboratory.beings_spawn_egg": "Beings Spawn Egg",
       "subtitles.steve_hurt": "",
       "item.laboratory.returned_spectrite_steve_spawn_egg": "Returned Spectrite Steve Spawn Egg",
       "entity.laboratory.bloonteve": "Bloonteve",
@@ -884,6 +915,14 @@
           {
             "name": "CustomModelWithArmorTest",
             "children": []
+          },
+          {
+            "name": "ChainAnimationTest",
+            "children": []
+          },
+          {
+            "name": "Model changer",
+            "children": []
           }
         ]
       },
@@ -892,7 +931,7 @@
         "children": []
       },
       {
-        "name": "mixins",
+        "name": "Trades",
         "children": []
       }
     ]
@@ -915,5 +954,5 @@
     "modElementsPackage": "net.mcreator.laboratory",
     "lockBaseModFiles": false
   },
-  "mcreatorVersion": 202200118711
+  "mcreatorVersion": 202200120510
 }
